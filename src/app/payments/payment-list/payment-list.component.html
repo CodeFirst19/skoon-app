@@ -1,0 +1,36 @@
+<mat-card>
+  <mat-card-content>
+    <div *ngIf="paymentDetails.length > 0">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th scope="col">Bank Name</th>
+            <th scope="col">Branch Code</th>
+            <th scope="col">Account Number</th>
+            <th scope="col">Reference</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="active-row" *ngFor="let item of paymentDetails">
+            <td>{{ item.bankName }}</td>
+            <td>{{ item.branchCode }}</td>
+            <td>{{ item.accountNumber }}</td>
+            <td>{{ item.reference }}</td>
+            <td>
+              <button mat-raised-button class="me-2">
+                <span class="material-icons"> edit </span>
+              </button>
+              <button mat-raised-button>
+                <span class="material-icons"> delete </span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="paymentDetails.length <= 0">
+      <p>No payment details added yet!</p>
+    </div>
+  </mat-card-content>
+</mat-card>

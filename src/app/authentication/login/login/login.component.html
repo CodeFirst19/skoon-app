@@ -1,0 +1,22 @@
+
+<mat-card>
+  <mat-card-title class="mb-3">Login</mat-card-title>
+  <mat-card-content>
+    <form (submit)="onCreateUser(userForm)" #userForm="ngForm">
+        <!-- Email -->
+         <mat-form-field class="example-full-width">
+          <mat-label>Email address</mat-label>
+          <input matInput type="email" name="email" #email="ngModel" ngModel required/>
+          <mat-error *ngIf="email.invalid">Email address is<strong>required</strong></mat-error>
+        </mat-form-field>  
+        <!-- Password -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Phone number</mat-label>
+          <input matInput type="password" name="password" #password="ngModel" ngModel required/>
+          <mat-error *ngIf="password.invalid">Password is<strong>required</strong></mat-error>
+        </mat-form-field>
+        <!-- Login button -->
+        <button class="mt-3" type="submit" mat-raised-button>Login</button>
+    </form>
+  </mat-card-content>
+</mat-card>

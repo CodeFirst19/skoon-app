@@ -1,0 +1,52 @@
+<mat-card>
+  <mat-card-title class="mb-3">Unlimited Packages</mat-card-title>
+  <mat-card-content>
+    <form
+      (submit)="onAddService(serviceForm)" #serviceForm="ngForm" autocomplete="off">
+      <!-- Service Type -->
+      <mat-radio-group name="serviceType" #serviceType="ngModel" ngModel required>
+        <div class="row">
+          <div class="col-md-4 mt-3" *ngFor="let service of serviceTypes">
+            <mat-radio-button [value]="service">{{ service }}</mat-radio-button>
+          </div>
+        </div>
+        <!-- <mat-error class="mt-2" *ngIf="serviceType.invalid">Service type is <strong>required</strong></mat-error> -->
+      </mat-radio-group>
+
+      <!-- Reference -->
+      <mat-form-field class="example-full-width mt-3">
+        <mat-label>Reference</mat-label>
+        <input matInput type="text" name="reference" ngModel />
+      </mat-form-field>
+      <div class="row mt-2">
+        <!-- Pickup time -->
+        <div class="col-md-6">
+          <mat-form-field>
+            <mat-label>Pickup Time</mat-label>
+            <input matInput [matDatepicker]="picker" name="pickupTime" #pickupTime="ngModel" ngModel required />
+            <mat-datepicker-toggle matSuffix [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="pickupTime.invalid">Pickup time is <strong>required</strong></mat-error>
+          </mat-form-field>
+        </div>
+        <!-- Payment type -->
+        <div class="col-md-6">
+          <mat-label>Check Out</mat-label>
+          <mat-radio-group name="paymentType" #paymentType="ngModel" ngModel required>
+            <div class="row">
+              <div class="col-md-4 mt-2" *ngFor="let payment of paymentTypes">
+                <mat-radio-button [value]="payment">{{
+                  payment
+                }}</mat-radio-button>
+              </div>
+              <!-- <mat-error class="mt-2" *ngIf="paymentType.invalid">Payment time is <strong>required</strong></mat-error> -->
+            </div>
+          </mat-radio-group>
+        </div>
+      </div>
+      <!-- Button -->
+      <button type="submit" mat-raised-button>Send</button>
+    </form>
+  </mat-card-content>
+</mat-card>

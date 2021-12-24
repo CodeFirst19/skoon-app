@@ -1,0 +1,41 @@
+<mat-card>
+  <mat-card-content>
+    <div *ngIf="services.length > 0">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th scope="col">Package</th>
+            <th scope="col">Pickup Time</th>
+            <th scope="col">Payment Type</th>
+            <th scope="col">Status</th>
+            <th scope="col">Update status</th>
+            <th scope="col">View more</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="active-row" *ngFor="let service of services">
+            <td>{{ service.serviceType }}</td>
+            <td>{{ formatDate(service.pickupTime) }}</td>
+            <td>{{ service.paymentType }}</td>
+            <td>
+              {{ service.status }} 
+            </td>
+            <td>
+              <button mat-mini-fab color="basic" class="me-2" (click)="openDialog()">
+                <span class="material-icons">published_with_changes</span>
+              </button>
+            </td>
+            <td>
+              <button mat-mini-fab color="basic" class="me-2">
+                <span class="material-icons">edit</span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="services.length <= 0">
+      <p>No services have been requested yet!</p>
+    </div>
+  </mat-card-content>
+</mat-card>
