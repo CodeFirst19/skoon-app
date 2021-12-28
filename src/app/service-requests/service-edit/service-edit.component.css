@@ -1,0 +1,13 @@
+mat-form-field, input {
+    width: 100%;
+}
+
+.btn-close {
+    display: block;
+    margin-right: auto;
+}
+
+.btn-update {
+    display: block;
+    margin-left: auto;
+}

@@ -1,10 +1,13 @@
-import { ServiceRequestService } from './../service-request.service';
-import { ServiceRequest } from './../service-requests.model';
-import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ServiceRequestService } from '../service-request.service';
+import { ServiceRequest } from '../service-requests.model';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { ServiceEditComponent } from '../service-edit/service-edit.component';
+import { PageEvent } from '@angular/material/paginator';
+
 
 @Component({
   selector: 'app-service-list',
@@ -12,29 +15,30 @@ import { ServiceEditComponent } from '../service-edit/service-edit.component';
   styleUrls: ['./service-list.component.css'],
 })
 export class ServiceListComponent implements OnInit {
-  statuses = [
-    'Collected',
-    'Washing',
-    'Drying',
-    'Ironing',
-    'Folding',
-    'Returned',
-    'Cancelled',
-  ];
+  @Output() service: EventEmitter<ServiceRequest> =
+    new EventEmitter<ServiceRequest>();
   services: ServiceRequest[] = [];
   private serviceSubscription: Subscription;
 
-  service: ServiceRequestService;
-  constructor(public dialog: MatDialog, service: ServiceRequestService) {
-    this.service = service;
+  totalServices: number = 0;
+  limit: number = 5;
+  page: number = 1;
+  pageSizeOptions: number[] = [3, 5, 10, 25, 50];
+
+  serviceService: ServiceRequestService;
+  router: Router
+  constructor(public dialog: MatDialog, serviceService: ServiceRequestService, router: Router) {
+    this.serviceService = serviceService;
+    this.router = router;
   }
 
   ngOnInit(): void {
-    this.service.getServices();
-    this.serviceSubscription = this.service
+    this.serviceService.getServices(this.page, this.limit);
+    this.serviceSubscription = this.serviceService
       .getServicesUpdateListener()
-      .subscribe((services: ServiceRequest[]) => {
-        this.services = services;
+      .subscribe((serviceData: {services: ServiceRequest[], servicesCount:number}) => {
+        this.services = serviceData.services;
+        this.totalServices = serviceData.servicesCount;
       });
   }
 
@@ -46,12 +50,30 @@ export class ServiceListComponent implements OnInit {
     this.serviceSubscription.unsubscribe();
   }
 
-  openDialog() {
-    this.dialog.open(ServiceEditComponent, {
-      data: {
-        animal: 'lion',
-      },
+  onOpenDialog(serviceId): void {
+    const dialogRef = this.dialog.open(ServiceEditComponent, {
+      width: '35%',
+      data: serviceId,
     });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.serviceService.updateStatus(result.id, result.status);
+        console.log('The dialog was closed');
+        console.log(result);
+      }
+    });
+  }
+
+  onViewService(service: ServiceRequest) {
+    this.service.emit(service);
+    this.router.navigate(['/']);
+  }
+
+  onPageChanged(pageData: PageEvent) {
+    this.page = pageData.pageIndex + 1;
+    this.limit = pageData.pageSize;
+     this.serviceService.getServices(this.page, this.limit);
   }
 }
 

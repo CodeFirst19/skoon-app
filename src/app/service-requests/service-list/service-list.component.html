@@ -6,7 +6,7 @@
           <tr>
             <th scope="col">Package</th>
             <th scope="col">Pickup Time</th>
-            <th scope="col">Payment Type</th>
+            <th scope="col">Payment Method</th>
             <th scope="col">Status</th>
             <th scope="col">Update status</th>
             <th scope="col">View more</th>
@@ -16,23 +16,31 @@
           <tr class="active-row" *ngFor="let service of services">
             <td>{{ service.serviceType }}</td>
             <td>{{ formatDate(service.pickupTime) }}</td>
-            <td>{{ service.paymentType }}</td>
+            <td>{{ service.paymentMethod }}</td>
             <td>
               {{ service.status }} 
             </td>
             <td>
-              <button mat-mini-fab color="basic" class="me-2" (click)="openDialog()">
+              <button mat-mini-fab color="basic" class="me-2" (click)="onOpenDialog(service.id)" [disabled]="service.status === 'Returned' || service.status === 'Cancelled'">
                 <span class="material-icons">published_with_changes</span>
               </button>
             </td>
             <td>
-              <button mat-mini-fab color="basic" class="me-2">
-                <span class="material-icons">edit</span>
+              <button mat-mini-fab color="basic" class="me-2" (click)="onViewService(service)">
+                <span class="material-icons">view_list</span>
               </button>
             </td>
           </tr>
         </tbody>
       </table>
+      <mat-paginator class="mt-0"
+        [length]="totalServices"
+        [pageSize]="limit"
+        [pageSizeOptions]="pageSizeOptions"
+        aria-label="Select page"
+        (page) = "onPageChanged($event)">
+      </mat-paginator>
+
     </div>
     <div *ngIf="services.length <= 0">
       <p>No services have been requested yet!</p>

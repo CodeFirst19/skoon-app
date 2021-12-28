@@ -1,5 +1,5 @@
 import { Component, Inject} from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-service-edit',
@@ -7,9 +7,24 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./service-edit.component.css'],
 })
 export class ServiceEditComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
-}
+  status: string;
+  statuses = [
+    'Collected',
+    'Washing',
+    'Drying',
+    'Ironing',
+    'Folding',
+    'Returned',
+    'Cancelled',
+  ];
+  constructor(
+    public dialogRef: MatDialogRef<ServiceEditComponent>,
+    @Inject(MAT_DIALOG_DATA) public id: String,
+  ) {
+    dialogRef.disableClose = true;
+  }
 
-export interface DialogData {
-  animal: 'panda' | 'unicorn' | 'lion';
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 }

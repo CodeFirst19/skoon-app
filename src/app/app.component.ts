@@ -1,3 +1,4 @@
+import { ServiceRequest } from './service-requests/service-requests.model';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-
+  service: ServiceRequest;
+  onServiceView(service) {
+    this.service = service;
+  }
 }

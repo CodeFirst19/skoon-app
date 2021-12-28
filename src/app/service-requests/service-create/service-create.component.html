@@ -33,20 +33,20 @@
         <!-- Payment type -->
         <div class="col-md-6">
           <mat-label>Check Out</mat-label>
-          <mat-radio-group name="paymentType" #paymentType="ngModel" ngModel required>
+          <mat-radio-group name="paymentMethod" #paymentMethod="ngModel" ngModel required>
             <div class="row">
-              <div class="col-md-4 mt-2" *ngFor="let payment of paymentTypes">
+              <div class="col-md-4 mt-2" *ngFor="let payment of paymentMethods">
                 <mat-radio-button [value]="payment">{{
                   payment
                 }}</mat-radio-button>
               </div>
-              <!-- <mat-error class="mt-2" *ngIf="paymentType.invalid">Payment time is <strong>required</strong></mat-error> -->
+              <!-- <mat-error class="mt-2" *ngIf="paymentMethod.invalid">Payment time is <strong>required</strong></mat-error> -->
             </div>
           </mat-radio-group>
         </div>
       </div>
       <!-- Button -->
-      <button type="submit" mat-raised-button>Send</button>
+      <button type="submit" mat-raised-button>Request</button>
     </form>
   </mat-card-content>
 </mat-card>

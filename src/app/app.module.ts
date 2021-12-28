@@ -14,6 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -58,6 +59,7 @@ import { ServiceEditComponent } from './service-requests/service-edit/service-ed
     MatRadioModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

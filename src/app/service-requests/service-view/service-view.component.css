@@ -1,0 +1,17 @@
+mat-form-field, input {
+    width: 100%;
+}
+
+mat-form-field, textarea {
+    width: 100%;
+}
+
+button {
+    display: block;
+    margin-left: auto;
+}
+
+img {
+    width: 20%;
+    height: 20%;
+}

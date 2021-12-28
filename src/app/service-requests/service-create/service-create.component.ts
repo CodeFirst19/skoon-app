@@ -14,7 +14,7 @@ export class ServiceCreateComponent {
     'Premium: R719pm Iron Only',
     'Advanced: R829pm Wash, Dry, Iron & Fold',
   ];
-  paymentTypes = ['In-app payment', 'cash on delivery'];
+  paymentMethods = ['In-app payment', 'cash on delivery'];
   //Load only on update
   status = [
     'Pending collection',
@@ -41,7 +41,8 @@ export class ServiceCreateComponent {
       serviceType: form.value.serviceType,
       reference: form.value.reference,
       pickupTime: form.value.pickupTime,
-      paymentType: form.value.paymentType,
+      paymentMethod: form.value.paymentMethod,
+      paymentStatus:'Pending',
       status: this.status[0],
       requestedOn: new Date(Date.now()).toDateString(),
       returnedOn: null,
