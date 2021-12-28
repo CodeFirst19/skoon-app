@@ -1,14 +1,15 @@
 import { ServiceRequest } from './../service-requests.model';
-import { Component} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ServiceRequestService } from './../service-request.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-service-create',
   templateUrl: './service-create.component.html',
   styleUrls: ['./service-create.component.css'],
 })
-export class ServiceCreateComponent {
+export class ServiceCreateComponent implements OnInit {
   serviceTypes = [
     'Basic: R659pm Wash, Dry & Fold',
     'Premium: R719pm Iron Only',
@@ -27,9 +28,24 @@ export class ServiceCreateComponent {
     'Cancelled',
   ];
 
-  serviceRequestService: ServiceRequestService;
-  constructor(serviceRequestService: ServiceRequestService) {
-    this.serviceRequestService = serviceRequestService;
+  private mode = 'create'
+  private serviceId: string;
+  private service: ServiceRequest;
+
+
+  constructor(public serviceRequestService: ServiceRequestService, public route: ActivatedRoute) {}
+  
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if(paramMap.has('serviceId')) {
+        this.mode = 'edit';
+        this.serviceId = paramMap.get('serviceId');
+        this.service = this.serviceRequestService.getService(this.serviceId);
+      } else {
+        this.mode = 'create';
+        this.serviceId = null;
+      }
+    })
   }
 
   onAddService(form: NgForm) {

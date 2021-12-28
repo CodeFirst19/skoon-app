@@ -1,3 +1,4 @@
+import { ServiceViewComponent } from './../service-view/service-view.component';
 import { Router } from '@angular/router';
 import { ServiceRequestService } from '../service-request.service';
 import { ServiceRequest } from '../service-requests.model';
@@ -15,8 +16,6 @@ import { PageEvent } from '@angular/material/paginator';
   styleUrls: ['./service-list.component.css'],
 })
 export class ServiceListComponent implements OnInit {
-  @Output() service: EventEmitter<ServiceRequest> =
-    new EventEmitter<ServiceRequest>();
   services: ServiceRequest[] = [];
   private serviceSubscription: Subscription;
 
@@ -26,8 +25,12 @@ export class ServiceListComponent implements OnInit {
   pageSizeOptions: number[] = [3, 5, 10, 25, 50];
 
   serviceService: ServiceRequestService;
-  router: Router
-  constructor(public dialog: MatDialog, serviceService: ServiceRequestService, router: Router) {
+  router: Router;
+  constructor(
+    public dialog: MatDialog,
+    serviceService: ServiceRequestService,
+    router: Router
+  ) {
     this.serviceService = serviceService;
     this.router = router;
   }
@@ -36,10 +39,15 @@ export class ServiceListComponent implements OnInit {
     this.serviceService.getServices(this.page, this.limit);
     this.serviceSubscription = this.serviceService
       .getServicesUpdateListener()
-      .subscribe((serviceData: {services: ServiceRequest[], servicesCount:number}) => {
-        this.services = serviceData.services;
-        this.totalServices = serviceData.servicesCount;
-      });
+      .subscribe(
+        (serviceData: {
+          services: ServiceRequest[];
+          servicesCount: number;
+        }) => {
+          this.services = serviceData.services;
+          this.totalServices = serviceData.servicesCount;
+        }
+      );
   }
 
   formatDate(date) {
@@ -50,7 +58,7 @@ export class ServiceListComponent implements OnInit {
     this.serviceSubscription.unsubscribe();
   }
 
-  onOpenDialog(serviceId): void {
+  onUpdateStatusDialog(serviceId): void {
     const dialogRef = this.dialog.open(ServiceEditComponent, {
       width: '35%',
       data: serviceId,
@@ -65,15 +73,25 @@ export class ServiceListComponent implements OnInit {
     });
   }
 
-  onViewService(service: ServiceRequest) {
-    this.service.emit(service);
-    this.router.navigate(['/']);
+  onViewServiceDialog(service): void {
+    console.log(service)
+    const dialogRef = this.dialog.open(ServiceViewComponent, {
+      width: '60%',
+      data: service,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log(result.service.id);
+        this.serviceService.sendMessage(result.service.id, result.message);
+      }
+    });
   }
 
   onPageChanged(pageData: PageEvent) {
     this.page = pageData.pageIndex + 1;
     this.limit = pageData.pageSize;
-     this.serviceService.getServices(this.page, this.limit);
+    this.serviceService.getServices(this.page, this.limit);
   }
 }
 

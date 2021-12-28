@@ -8,7 +8,7 @@ import { ServiceCreateComponent } from './service-requests/service-create/servic
 const routes: Routes = [
   { path: '', component: ServiceListComponent },
   { path: 'request-service', component: ServiceCreateComponent },
-  { path: 'view-service', component: ServiceViewComponent },
+  { path: 'view-service/:serviceId', component: ServiceViewComponent },
 ];
 
 @NgModule({

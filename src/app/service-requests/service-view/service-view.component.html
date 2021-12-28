@@ -1,106 +1,155 @@
-<mat-card *ngIf="service">
-  <mat-card-title></mat-card-title>
-  <mat-card-content>
-    <div class="">
-      <div class="mt-4 text-center">
-        <div>
-          <img mat-card-image src="../../../assets/images/profile-icon.png" />
-          <h1>John Smith</h1>
-          <h3>John Smith has by far requested 16 services</h3>
-          <div class="row">
-            <div class="col-md-12 text-center">
-              <span><strong>Phone Number:</strong> 071 234 5674</span>
-            </div>
-            <div class="col-md-12 text-center">
-              <span><strong>Email Address:</strong> john.smith@gmail.com</span>
-            </div>
-            <div class="col-md-12 text-center">
-              <span><strong>Social Media Handles:</strong> john.smith@twitter</span>
-            </div>
+<mat-dialog-content class="mat-typography">
+  <div class="">
+    <div class="mt-4 text-center">
+      <div>
+        <img mat-card-image src="../../../assets/images/profile-icon.png" />
+        <h1>John Smith</h1>
+        <h3>John Smith has by far requested 16 services</h3>
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <span><strong>Phone Number:</strong> 071 234 5674</span>
+          </div>
+          <div class="col-md-12 text-center">
+            <span><strong>Email Address:</strong> john.smith@gmail.com</span>
+          </div>
+          <div class="col-md-12 text-center">
+            <span
+              ><strong>Social Media Handles:</strong> john.smith@twitter</span
+            >
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-6">
-        <!-- Service type -->
-        <mat-form-field class="example-full-width mt-3" appearance="fill">
-          <mat-label>Package</mat-label>
-          <input matInput type="text" [value]="service.serviceType" name="serviceType" readonly/>
-        </mat-form-field>
-      </div>
-      <div class="col-md-6">
-        <!-- Service status -->
-        <mat-form-field class="example-full-width mt-3" appearance="fill">
-          <mat-label>Service Status</mat-label>
-          <input matInput type="text" [value]="service.status" name="serviceStatus" readonly/>
-        </mat-form-field>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <!-- Payment Method -->
-        <mat-form-field class="example-full-width mt-3" appearance="fill">
-          <mat-label>Payment Method</mat-label>
-          <input matInput type="text" [value]="service.paymentMethod" name="paymentMethod" readonly/>
-        </mat-form-field>
-      </div>
-      <div class="col-md-6">
-        <!-- Payment status -->
-        <mat-form-field class="example-full-width mt-3" appearance="fill">
-          <mat-label>Payment Status</mat-label>
-          <input matInput type="text" value="Pending" name="paymentStatus" readonly/>
-        </mat-form-field>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <!-- Requested on -->
-        <mat-form-field appearance="fill">
-          <mat-label>Requested On</mat-label>
-          <input matInput [matDatepicker]="picker1" [value]="service.requestedOn" name="requestedOn" readonly/>
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker1"
-            disabled
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker1></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div class="col-md-6">
-        <!-- Pickup time  -->
-        <mat-form-field appearance="fill">
-          <mat-label>Pickup Time</mat-label>
-          <input matInput [matDatepicker]="picker2" [value]="service.pickupTime" name="pickupTime" readonly/>
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker2"
-            disabled
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker2></mat-datepicker>
-        </mat-form-field>
-      </div>
-    </div>
-    <!-- Returned on -->
-    <mat-form-field appearance="fill" *ngIf="service.returnedOn">
-        <mat-label>Returned On</mat-label>
-        <input matInput [matDatepicker]="picker3" [value]="service.returnedOn" name="returnedOn" readonly/>
-        <mat-datepicker-toggle
-            matSuffix
-            [for]="picker3"
-            disabled
-        ></mat-datepicker-toggle>
-        <mat-datepicker #picker3></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>Send a message</mat-label>
-        <textarea
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <!-- Service type -->
+      <mat-form-field class="example-full-width mt-3" appearance="fill">
+        <mat-label>Package</mat-label>
+        <input
           matInput
-          [(ngModel)]="message"
-          placeholder="E.g. I am working on your service request..."
-        ></textarea>
-    </mat-form-field>
-    <!-- Button -->
-    <button type="submit" mat-raised-button [disabled]="!message" (click)="sendMessage(service.id)">Save</button>
-  </mat-card-content>
-</mat-card>
+          type="text"
+          [value]="service.serviceType"
+          name="serviceType"
+          readonly
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-md-6">
+      <!-- Service status -->
+      <mat-form-field class="example-full-width mt-3" appearance="fill">
+        <mat-label>Service Status</mat-label>
+        <input
+          matInput
+          type="text"
+          [value]="service.status"
+          name="serviceStatus"
+          readonly
+        />
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <!-- Payment Method -->
+      <mat-form-field class="example-full-width mt-3" appearance="fill">
+        <mat-label>Payment Method</mat-label>
+        <input
+          matInput
+          type="text"
+          [value]="service.paymentMethod"
+          name="paymentMethod"
+          readonly
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-md-6">
+      <!-- Payment status -->
+      <mat-form-field class="example-full-width mt-3" appearance="fill">
+        <mat-label>Payment Status</mat-label>
+        <input
+          matInput
+          type="text"
+          value="Pending"
+          name="paymentStatus"
+          readonly
+        />
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <!-- Requested on -->
+      <mat-form-field appearance="fill">
+        <mat-label>Requested On</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker1"
+          [value]="service.requestedOn"
+          name="requestedOn"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker1"
+          disabled
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-md-6">
+      <!-- Pickup time  -->
+      <mat-form-field appearance="fill">
+        <mat-label>Pickup Time</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker2"
+          [value]="service.pickupTime"
+          name="pickupTime"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker2"
+          disabled
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+  <!-- Returned on -->
+  <mat-form-field appearance="fill" *ngIf="service.returnedOn">
+    <mat-label>Returned On</mat-label>
+    <input
+      matInput
+      [matDatepicker]="picker3"
+      [value]="service.returnedOn"
+      name="returnedOn"
+      readonly
+    />
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="picker3"
+      disabled
+    ></mat-datepicker-toggle>
+    <mat-datepicker #picker3></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Send a message</mat-label>
+    <textarea
+      matInput
+      [(ngModel)]="message"
+      placeholder="E.g. I am working on your service request..."
+    ></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button
+      mat-button
+      [mat-dialog-close]="{service, message}"
+      [disabled]="!message"
+      cdkFocusInitial>
+      Send
+  </button>
+</mat-dialog-actions>
