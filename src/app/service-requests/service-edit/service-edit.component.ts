@@ -1,4 +1,4 @@
-import { Component, Inject} from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -19,7 +19,7 @@ export class ServiceEditComponent {
   ];
   constructor(
     public dialogRef: MatDialogRef<ServiceEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public id: String,
+    @Inject(MAT_DIALOG_DATA) public id: string
   ) {
     dialogRef.disableClose = true;
   }

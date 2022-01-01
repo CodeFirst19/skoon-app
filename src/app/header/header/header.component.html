@@ -6,17 +6,20 @@
     <a class="navbar-brand" routerLink="/">Brand</a>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="userIsAuthenticated">
           <a class="nav-link" routerLink="/request-service">Request</a>
         </li>
-         <li class="nav-item">
-          <a class="nav-link" routerLink="/">Services</a>
+         <li class="nav-item" *ngIf="userIsAuthenticated">
+          <a class="nav-link" routerLink="/view-services">Services</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/login">Login</a>
+        <li class="nav-item" *ngIf="!userIsAuthenticated">
+          <a class="nav-link" routerLink="/">Login</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="!userIsAuthenticated">
           <a class="nav-link" routerLink="/signup">Signup</a>
+        </li>
+         <li class="nav-item" *ngIf="userIsAuthenticated">
+          <button mat-button class="nav-link" (click)="onLogout()" routerLink="">Logout</button>
         </li>
       </ul>
     </div>

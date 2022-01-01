@@ -10,6 +10,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
   styleUrls: ['./service-create.component.css'],
 })
 export class ServiceCreateComponent implements OnInit {
+  todayDate: Date = new Date();
   serviceTypes = [
     'Basic: R659pm Wash, Dry & Fold',
     'Premium: R719pm Iron Only',
@@ -28,16 +29,18 @@ export class ServiceCreateComponent implements OnInit {
     'Cancelled',
   ];
 
-  private mode = 'create'
+  private mode = 'create';
   private serviceId: string;
   private service: ServiceRequest;
 
+  constructor(
+    public serviceRequestService: ServiceRequestService,
+    public route: ActivatedRoute
+  ) {}
 
-  constructor(public serviceRequestService: ServiceRequestService, public route: ActivatedRoute) {}
-  
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if(paramMap.has('serviceId')) {
+      if (paramMap.has('serviceId')) {
         this.mode = 'edit';
         this.serviceId = paramMap.get('serviceId');
         this.service = this.serviceRequestService.getService(this.serviceId);
@@ -45,7 +48,7 @@ export class ServiceCreateComponent implements OnInit {
         this.mode = 'create';
         this.serviceId = null;
       }
-    })
+    });
   }
 
   onAddService(form: NgForm) {
@@ -58,13 +61,12 @@ export class ServiceCreateComponent implements OnInit {
       reference: form.value.reference,
       pickupTime: form.value.pickupTime,
       paymentMethod: form.value.paymentMethod,
-      paymentStatus:'Pending',
+      paymentStatus: 'Pending',
       status: this.status[0],
-      requestedOn: new Date(Date.now()).toDateString(),
+      requestedOn: new Date(Date.now()).toISOString(),
       returnedOn: null,
     };
     this.serviceRequestService.addService(service);
     form.resetForm();
   }
-
 }

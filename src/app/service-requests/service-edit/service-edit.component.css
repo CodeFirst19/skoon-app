@@ -2,6 +2,18 @@ mat-form-field, input {
     width: 100%;
 }
 
+clear-btn {
+    color: lightgray;
+}
+
+hide-item {
+    display: none;
+}
+
+show-item {
+    display: none;
+}
+
 .btn-close {
     display: block;
     margin-right: auto;

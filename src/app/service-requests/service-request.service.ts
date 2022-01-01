@@ -49,7 +49,6 @@ export class ServiceRequestService {
           servicesCount: transformedServicesData.totalServices,
         });
         // console.log(transformedServicesData.services);
-        // console.log(transformedServicesData.services);
       });
   }
 
@@ -65,7 +64,7 @@ export class ServiceRequestService {
 
   addService(service: ServiceRequest) {
     this.http
-      .post<{ status: String; data: ServiceRequest[] }>(
+      .post<{ status: string; data: ServiceRequest[] }>(
         'http://localhost:3000/api/v1/services',
         service
       )
@@ -75,12 +74,12 @@ export class ServiceRequestService {
         // const id = responseData.data['newService']._id;
         // service.id = id;
         this.showSweetSuccessToast('request sent successfully!');
-        this.router.navigate(['/']);
+        this.router.navigate(['/view-services']);
       });
     console.log(this.services);
   }
 
-  updateStatus(id: String, status: String) {
+  updateStatus(id: string, status: string) {
     let service;
 
     if (status === 'Returned') {
@@ -90,7 +89,7 @@ export class ServiceRequestService {
     }
 
     this.http
-      .patch<{ status: String; data: ServiceRequest[] }>(
+      .patch<{ status: string; data: ServiceRequest[] }>(
         `http://localhost:3000/api/v1/services/${id}`,
         service
       )
@@ -100,14 +99,14 @@ export class ServiceRequestService {
         // this.servicesUpdated.next([...this.services]);
         this.showSweetSuccessToast('Status updated successfully!');
         // console.log(responseData.status);
-        this.router.navigate(['/']);
+        this.router.navigate(['/view-services']);
       });
   }
 
   sendMessage(id: string, message: string) {
     // const service = { message: message };
     // this.http
-    //   .patch<{ status: String; data: ServiceRequest[] }>(
+    //   .patch<{ status: string; data: ServiceRequest[] }>(
     //     `http://localhost:3000/api/v1/services/${id}`,
     //     service
     //   )

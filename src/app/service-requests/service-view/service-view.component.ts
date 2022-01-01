@@ -8,7 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./service-view.component.css'],
 })
 export class ServiceViewComponent {
-  message: String;
+  message: string;
 
   constructor(
     public dialogRef: MatDialogRef<ServiceViewComponent>,

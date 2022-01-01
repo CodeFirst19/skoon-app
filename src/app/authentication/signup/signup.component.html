@@ -1,0 +1,57 @@
+
+<mat-card>
+    <mat-card-title class="mb-3">Signup</mat-card-title>
+    <mat-card-content>
+        <form (submit)="onSignup(signupForm)" #signupForm="ngForm">
+            <div class="row">
+                <div class="col-md-6">
+                <!-- Preferred Name -->
+                <mat-form-field class="example-full-width">
+                 <mat-label>Preferred Name</mat-label>
+                 <input matInput type="text" name="preferredName" #name="ngModel" ngModel required/>
+                 <mat-error *ngIf="name.invalid">Preferred name is <strong>required</strong></mat-error>
+               </mat-form-field>  
+                <!-- Address -->
+                <mat-form-field class="example-full-width">
+                 <mat-label>Address</mat-label>
+                 <input matInput type="text" name="address" #address="ngModel" ngModel required/>
+                 <mat-error *ngIf="address.invalid">Email address is <strong>required</strong></mat-error>
+               </mat-form-field>  
+                <!-- Social Media Handles -->
+                <mat-form-field class="example-full-width">
+                 <mat-label>Social Media Handles</mat-label>
+                 <input matInput type="text" name="socialMediaHandles" #socialMediaHandles="ngModel" ngModel/>
+               </mat-form-field>  
+               <!-- Email Address -->
+                <mat-form-field class="example-full-width">
+                 <mat-label>Email address</mat-label>
+                 <input matInput type="email" name="email" #email="ngModel" ngModel required email/>
+                 <mat-error *ngIf="email.invalid">Email address is <strong>required</strong></mat-error>
+                </mat-form-field>  
+            </div>
+            <div class="col-md-6">
+                <!-- Phone Number -->
+                 <mat-form-field class="example-full-width">
+                  <mat-label>Phone Number</mat-label>
+                  <input matInput type="tel" name="phone" #phone="ngModel" ngModel required phone/>
+                  <mat-error *ngIf="phone.invalid">Phone number is <strong>required</strong></mat-error>
+                </mat-form-field>  
+                <!-- Password -->
+                <mat-form-field class="example-full-width">
+                  <mat-label>Password</mat-label>
+                  <input matInput type="password" name="password" #password="ngModel" ngModel required/>
+                  <mat-error *ngIf="password.invalid">Password is <strong>required</strong></mat-error>
+                </mat-form-field>
+                <!-- Password confirm -->
+                <mat-form-field class="example-full-width">
+                  <mat-label>Confirm Password</mat-label>
+                  <input matInput type="password" name="passwordConfirm" #passwordConfirm="ngModel" ngModel required/>
+                  <mat-error *ngIf="passwordConfirm.invalid">Password confirmation is <strong>required</strong></mat-error>
+                </mat-form-field>
+                <!-- Login button -->
+                <button class="mt-2" type="submit" mat-raised-button [disabled]="signupForm.invalid">Signup</button> 
+            </div>
+        </div>
+    </form>
+  </mat-card-content>
+</mat-card>

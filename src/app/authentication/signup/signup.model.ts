@@ -1,9 +1,9 @@
-export interface User {
+export interface Signup {
   preferredName: string;
+  address: string;
+  socialMediaHandles: string;
   email: string;
   phone: string;
-  address: string;
-  socialMedHandles: string;
   password: string;
   passwordConfirm: string;
 }

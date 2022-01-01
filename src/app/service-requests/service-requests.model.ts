@@ -1,11 +1,11 @@
 export interface ServiceRequest {
-  id: String;
-  serviceType: String;
-  pickupTime: String;
-  paymentMethod: String;
-  paymentStatus: String;
-  status: String;
-  requestedOn: String;
-  returnedOn: String;
-  reference: String;
+  id: string;
+  serviceType: string;
+  pickupTime: string;
+  paymentMethod: string;
+  paymentStatus: string;
+  status: string;
+  requestedOn: string;
+  returnedOn: string;
+  reference: string;
 }

@@ -1,7 +1,7 @@
 export interface PaymentDetails {
-  accountName: String;
-  bankName: String;
-  branchCode: String;
-  accountNumber: String;
-  reference: String;
+  accountName: string;
+  bankName: string;
+  branchCode: string;
+  accountNumber: string;
+  reference: string;
 }
