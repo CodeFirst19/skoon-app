@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./reset-password.component.css'],
 })
 export class ResetPasswordComponent implements OnInit {
-  private token: string;
+  private passwordResetToken: string;
   passwordResetSuccessful = false;
   private passResetSuccessSubscription: Subscription;
 
@@ -22,12 +22,16 @@ export class ResetPasswordComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('token')) {
-        this.token = paramMap.get('token');
-        console.log(this.token);
+        this.passwordResetToken = paramMap.get('token');
+        console.log(this.passwordResetToken);
       }
     });
 
-    
+    this.passResetSuccessSubscription = this.passwordReset.getPasswordResetUpdated()
+      .subscribe((passwordUpdated) => {
+        this.passwordResetSuccessful = passwordUpdated;
+        console.log(this.passwordResetSuccessful)
+      })
   }
 
   onResetPassword(form: NgForm) {
@@ -36,7 +40,8 @@ export class ResetPasswordComponent implements OnInit {
     }
     this.passwordReset.resetPassword(
       form.value.newPassword,
-      form.value.newPasswordConfirm
+      form.value.newPasswordConfirm,
+      this.passwordResetToken
     );
     form.resetForm();
   }

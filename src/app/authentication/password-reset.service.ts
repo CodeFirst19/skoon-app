@@ -21,18 +21,19 @@ export class PasswordResetService {
       });
   }
 
-  resetPassword(newPassword: string, newPasswordConfirm: string) {
+  resetPassword(newPassword: string, newPasswordConfirm: string, passwordResetToken: string) {
+    const token = passwordResetToken;
     const userPasswords = {
-      newPassword: newPassword,
-      confirmPassword: newPasswordConfirm,
+      password: newPassword,
+      passwordConfirm: newPasswordConfirm,
     };
     this.http
-      .post<{ status: string; token: string; data: {} }>(
-        'http://localhost:3000/api/v1/users/forgot-password',
+      .patch<{ status: string; token: string; data: {} }>(
+        `http://localhost:3000/api/v1/users/reset-password/${token}`,
         userPasswords
       )
       .subscribe((response) => {
-        this.passwordResetUpdated.next(true)
+        this.passwordResetUpdated.next(true);
       });
   }
 

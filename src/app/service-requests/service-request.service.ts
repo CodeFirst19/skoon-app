@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 export class ServiceRequestService {
   private services: ServiceRequest[] = [];
   private servicesUpdated = new Subject<{
-    services: ServiceRequest[];
-    servicesCount: number;
+    services: ServiceRequest[],
+    servicesCount: number
   }>();
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -19,7 +19,7 @@ export class ServiceRequestService {
   getServices(page: number, limit: number) {
     const queryParameters = `?page=${page}&limit=${limit}`;
     this.http
-      .get<{ status: string; result: number; data: any }>(
+      .get<{ status: string; result: number; data: {} }>(
         `http://localhost:3000/api/v1/services${queryParameters}`
       )
       .pipe(

@@ -3,7 +3,6 @@ export interface User {
   email: string;
   phone: string;
   address: string;
-  socialMedHandles: string;
-  password: string;
-  passwordConfirm: string;
+  socialMediaHandles: string;
+  services: []
 }
