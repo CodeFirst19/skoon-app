@@ -4,6 +4,7 @@ import { Login } from './login/login.model';
 import { HttpClient } from '@angular/common/http';
 import { Signup } from './signup/signup.model';
 import { Injectable } from '@angular/core';
+import { User } from '../users/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -56,8 +57,9 @@ export class AuthService {
           this.authStatusListener.next(true);
           const now = new Date();
           const expirationDate = new Date(now.getTime() + expiresInDuration);
-          this.SaveAuthData(token, expirationDate)
-          this.route.navigate(['/view-services']);
+          const user = response.data['user'];
+          this.SaveAuthData(user._id, token, expirationDate)
+          this.route.navigate(['/services']);
           console.log(response);
         }
       });
@@ -75,7 +77,7 @@ export class AuthService {
       this.isAuthenticated = true;
       this.setAuthTimer(expiresIn / 1000);
       this.authStatusListener.next(true);
-      this.route.navigate(['/view-services']);
+      this.route.navigate(['/services']);
     }
   }
 
@@ -94,17 +96,19 @@ export class AuthService {
     }, duration)
   }
 
-  private SaveAuthData(token: string, expirationDate: Date) {
+  private SaveAuthData(id: string,token: string, expirationDate: Date) {
+    localStorage.setItem('id', id);
     localStorage.setItem('token', token);
     localStorage.setItem('expiration', expirationDate.toISOString());
   }
 
   private clearAuthData() {
+    localStorage.removeItem('id');
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
   }
 
-  getAuthData() {
+  private getAuthData() {
     const token = localStorage.getItem('token');
     const expirationDate = localStorage.getItem('expiration');
     if(!token && !expirationDate) {
@@ -115,5 +119,10 @@ export class AuthService {
       token: token,
       expirationDate: new Date(expirationDate),
     };
+  }
+
+  getUserId() {
+    const id = localStorage.getItem('id');
+    return id;
   }
 }

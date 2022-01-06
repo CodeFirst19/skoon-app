@@ -8,7 +8,9 @@ import { User } from './user.model';
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private users: User[] = [];
+  private user: User;
   private usersUpdated = new Subject<{ users: User[]; usersCount: number }>();
+  private userUpdated = new Subject<User>();
 
   constructor(private http: HttpClient) {}
 
@@ -27,8 +29,9 @@ export class UserService {
                 email: user.email,
                 phone: user.phone,
                 address: user.address,
-                socialMediaHandles: user.socialMedHandles,
-                services: user.services
+                socialMediaHandles: user.socialMediaHandles,
+                role: user.role,
+                services: user.services,
               };
             }),
             totalUsers: usersData.result,
@@ -42,6 +45,27 @@ export class UserService {
           usersCount: transformedUsersData.totalUsers,
         });
         // console.log(transformedServicesData.services);
+      });
+  }
+
+  getUsersUpdateListener() {
+    return this.usersUpdated.asObservable();
+  }
+
+  getUserUpdateListener() {
+    return this.userUpdated.asObservable();
+  }
+
+  getUser(id: string) {
+    this.http
+      .get<{ status: string; data: {} }>(
+        `http://localhost:3000/api/v1/users/${id}`
+      )
+      .subscribe((userData) => {
+        const user = userData.data['user'];
+        this.user = user;
+        this.userUpdated.next({...this.user})
+        // console.log(this.user);
       });
   }
 }

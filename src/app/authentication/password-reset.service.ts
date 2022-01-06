@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class PasswordResetService {
   private emailSentUpdated = new Subject<boolean>();
-  private passwordResetUpdated = new Subject<boolean>();
+  private passwordUpdated = new Subject<boolean>();
 
   constructor(private http: HttpClient) {}
 
@@ -21,7 +21,11 @@ export class PasswordResetService {
       });
   }
 
-  resetPassword(newPassword: string, newPasswordConfirm: string, passwordResetToken: string) {
+  resetPassword(
+    newPassword: string,
+    newPasswordConfirm: string,
+    passwordResetToken: string
+  ) {
     const token = passwordResetToken;
     const userPasswords = {
       password: newPassword,
@@ -33,7 +37,7 @@ export class PasswordResetService {
         userPasswords
       )
       .subscribe((response) => {
-        this.passwordResetUpdated.next(true);
+        this.passwordUpdated.next(true);
       });
   }
 
@@ -41,7 +45,28 @@ export class PasswordResetService {
     return this.emailSentUpdated.asObservable();
   }
 
-  getPasswordResetUpdated() {
-    return this.passwordResetUpdated.asObservable();
+  getPasswordUpdated() {
+    return this.passwordUpdated.asObservable();
+  }
+
+  updatePassword(
+    currentPassword: string,
+    newPassword: string,
+    passwordConfirm: string
+  ) {
+    const userPasswords = {
+      passwordCurrent: currentPassword,
+      password: newPassword,
+      passwordConfirm: passwordConfirm,
+    };
+
+    this.http
+      .patch<{ status: string; token: string; data: {} }>(
+        'http://localhost:3000/api/v1/users/update-my-password',
+        userPasswords
+      )
+      .subscribe((response) => {
+        this.passwordUpdated.next(true);
+      });
   }
 }

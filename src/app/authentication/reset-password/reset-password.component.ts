@@ -1,5 +1,5 @@
 import { NgForm } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PasswordResetService } from '../password-reset.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.css'],
 })
-export class ResetPasswordComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit, OnDestroy {
   private passwordResetToken: string;
   passwordResetSuccessful = false;
   private passResetSuccessSubscription: Subscription;
@@ -27,11 +27,12 @@ export class ResetPasswordComponent implements OnInit {
       }
     });
 
-    this.passResetSuccessSubscription = this.passwordReset.getPasswordResetUpdated()
+    this.passResetSuccessSubscription = this.passwordReset
+      .getPasswordUpdated()
       .subscribe((passwordUpdated) => {
         this.passwordResetSuccessful = passwordUpdated;
-        console.log(this.passwordResetSuccessful)
-      })
+        console.log(this.passwordResetSuccessful);
+      });
   }
 
   onResetPassword(form: NgForm) {
@@ -44,5 +45,9 @@ export class ResetPasswordComponent implements OnInit {
       this.passwordResetToken
     );
     form.resetForm();
+  }
+
+  ngOnDestroy(): void {
+   this.passResetSuccessSubscription.add();
   }
 }

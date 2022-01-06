@@ -1,13 +1,11 @@
 import { AuthService } from './../../authentication/auth.service';
 import { ServiceViewComponent } from './../service-view/service-view.component';
-import { Router } from '@angular/router';
 import { ServiceRequestService } from '../service-request.service';
 import { ServiceRequest } from '../service-requests.model';
 import {
   Component,
   OnInit,
   ViewChild,
-  SimpleChanges,
   OnDestroy,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -51,7 +49,6 @@ export class ServiceListComponent implements OnInit, OnDestroy {
   constructor(
     public dialog: MatDialog,
     private serviceService: ServiceRequestService,
-    private router: Router,
     private _liveAnnouncer: LiveAnnouncer,
     private authService: AuthService
   ) {}
@@ -139,8 +136,10 @@ export class ServiceListComponent implements OnInit, OnDestroy {
     this.searchKey = '';
     this.applyFilter();
   }
+
   ngOnDestroy(): void {
-    // TODO: 
+    // FIXME:
     this.authListenerSubs.unsubscribe();
+    this.serviceSubscription.unsubscribe()
   }
 }

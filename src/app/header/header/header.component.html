@@ -7,13 +7,16 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
         <li class="nav-item" *ngIf="userIsAuthenticated">
-          <a class="nav-link" routerLink="/view-users">Users</a>
+          <a class="nav-link" routerLink="/my-profile">Profile</a>
+        </li>
+        <li class="nav-item" *ngIf="userIsAuthenticated">
+          <a class="nav-link" routerLink="/users">Users</a>
         </li>
         <li class="nav-item" *ngIf="userIsAuthenticated">
           <a class="nav-link" routerLink="/request-service">Request</a>
         </li>
          <li class="nav-item" *ngIf="userIsAuthenticated">
-          <a class="nav-link" routerLink="/view-services">Services</a>
+          <a class="nav-link" routerLink="/services">Services</a>
         </li>
         <li class="nav-item" *ngIf="!userIsAuthenticated">
           <a class="nav-link" routerLink="/">Login</a>

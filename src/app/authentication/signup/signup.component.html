@@ -7,21 +7,35 @@
                 <div class="col-md-6">
                 <!-- Preferred Name -->
                 <mat-form-field class="example-full-width">
-                 <mat-label>Preferred Name</mat-label>
-                 <input matInput type="text" name="preferredName" #name="ngModel" ngModel required/>
-                 <mat-error *ngIf="name.invalid">Preferred name is <strong>required</strong></mat-error>
-               </mat-form-field>  
+                  <mat-label>Preferred Name</mat-label>
+                  <input matInput type="text" name="preferredName" #name="ngModel" ngModel required/>
+                  <mat-error *ngIf="name.invalid">Preferred name is <strong>required</strong></mat-error>
+                </mat-form-field>  
                 <!-- Address -->
                 <mat-form-field class="example-full-width">
-                 <mat-label>Address</mat-label>
-                 <input matInput type="text" name="address" #address="ngModel" ngModel required/>
-                 <mat-error *ngIf="address.invalid">Email address is <strong>required</strong></mat-error>
-               </mat-form-field>  
+                  <mat-label>Address</mat-label>
+                  <input matInput type="text" name="address" #address="ngModel" ngModel required/>
+                  <mat-error *ngIf="address.invalid">Email address is <strong>required</strong></mat-error>
+                </mat-form-field>  
                 <!-- Social Media Handles -->
-                <mat-form-field class="example-full-width">
-                 <mat-label>Social Media Handles</mat-label>
-                 <input matInput type="text" name="socialMediaHandles" #socialMediaHandles="ngModel" ngModel/>
-               </mat-form-field>  
+                <mat-form-field class="example-chip-list">
+                  <mat-label>Social Media Handles</mat-label>
+                  <mat-chip-list #chipList aria-label="Fruit selection">
+                    <mat-chip *ngFor="let element of socialProfiles" (removed)="remove(element)">
+                      {{element}}
+                      <button matChipRemove>
+                        <mat-icon>cancel</mat-icon>
+                      </button>
+                    </mat-chip>
+                    <input placeholder="Enter item and click ENTER ans so on...(optional)"
+                          [matChipInputFor]="chipList"
+                          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                          [matChipInputAddOnBlur]="addOnBlur"
+                          (matChipInputTokenEnd)="add($event)"
+                          name="socialMediaHandles" #socialMediaHandles="ngModel" ngModel>
+                  </mat-chip-list>
+                </mat-form-field>
+ 
                <!-- Email Address -->
                 <mat-form-field class="example-full-width">
                  <mat-label>Email address</mat-label>
@@ -39,7 +53,7 @@
                 <!-- Password -->
                 <mat-form-field class="example-full-width">
                   <mat-label>Password</mat-label>
-                  <input matInput type="password" name="password" #password="ngModel" ngModel required/>
+                  <input matInput type="password" name="password" #password="ngModel" ngModel required autocomplete="new-password"/>
                   <mat-error *ngIf="password.invalid">Password is <strong>required</strong></mat-error>
                 </mat-form-field>
                 <!-- Password confirm -->
@@ -49,7 +63,8 @@
                   <mat-error *ngIf="passwordConfirm.invalid">Password confirmation is <strong>required</strong></mat-error>
                 </mat-form-field>
                 <!-- Login button -->
-                <button class="mt-2" type="submit" mat-raised-button [disabled]="signupForm.invalid">Signup</button> 
+                <!-- <button class="mt-2" type="submit" mat-raised-button [disabled]="signupForm.invalid">Signup</button>  -->
+                <button class="mt-2" type="submit" mat-raised-button>Signup</button> 
             </div>
         </div>
     </form>

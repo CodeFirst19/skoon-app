@@ -13,12 +13,14 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -34,6 +36,10 @@ import { ServiceEditComponent } from './service-requests/service-edit/service-ed
 import { SignupComponent } from './authentication/signup/signup.component';
 import { ForgotPasswordComponent } from './authentication/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './authentication/reset-password/reset-password.component';
+import { UserViewComponent } from './users/user-view/user-view.component';
+import { ProfileViewComponent } from './authentication/profile/profile-view/profile-view.component';
+import { PasswordChangeComponent } from './authentication/profile/password-change/password-change.component';
+import { ProfileEditComponent } from './authentication/profile/profile-edit/profile-edit.component';
 
 
 @NgModule({
@@ -51,6 +57,10 @@ import { ResetPasswordComponent } from './authentication/reset-password/reset-pa
     SignupComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
+    UserViewComponent,
+    ProfileViewComponent,
+    PasswordChangeComponent,
+    ProfileEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,14 +77,18 @@ import { ResetPasswordComponent } from './authentication/reset-password/reset-pa
     MatTableModule,
     MatSortModule,
     MatDividerModule,
+    MatListModule,
     MatDialogModule,
     MatRadioModule,
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatPaginatorModule,
+    MatChipsModule,
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

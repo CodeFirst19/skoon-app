@@ -1,3 +1,6 @@
+import { PasswordChangeComponent } from './authentication/profile/password-change/password-change.component';
+import { ProfileViewComponent } from './authentication/profile/profile-view/profile-view.component';
+import { UserListComponent } from './users/user-list/user-list.component';
 import { ResetPasswordComponent } from './authentication/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './authentication/forgot-password/forgot-password.component';
 import { AuthGuard } from './authentication/auth.guard';
@@ -15,7 +18,10 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
-  { path: 'view-services', component: ServiceListComponent, canActivate: [AuthGuard] },
+  { path: 'my-profile', component: ProfileViewComponent, canActivate: [AuthGuard] },
+  { path: 'update-profile', component: PasswordChangeComponent, canActivate: [AuthGuard] },
+  { path: 'users', component: UserListComponent, canActivate: [AuthGuard] },
+  { path: 'services', component: ServiceListComponent, canActivate: [AuthGuard] },
   { path: 'request-service', component: ServiceCreateComponent, canActivate: [AuthGuard] },
   { path: 'edit-service/:serviceId', component: ServiceViewComponent, canActivate: [AuthGuard] },
 ];
