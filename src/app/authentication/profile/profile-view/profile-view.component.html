@@ -9,7 +9,7 @@
                 <div class="check"><i class="fas fa-check"></i></div>
                 <h3 class="name">{{ user.preferredName }}</h3>
                 <p class="title">{{ user.address }}</p>
-                <p class="description mx-5">You has by far requested <strong>0</strong> services. <a class="user-services-link"><strong>Click here</strong></a> to view all your completed service requests.</p>
+                <p class="description mx-5">You has by far requested <strong>{{ user.services.length }}</strong> services. <a class="user-services-link"><strong>Click here</strong></a> to view all your completed service requests.</p>
                 <div class="social-icons text-center">
                     <div class="icon me-5">
                             <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon">
@@ -37,9 +37,9 @@
                 </div>
             </div>
             <div class="action-btns-wrapper mt-4">
-                <button mat-flat-button color="primary">Edit Profile</button>
+                <button mat-flat-button color="primary" (click)="onEditProfileDialog(user)">Edit Profile</button>
                 <a mat-flat-button color="primary" routerLink="/update-profile">Update Password</a>
-                <button mat-flat-button color="warn">Delete Account</button>
+                <button mat-flat-button color="warn" (click)="onDeleteUserAccount()">Delete Account</button>
             </div>
         </div>
         <div class="" *ngIf="!user">

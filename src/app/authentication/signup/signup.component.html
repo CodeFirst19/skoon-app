@@ -14,7 +14,12 @@
                 <!-- Address -->
                 <mat-form-field class="example-full-width">
                   <mat-label>Address</mat-label>
-                  <input matInput type="text" name="address" #address="ngModel" ngModel required/>
+                  <input 
+                    matInput 
+                    type="text" 
+                    name="address" #address="ngModel" 
+                    ngModel 
+                    required/>
                   <mat-error *ngIf="address.invalid">Email address is <strong>required</strong></mat-error>
                 </mat-form-field>  
                 <!-- Social Media Handles -->
@@ -62,9 +67,8 @@
                   <input matInput type="password" name="passwordConfirm" #passwordConfirm="ngModel" ngModel required/>
                   <mat-error *ngIf="passwordConfirm.invalid">Password confirmation is <strong>required</strong></mat-error>
                 </mat-form-field>
-                <!-- Login button -->
-                <!-- <button class="mt-2" type="submit" mat-raised-button [disabled]="signupForm.invalid">Signup</button>  -->
-                <button class="mt-2" type="submit" mat-raised-button>Signup</button> 
+                <!-- Signup button -->
+                <button class="mt-2" type="submit" mat-raised-button color="primary" [disabled]="signupForm.invalid">Signup</button> 
             </div>
         </div>
     </form>

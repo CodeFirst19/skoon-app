@@ -16,6 +16,7 @@ export class SignupComponent implements OnInit {
   socialProfiles: string[] = [];
   constructor(public authService: AuthService) {}
 
+
   ngOnInit(): void {}
 
   add(event: MatChipInputEvent): void {
@@ -55,6 +56,5 @@ export class SignupComponent implements OnInit {
 
     this.authService.signup(user);
     form.resetForm();
-    console.log();
   }
 }

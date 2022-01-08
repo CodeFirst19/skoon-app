@@ -1,3 +1,4 @@
+import { UserService } from 'src/app/users/user.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
@@ -36,6 +37,7 @@ export class ServiceRequestService {
                 status: service.status,
                 requestedOn: service.requestedOn,
                 returnedOn: service.returnedOn,
+                owner: service.owner
               };
             }),
             totalServices: serviceData.result,
@@ -64,19 +66,29 @@ export class ServiceRequestService {
 
   addService(service: ServiceRequest) {
     this.http
-      .post<{ status: string; data: ServiceRequest[] }>(
+      .post<{ status: string; data: {} }>(
         'http://localhost:3000/api/v1/services',
         service
       )
-      .subscribe((responseData) => {
-        // this.services.push(service);
-        // this.servicesUpdated.next([...this.services]);
-        // const id = responseData.data['newService']._id;
-        // service.id = id;
+      .subscribe((response) => {
+        //Get returned service Id
+        const serviceId = {service: response.data['newService']._id };
+        //Update user services property
+        this.http
+          .patch<{ status: string; data: {} }>(
+            'http://localhost:3000/api/v1/users/update-user-service',
+            serviceId
+          )
+          .subscribe((response) => {
+            const user = response.data['user'];
+            console.log('Service added to user successfully');
+            console.log(user);
+          });
+        //console.log(response.data['newService']._id);
         this.showSweetSuccessToast('request sent successfully!');
-        this.router.navigate(['/view-services']);
+        this.router.navigate(['/services']);
       });
-    console.log(this.services);
+    //console.log(this.services);
   }
 
   updateStatus(id: string, status: string) {
@@ -99,7 +111,7 @@ export class ServiceRequestService {
         // this.servicesUpdated.next([...this.services]);
         this.showSweetSuccessToast('Status updated successfully!');
         // console.log(responseData.status);
-        this.router.navigate(['/view-services']);
+        this.router.navigate(['/services']);
       });
   }
 

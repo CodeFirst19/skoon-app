@@ -16,9 +16,9 @@
         <mat-error *ngIf="password.invalid">Password is <strong>required</strong></mat-error>
       </mat-form-field>
       <!-- Remember me -->
-      <mat-checkbox class="example-margin mt-3">Remember me</mat-checkbox>
+      <mat-checkbox class="example-margin mt-3" color="primary">Remember me</mat-checkbox>
       <!-- Login button -->
-      <button class="mt-3" type="submit" mat-raised-button [disabled]="loginForm.invalid">Login</button>
+      <button class="mt-3" type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid">Login</button>
       <!-- Forgot password -->
       <div class="mt-3">
           <a routerLink="/forgot-password">Forgot your password?</a>

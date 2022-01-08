@@ -64,6 +64,7 @@ export class ServiceListComponent implements OnInit, OnDestroy {
         }) => {
           this.services = serviceData.services;
           this.totalServices = serviceData.servicesCount;
+          console.log(this.services);
           this.dataSource = new MatTableDataSource<ServiceRequest>(
             this.services
           );
@@ -102,7 +103,7 @@ export class ServiceListComponent implements OnInit, OnDestroy {
   onViewServiceDialog(service): void {
     console.log(service);
     const dialogRef = this.dialog.open(ServiceViewComponent, {
-      width: '60%',
+      width: '40%',
       data: service,
     });
 

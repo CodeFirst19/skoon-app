@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/authentication/auth.service';
 import { ServiceRequest } from './../service-requests.model';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -10,6 +11,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
   styleUrls: ['./service-create.component.css'],
 })
 export class ServiceCreateComponent implements OnInit {
+  userId: string;
   todayDate: Date = new Date();
   serviceTypes = [
     'Basic: R659pm Wash, Dry & Fold',
@@ -34,11 +36,13 @@ export class ServiceCreateComponent implements OnInit {
   private service: ServiceRequest;
 
   constructor(
+    private authService: AuthService,
     public serviceRequestService: ServiceRequestService,
     public route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    this.userId = this.authService.getUserId();
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('serviceId')) {
         this.mode = 'edit';
@@ -65,6 +69,7 @@ export class ServiceCreateComponent implements OnInit {
       status: this.status[0],
       requestedOn: new Date(Date.now()).toISOString(),
       returnedOn: null,
+      owner: this.userId
     };
     this.serviceRequestService.addService(service);
     form.resetForm();

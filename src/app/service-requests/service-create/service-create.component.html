@@ -4,7 +4,7 @@
     <form
       (submit)="onAddService(serviceForm)" #serviceForm="ngForm" autocomplete="off">
       <!-- Service Type -->
-      <mat-radio-group name="serviceType" #serviceType="ngModel" ngModel required>
+      <mat-radio-group color="primary" name="serviceType" #serviceType="ngModel" ngModel required>
         <div class="row">
           <div class="col-md-4 mt-3" *ngFor="let service of serviceTypes">
             <mat-radio-button [value]="service">{{ service }}</mat-radio-button>
@@ -33,7 +33,7 @@
         <!-- Payment type -->
         <div class="col-md-6">
           <mat-label>Check Out</mat-label>
-          <mat-radio-group name="paymentMethod" #paymentMethod="ngModel" ngModel required>
+          <mat-radio-group color="primary" name="paymentMethod" #paymentMethod="ngModel" ngModel required>
             <div class="row">
               <div class="col-md-4 mt-2" *ngFor="let payment of paymentMethods">
                 <mat-radio-button [value]="payment">{{
@@ -46,7 +46,7 @@
         </div>
       </div>
       <!-- Button -->
-      <button type="submit" [disabled]="serviceForm.invalid" mat-raised-button>Request</button>
+      <button type="submit" [disabled]="serviceForm.invalid" mat-raised-button color="primary">Request</button>
     </form>
   </mat-card-content>
 </mat-card>

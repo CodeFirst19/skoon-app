@@ -1,3 +1,4 @@
+import { User } from 'src/app/users/user.model';
 export interface ServiceRequest {
   id: string;
   serviceType: string;
@@ -8,4 +9,5 @@ export interface ServiceRequest {
   requestedOn: string;
   returnedOn: string;
   reference: string;
+  owner: string;
 }
