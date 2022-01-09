@@ -1,33 +1,37 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" routerLink="/">Brand</a>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
-        <li class="nav-item" *ngIf="userIsAuthenticated">
-          <a class="nav-link" routerLink="/my-profile">Profile</a>
-        </li>
-        <li class="nav-item" *ngIf="userIsAuthenticated">
-          <a class="nav-link" routerLink="/users">Users</a>
-        </li>
-        <li class="nav-item" *ngIf="userIsAuthenticated">
-          <a class="nav-link" routerLink="/request-service">Request</a>
-        </li>
-         <li class="nav-item" *ngIf="userIsAuthenticated">
-          <a class="nav-link" routerLink="/services">Services</a>
-        </li>
-        <li class="nav-item" *ngIf="!userIsAuthenticated">
-          <a class="nav-link" routerLink="/">Login</a>
-        </li>
-        <li class="nav-item" *ngIf="!userIsAuthenticated">
-          <a class="nav-link" routerLink="/signup">Signup</a>
-        </li>
-         <li class="nav-item" *ngIf="userIsAuthenticated">
-          <button mat-button class="nav-link" (click)="onLogout()" routerLink="">Logout</button>
-        </li>
-      </ul>
+<!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center">
+
+      <div class="logo me-auto">
+        <h1><a href="index.html">KeepItSkoon</a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+      </div>
+
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul>
+          <li><a class="nav-link scrollto active" routerLink="/" *ngIf="!userIsAuthenticated">Home</a></li>
+          <!-- <li><a class="nav-link scrollto" href="#about">About</a></li> -->
+          <li><a class="nav-link scrollto" href="#pricing" *ngIf="!userIsAuthenticated">Services</a></li>
+          <li><a class="nav-link scrollto" href="#contact" *ngIf="!userIsAuthenticated">Contact</a></li>
+          <li><a class="nav-link scrollto" routerLink="/login" *ngIf="!userIsAuthenticated">Login</a></li>
+          <li><a class="nav-link scrollto" routerLink="/signup" *ngIf="!userIsAuthenticated">Signup</a></li>
+          <li><a class="nav-link scrollto" routerLink="/users" *ngIf="userIsAuthenticated">All Users</a></li>
+          <li><a class="nav-link scrollto" routerLink="/request-service" *ngIf="userIsAuthenticated">Request</a></li>
+          <li><a class="nav-link scrollto" routerLink="/services" *ngIf="userIsAuthenticated">Services</a></li>
+          <li><a class="nav-link scrollto" routerLink="/my-profile" *ngIf="userIsAuthenticated">Profile</a></li>
+          <li><a class="nav-link scrollto logout-nav-item" *ngIf="userIsAuthenticated" (click)="onLogout()">Logout</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+      <div class="header-social-links d-flex align-items-center">
+        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+      </div>
+
     </div>
-  </div>
-</nav>
+  </header><!-- End Header -->
+

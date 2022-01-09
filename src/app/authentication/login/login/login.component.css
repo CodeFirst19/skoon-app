@@ -1,16 +1,26 @@
-mat-form-field, input, mat-checkbox {
-    width: 100%;
+mat-card {
+  width: 50%;
+  margin-top: 10%;
+  margin-left: auto;
+  margin-right: auto;
+}
+mat-form-field,
+input,
+mat-checkbox {
+  width: 100%;
 }
 /* button {
     display: block;
     margin-left: auto;
 } */
 
-div, a {
-    text-decoration: none;
-    color: black;
-} 
+div,
+a {
+  text-decoration: none;
+  color: black;
+}
 
-div, a:hover {
-    color: #3F51B5;
-} 
+div,
+a:hover {
+  color: #3f51b5;
+}

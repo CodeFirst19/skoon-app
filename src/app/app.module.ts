@@ -40,6 +40,11 @@ import { UserViewComponent } from './users/user-view/user-view.component';
 import { ProfileViewComponent } from './authentication/profile/profile-view/profile-view.component';
 import { PasswordChangeComponent } from './authentication/profile/password-change/password-change.component';
 import { ProfileEditComponent } from './authentication/profile/profile-edit/profile-edit.component';
+import { FooterComponent } from './footer/footer.component';
+import { BannerComponent } from './banner/banner.component';
+import { FeaturesComponent } from './features/features.component';
+import { ContactsComponent } from './contacts/contacts.component';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
@@ -61,6 +66,11 @@ import { ProfileEditComponent } from './authentication/profile/profile-edit/prof
     ProfileViewComponent,
     PasswordChangeComponent,
     ProfileEditComponent,
+    FooterComponent,
+    BannerComponent,
+    FeaturesComponent,
+    ContactsComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

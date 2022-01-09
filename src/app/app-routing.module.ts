@@ -1,3 +1,4 @@
+import { HomeComponent } from './home/home.component';
 import { PasswordChangeComponent } from './authentication/profile/password-change/password-change.component';
 import { ProfileViewComponent } from './authentication/profile/profile-view/profile-view.component';
 import { UserListComponent } from './users/user-list/user-list.component';
@@ -14,7 +15,8 @@ import { ServiceListComponent } from './service-requests/service-list/service-li
 import { ServiceCreateComponent } from './service-requests/service-create/service-create.component';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent },
+  { path: '', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
