@@ -27,6 +27,12 @@ export class ServiceListComponent implements OnInit, OnDestroy {
   private authListenerSubs: Subscription;
 
   services: ServiceRequest[] = [];
+  stats: { basic: number; advanced: number; premium: number };
+  gaugeType = 'semi';
+  gaugeValue = 28.3;
+  gaugeLabel = 'Speed';
+  gaugeAppendText = 'km/hr';
+
   dataSource: MatTableDataSource<ServiceRequest>;
   displayedColumns: string[] = [
     'package',
@@ -64,7 +70,7 @@ export class ServiceListComponent implements OnInit, OnDestroy {
         }) => {
           this.services = serviceData.services;
           this.totalServices = serviceData.servicesCount;
-          console.log(this.services);
+          // console.log(this.services);
           this.dataSource = new MatTableDataSource<ServiceRequest>(
             this.services
           );
@@ -79,6 +85,28 @@ export class ServiceListComponent implements OnInit, OnDestroy {
       .subscribe((isAuthenticated) => {
         this.userIsAuthenticated = isAuthenticated;
       });
+  }
+
+  reportStats() {
+    let basic = 0;
+    let advanced = 0;
+    let premium = 0;
+
+    this.services.forEach((service) => {
+      if (service.serviceType.includes('Basic')) {
+        basic += 1;
+      } else if (service.serviceType.includes('Advanced')) {
+        advanced += 1;
+      } else {
+        premium += 1;
+      }
+    });
+
+    return {
+      basic: basic,
+      advanced: advanced,
+      premium: premium,
+    };
   }
 
   formatDate(date) {
@@ -141,6 +169,6 @@ export class ServiceListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // FIXME:
     this.authListenerSubs.unsubscribe();
-    this.serviceSubscription.unsubscribe()
+    this.serviceSubscription.unsubscribe();
   }
 }

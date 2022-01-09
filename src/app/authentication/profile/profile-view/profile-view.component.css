@@ -12,6 +12,7 @@ img {
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
   margin-left: auto;
   margin-right: auto;
+  margin-top: 10%;
 }
 .wrapper .top-icons i {
   color: #080911;
@@ -164,3 +165,6 @@ img {
 .user-services-link:hover {
     color: #0275d8;
 } 
+.not-profile-data {
+  margin-top: 10%;
+}
