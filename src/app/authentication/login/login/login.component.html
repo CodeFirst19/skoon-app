@@ -1,7 +1,8 @@
 
-<mat-card>
-  <mat-card-title class="mb-3">Login</mat-card-title>
+<mat-card class="p-5">
+  <mat-card-title class="text-center mb-4">Welcome</mat-card-title>
   <mat-card-content>
+    <p class="mb-4 text-center">Please login below to access your account</p>
     <form (submit)="onLogin(loginForm)" #loginForm="ngForm">
       <!-- Email -->
       <mat-form-field class="example-full-width">
@@ -15,14 +16,39 @@
         <input matInput type="password" name="password" #password="ngModel" ngModel required/>
         <mat-error *ngIf="password.invalid">Password is <strong>required</strong></mat-error>
       </mat-form-field>
-      <!-- Remember me -->
-      <mat-checkbox class="example-margin mt-3" color="primary">Remember me</mat-checkbox>
-      <!-- Login button -->
-      <button class="mt-3" type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid">Login</button>
-      <!-- Forgot password -->
-      <div class="mt-3">
-          <a routerLink="/forgot-password">Forgot your password?</a>
+      <div class="row">
+        <!-- Remember me -->
+        <div class="col-md-6">
+          <mat-checkbox class="mt-3" color="primary">Remember me</mat-checkbox>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <!-- Forgot password -->
+          <div class="mt-3">
+              <a routerLink="/forgot-password">Forgot your password?</a>
+          </div>
+        </div>
       </div>
+      <!-- Login button -->
+      <div class="d-grid gap-2 mt-4">
+        <button mat-flat-button class="btn btn rounded-pill py-1" color="primary" type="submit">Login</button>
+      </div>
+      <span class="d-block text-center my-4 text-muted"> or sign up with</span>
+                  
+      <div class="social-login text-center">
+        <a class="facebook me-3">
+          <span class="bx bxl-facebook me-3"></span> 
+        </a>
+        <a class="twitter me-3">
+          <span class="bx bxl-twitter"></span> 
+        </a>
+        <a class="google">
+          <span class="bx bxl-google"></span> 
+        </a>
+      </div>  
+      <div class="text-center mt-3">
+        <p>Don't have an account?<a mat-button class="login-signup-button font-weight-bolder px-0">Sign Up</a></p>
+      </div>
+      <!-- <button class="mt-3" type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid">Login</button> -->
     </form>
   </mat-card-content>
 </mat-card>
