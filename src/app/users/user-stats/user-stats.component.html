@@ -2,49 +2,37 @@
 <mat-card class="service-statistics" *ngIf="stats">
   <mat-card-content>
     <div class="row">
-      <div class="col-md-3 text-center">
+      <div class="col-md-4 text-center">
         <ngx-gauge
           [size]="130"
-          [value]="stats.basic"
-          label="Basic Services"
+          [value]="stats.users"
+          label="Users"
           [append]="gaugeAppendText"
-          [max]="totalServices"
+          [max]="totalUsers"
           [thick]=" thickValue"
           [foregroundColor]="foregroundColor"
         >
         </ngx-gauge>
       </div>
-      <div class="col-md-3 text-center">
+      <div class="col-md-4 text-center">
         <ngx-gauge
           [size]="130"
-          [value]="stats.advanced"
-          label="Advanced Services"
+          [value]="stats.administrators"
+          label="Administrators"
           [append]="gaugeAppendText"
-          [max]="totalServices"
+          [max]="totalUsers"
           [thick]=" thickValue"
           [foregroundColor]="foregroundColor"
         >
         </ngx-gauge>
       </div>
-      <div class="col-md-3 text-center">
-        <ngx-gauge
-          [size]="130"
-          [value]="stats.premium"
-          label="Premium Services"
-          [append]="gaugeAppendText"
-          [max]="totalServices"
-          [thick]=" thickValue"
-          [foregroundColor]="foregroundColor"
-        >
-        </ngx-gauge>
-      </div>
-       <div class="col-md-3 text-center">
+      <div class="col-md-4 text-center">
         <ngx-gauge
           [size]="130"
           [value]="stats.total"
-          label="Total Services"
+          label="Total Users"
           [append]="gaugeAppendText"
-          [max]="totalServices"
+          [max]="totalUsers"
           [thick]=" thickValue"
           [foregroundColor]="foregroundColor"
         >

@@ -1,4 +1,5 @@
-<mat-card>
+<app-user-stats></app-user-stats>
+<mat-card class="mt-5">
   <mat-card-content>
     <div *ngIf="users.length > 0">
       <div class="search-div text-end">
@@ -68,7 +69,7 @@
       </div>
     </div>
     <div *ngIf="users.length <= 0">
-      <p>No services have been requested yet!</p>
+      <p>No users have have been found!</p>
     </div>
   </mat-card-content>
 </mat-card>

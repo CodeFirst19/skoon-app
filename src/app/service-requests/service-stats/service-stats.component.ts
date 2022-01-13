@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ServiceRequestService } from '../service-request.service';
 import { ServiceRequest } from '../service-requests.model';
@@ -8,14 +8,14 @@ import { ServiceRequest } from '../service-requests.model';
   templateUrl: './service-stats.component.html',
   styleUrls: ['./service-stats.component.css'],
 })
-export class ServiceStatsComponent implements OnInit {
+export class ServiceStatsComponent implements OnInit, OnDestroy {
   totalServices: number = 0;
-  stats: { basic: number; advanced: number; premium: number };
+  stats: { basic: number; advanced: number; premium: number; total: number };
   gaugeType = 'semi';
   gaugeValue = 28.3;
-  gaugeLabel = 'Speed';
+  // gaugeLabel = 'Speed';
   gaugeAppendText;
-  thickValue = 8;
+  thickValue = 4;
   foregroundColor = '#303F9F';
 
   private serviceSubscription: Subscription;
@@ -32,7 +32,7 @@ export class ServiceStatsComponent implements OnInit {
         }) => {
           this.totalServices = serviceData.servicesCount;
           this.stats = this.reportStats(serviceData.services);
-          this.gaugeAppendText = `/${this.totalServices}`;
+          // this.gaugeAppendText = `/${this.totalServices}`;
         }
       );
   }
@@ -56,6 +56,11 @@ export class ServiceStatsComponent implements OnInit {
       basic: basic,
       advanced: advanced,
       premium: premium,
+      total: this.totalServices,
     };
+  }
+
+  ngOnDestroy(): void {
+    this.serviceSubscription.unsubscribe();
   }
 }

@@ -48,6 +48,7 @@ import { FeaturesComponent } from './features/features.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { HomeComponent } from './home/home.component';
 import { ServiceStatsComponent } from './service-requests/service-stats/service-stats.component';
+import { UserStatsComponent } from './users/user-stats/user-stats.component';
 
 
 @NgModule({
@@ -75,6 +76,7 @@ import { ServiceStatsComponent } from './service-requests/service-stats/service-
     ContactsComponent,
     HomeComponent,
     ServiceStatsComponent,
+    UserStatsComponent,
   ],
   imports: [
     BrowserModule,
