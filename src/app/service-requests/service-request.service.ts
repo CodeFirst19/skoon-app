@@ -1,4 +1,3 @@
-import { UserService } from 'src/app/users/user.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
@@ -11,9 +10,10 @@ import { Router } from '@angular/router';
 export class ServiceRequestService {
   private services: ServiceRequest[] = [];
   private servicesUpdated = new Subject<{
-    services: ServiceRequest[],
-    servicesCount: number
+    services: ServiceRequest[];
+    servicesCount: number;
   }>();
+  private isLoadingListener = new Subject<boolean>();
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -37,7 +37,7 @@ export class ServiceRequestService {
                 status: service.status,
                 requestedOn: service.requestedOn,
                 returnedOn: service.returnedOn,
-                owner: service.owner
+                owner: service.owner,
               };
             }),
             totalServices: serviceData.result,
@@ -50,6 +50,7 @@ export class ServiceRequestService {
           services: [...this.services],
           servicesCount: transformedServicesData.totalServices,
         });
+        this.isLoadingListener.next(false);
         // console.log(transformedServicesData.services);
       });
   }
@@ -72,7 +73,7 @@ export class ServiceRequestService {
       )
       .subscribe((response) => {
         //Get returned service Id
-        const serviceId = {service: response.data['newService']._id };
+        const serviceId = { service: response.data['newService']._id };
         //Update user services property
         this.http
           .patch<{ status: string; data: {} }>(
@@ -80,15 +81,11 @@ export class ServiceRequestService {
             serviceId
           )
           .subscribe((response) => {
-            const user = response.data['user'];
-            console.log('Service added to user successfully');
-            console.log(user);
+            this.isLoadingListener.next(false);
           });
-        //console.log(response.data['newService']._id);
         this.showSweetSuccessToast('request sent successfully!');
         this.router.navigate(['/services']);
       });
-    //console.log(this.services);
   }
 
   updateStatus(id: string, status: string) {
@@ -110,24 +107,14 @@ export class ServiceRequestService {
         this.services[index].status = service.status;
         // this.servicesUpdated.next([...this.services]);
         this.showSweetSuccessToast('Status updated successfully!');
+        this.isLoadingListener.next(false)
         // console.log(responseData.status);
         this.router.navigate(['/services']);
       });
   }
 
-  sendMessage(id: string, message: string) {
-    // const service = { message: message };
-    // this.http
-    //   .patch<{ status: string; data: ServiceRequest[] }>(
-    //     `http://localhost:3000/api/v1/services/${id}`,
-    //     service
-    //   )
-    //   .subscribe((responseData) => {
-    //     // this.servicesUpdated.next([...this.services]);
-    //     this.showSweetSuccessToast('Message send successfully!');
-    //     console.log(responseData.status);
-    //     this.router.navigate(['/']);
-    //   });
+  getIsLoadingListener() {
+    return this.isLoadingListener.asObservable();
   }
 
   showSweetSuccessToast(message) {

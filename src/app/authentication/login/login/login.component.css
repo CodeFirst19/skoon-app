@@ -5,15 +5,14 @@ mat-card {
   margin-right: auto;
 }
 mat-form-field,
-
 mat-checkbox {
   width: 100%;
 }
 
-div,
 a {
   text-decoration: none;
   color: black;
+  cursor: pointer;
 }
 
 a:hover {
@@ -42,6 +41,7 @@ p {
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+  font-size: 120%;
 }
 .social-login a:hover {
   color: #fff;
@@ -63,4 +63,9 @@ p {
 }
 .social-login a.google:hover {
   background: #e82e1e;
+}
+mat-spinner {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10%;
 }

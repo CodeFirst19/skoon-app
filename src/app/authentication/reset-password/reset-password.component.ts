@@ -11,11 +11,12 @@ import { Subscription } from 'rxjs';
 })
 export class ResetPasswordComponent implements OnInit, OnDestroy {
   private passwordResetToken: string;
-  passwordResetSuccessful = false;
-  private passResetSuccessSubscription: Subscription;
+
+  isLoading: boolean = false;
+  private isLoadingSubscription: Subscription;
 
   constructor(
-    private passwordReset: PasswordResetService,
+    private passwordResetService: PasswordResetService,
     public route: ActivatedRoute
   ) {}
 
@@ -26,12 +27,10 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
         console.log(this.passwordResetToken);
       }
     });
-
-    this.passResetSuccessSubscription = this.passwordReset
-      .getPasswordUpdated()
-      .subscribe((passwordUpdated) => {
-        this.passwordResetSuccessful = passwordUpdated;
-        console.log(this.passwordResetSuccessful);
+    this.isLoadingSubscription = this.passwordResetService
+      .getIsLoadingListener()
+      .subscribe((isLoading) => {
+        this.isLoading = isLoading;
       });
   }
 
@@ -39,7 +38,8 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     if (form.invalid) {
       return;
     }
-    this.passwordReset.resetPassword(
+    this.isLoading = true;
+    this.passwordResetService.resetPassword(
       form.value.newPassword,
       form.value.newPasswordConfirm,
       this.passwordResetToken
@@ -48,6 +48,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-   this.passResetSuccessSubscription.add();
+    this.isLoadingSubscription.unsubscribe();
   }
 }

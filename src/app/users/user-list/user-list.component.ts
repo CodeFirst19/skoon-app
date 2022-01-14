@@ -41,6 +41,9 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatSort) sort: MatSort;
 
+  isLoading: boolean = false;
+  private isLoadingSubscription: Subscription;
+
   constructor(
     public dialog: MatDialog,
     private userService: UserService,
@@ -50,10 +53,14 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userService.getUsers(this.page, this.limit);
-
+    this.isLoading = true;
     this.userSubscription = this.userService
       .getUsersUpdateListener()
       .subscribe((userData: { users: User[]; usersCount: number }) => {
+        this.isLoadingSubscription = this.userService.getIsLoadingListener()
+          .subscribe((isLoading) => {
+            this.isLoading = isLoading;
+          });
         this.users = userData.users;
         console.log(this.users);
         this.totalUsers = userData.usersCount;
@@ -110,8 +117,8 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // FIXME:
     this.authListenerSubs.unsubscribe();
     this.userSubscription.unsubscribe();
+    this.isLoadingSubscription.unsubscribe();
   }
 }

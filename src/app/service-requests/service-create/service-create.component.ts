@@ -1,16 +1,17 @@
 import { AuthService } from 'src/app/authentication/auth.service';
 import { ServiceRequest } from './../service-requests.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ServiceRequestService } from './../service-request.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-service-create',
   templateUrl: './service-create.component.html',
   styleUrls: ['./service-create.component.css'],
 })
-export class ServiceCreateComponent implements OnInit {
+export class ServiceCreateComponent implements OnInit, OnDestroy {
   userId: string;
   todayDate: Date = new Date();
   serviceTypes = [
@@ -35,30 +36,27 @@ export class ServiceCreateComponent implements OnInit {
   private serviceId: string;
   private service: ServiceRequest;
 
+  isLoading: boolean = false;
+  private isLoadingSubscription: Subscription;
+
   constructor(
     private authService: AuthService,
-    public serviceRequestService: ServiceRequestService,
-    public route: ActivatedRoute
+    public serviceRequestService: ServiceRequestService
   ) {}
-
+  
   ngOnInit(): void {
     this.userId = this.authService.getUserId();
-    this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has('serviceId')) {
-        this.mode = 'edit';
-        this.serviceId = paramMap.get('serviceId');
-        this.service = this.serviceRequestService.getService(this.serviceId);
-      } else {
-        this.mode = 'create';
-        this.serviceId = null;
-      }
-    });
+    this.isLoadingSubscription = this.serviceRequestService.getIsLoadingListener()
+    .subscribe((isLoading) => {
+      this.isLoading = false;
+    })
   }
-
+  
   onAddService(form: NgForm) {
     if (form.invalid) {
       return;
     }
+    this.isLoading = true;
     const service: ServiceRequest = {
       id: null,
       serviceType: form.value.serviceType,
@@ -69,9 +67,13 @@ export class ServiceCreateComponent implements OnInit {
       status: this.status[0],
       requestedOn: new Date(Date.now()).toISOString(),
       returnedOn: null,
-      owner: this.userId
+      owner: this.userId,
     };
     this.serviceRequestService.addService(service);
     form.resetForm();
+  }
+
+  ngOnDestroy(): void {
+   this.isLoadingSubscription.unsubscribe();
   }
 }

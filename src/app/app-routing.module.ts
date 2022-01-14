@@ -16,7 +16,7 @@ import { ServiceCreateComponent } from './service-requests/service-create/servic
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
+  { path: 'signin', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
@@ -25,7 +25,6 @@ const routes: Routes = [
   { path: 'users', component: UserListComponent, canActivate: [AuthGuard] },
   { path: 'services', component: ServiceListComponent, canActivate: [AuthGuard] },
   { path: 'request-service', component: ServiceCreateComponent, canActivate: [AuthGuard] },
-  { path: 'edit-service/:serviceId', component: ServiceViewComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

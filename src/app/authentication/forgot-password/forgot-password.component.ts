@@ -1,6 +1,6 @@
 import { PasswordResetService } from './../password-reset.service';
 import { NgForm } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -8,24 +8,29 @@ import { Subscription } from 'rxjs';
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.css'],
 })
-export class ForgotPasswordComponent implements OnInit {
-  emailSent = false;
-  private emailSentSubscription: Subscription;
+export class ForgotPasswordComponent implements OnInit, OnDestroy {
+  isLoading: boolean = false;
+  private isLoadingSubscription: Subscription;
 
-  constructor(private passwordReset: PasswordResetService) {}
-
+  constructor(private passwordResetService: PasswordResetService) {}
+  
   ngOnInit(): void {
-    this.emailSentSubscription = this.passwordReset.getEmailSentUpdateListener()
-      .subscribe((emailSent) => {
-        this.emailSent = emailSent;
-      })
+    this.isLoadingSubscription = this.passwordResetService
+    .getIsLoadingListener()
+    .subscribe((isLoading) => {
+      this.isLoading = isLoading;
+    });
   }
-
+  
   onForgotPassword(form: NgForm) {
     if (form.invalid) {
       return;
     }
-    this.passwordReset.forgotPassword(form.value.email);
+    this.isLoading = true;
+    this.passwordResetService.forgotPassword(form.value.email);
     form.resetForm();
+  }
+  ngOnDestroy(): void {
+   this.isLoadingSubscription.unsubscribe();
   }
 }

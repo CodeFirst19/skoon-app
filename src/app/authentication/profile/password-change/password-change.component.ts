@@ -9,17 +9,16 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./password-change.component.css'],
 })
 export class PasswordChangeComponent implements OnInit, OnDestroy {
-  passwordUpdatedSuccessful = false;
-  private passUpdatedSuccessSubscription: Subscription;
+  isLoading: boolean = false;
+  private isLoadingSubscription: Subscription;
 
-  constructor(private passwordReset: PasswordResetService) {}
+  constructor(private passwordResetService: PasswordResetService) {}
 
   ngOnInit(): void {
-    this.passUpdatedSuccessSubscription = this.passwordReset
-      .getPasswordUpdated()
-      .subscribe((passwordUpdated) => {
-        this.passwordUpdatedSuccessful = passwordUpdated;
-        console.log(this.passwordUpdatedSuccessful);
+    this.isLoadingSubscription = this.passwordResetService
+      .getIsLoadingListener()
+      .subscribe((isLoading) => {
+        this.isLoading = isLoading;
       });
   }
 
@@ -27,7 +26,8 @@ export class PasswordChangeComponent implements OnInit, OnDestroy {
     if (form.invalid) {
       return;
     }
-    this.passwordReset.updatePassword(
+    this.isLoading = true;
+    this.passwordResetService.updatePassword(
       form.value.password,
       form.value.newPassword,
       form.value.newPasswordConfirm
@@ -36,6 +36,6 @@ export class PasswordChangeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.passUpdatedSuccessSubscription.unsubscribe()
+    this.isLoadingSubscription.unsubscribe();
   }
 }

@@ -1,5 +1,5 @@
-
-<mat-card class="p-5">
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-card class="p-5" *ngIf="!isLoading">
     <mat-card-title class="text-center mb-3">Sign Up</mat-card-title>
     <mat-card-content>
        <p class="mb-4 text-center">Please signup below to have access to our unlimited services</p>

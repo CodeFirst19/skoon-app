@@ -1,7 +1,7 @@
-
+<mat-spinner *ngIf="isLoading"></mat-spinner>
 <div class="mat-typography">
     <div class="">
-        <div class="wrapper" *ngIf="user">
+        <div class="wrapper" *ngIf="user && !isLoading">
             <div class="profile">
                 <div class="text-center">
                     <img mat-card-image src="../../../assets/images/profile-icon.png" />
@@ -22,9 +22,9 @@
                             <mat-icon>phone</mat-icon>
                         </button>
                         <p class="mt-1">
-                            {{user.phone.substring(0, 3)}} 
-                            {{user.phone.substring(3, 6)}} 
-                            {{user.phone.substring(6, 10)}} 
+                            {{ user.phone | slice:0:3 }} 
+                            {{ user.phone | slice:3:6 }} 
+                            {{ user.phone | slice:6:10 }}  
                         </p>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
                 <button mat-flat-button color="warn" (click)="onDeleteUserAccount()">Delete Account</button>
             </div>
         </div>
-        <div class="not-profile-data" *ngIf="!user">
+        <div class="not-profile-data" *ngIf="!user && !isLoading">
             <mat-card>
                 <mat-card-content>
                     <div class="alert alert-danger" role="alert">

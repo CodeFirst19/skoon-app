@@ -15,6 +15,9 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
   user: User;
   private userListenerSubs: Subscription;
 
+  isLoading: boolean = false;
+  private isLoadingSubscription: Subscription;
+
   constructor(
     public dialog: MatDialog,
     private authService: AuthService,
@@ -22,14 +25,18 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     const userId = this.authService.getUserId();
     this.userService.getUser(userId);
     this.userListenerSubs = this.userService
       .getUserUpdateListener()
       .subscribe((user) => {
         this.user = user;
-        // this.user = null;
-        console.log(this.user)
+       this.isLoadingSubscription = this.userService
+         .getIsLoadingListener()
+         .subscribe((isLoading) => {
+           this.isLoading = isLoading;
+         });
       });
   }
 
@@ -42,10 +49,11 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
   }
 
   onDeleteUserAccount() {
-    this.userService.deleteMe()
+    this.userService.deleteMe();
   }
 
   ngOnDestroy(): void {
-    this.userListenerSubs.unsubscribe()
+    this.userListenerSubs.unsubscribe();
+    this.isLoadingSubscription.unsubscribe()
   }
 }

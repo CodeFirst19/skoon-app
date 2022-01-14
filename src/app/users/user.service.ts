@@ -14,6 +14,8 @@ export class UserService {
   private usersUpdated = new Subject<{ users: User[]; usersCount: number }>();
   private userUpdated = new Subject<User>();
 
+  private isLoadingListener = new Subject<boolean>();
+
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   getUsers(page: number, limit: number) {
@@ -46,7 +48,7 @@ export class UserService {
           users: [...this.users],
           usersCount: transformedUsersData.totalUsers,
         });
-        // console.log(transformedServicesData.services);
+        this.isLoadingListener.next(false);
       });
   }
 
@@ -65,17 +67,29 @@ export class UserService {
       )
       .subscribe((response) => {
         this.user = response.data['user'];
-        this.userUpdated.next({...this.user})
+        this.userUpdated.next({ ...this.user });
+        this.isLoadingListener.next(false);
         // console.log(this.user);
       });
   }
 
   updateMe(user: {}) {
-    this.http.patch<{status: string, data: {}}>('http://localhost:3000/api/v1/users/update-me', user)
+    this.isLoadingListener.next(true);
+    this.http
+      .patch<{ status: string; data: {} }>(
+        'http://localhost:3000/api/v1/users/update-me',
+        user
+      )
       .subscribe((response) => {
         this.user = response.data['user'];
         this.userUpdated.next({ ...this.user });
-        this.showSweetSuccessToast('Updated', 'Your profile was successfully updated', 'success');
+        this.isLoadingListener.next(false);
+        this.isLoadingListener.next(false);
+        this.showSweetSuccessToast(
+          'Updated',
+          'Your profile was successfully updated',
+          'success'
+        );
       });
   }
 
@@ -90,20 +104,26 @@ export class UserService {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.http.delete<{ status: string; data: null }>(
-          'http://localhost:3000/api/v1/users/delete-me'
-        ).subscribe((response) => {
-          this.showSweetSuccessToast(
-            'Deleted!',
-            'Your account has been deleted permanently.',
-            'success'
+        this.isLoadingListener.next(true);
+        this.http
+          .delete<{ status: string; data: null }>(
+            'http://localhost:3000/api/v1/users/delete-me'
+          )
+          .subscribe((response) => {
+            this.isLoadingListener.next(false);
+            this.showSweetSuccessToast(
+              'Deleted!',
+              'Your account has been deleted permanently.',
+              'success'
             );
             this.authService.logout();
-          
-        })
-
+          });
       }
     });
+  }
+
+  getIsLoadingListener() {
+    return this.isLoadingListener.asObservable();
   }
 
   showSweetSuccessToast(tittle: string, message: string, response) {

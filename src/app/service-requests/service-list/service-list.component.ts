@@ -52,6 +52,9 @@ export class ServiceListComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatSort) sort: MatSort;
 
+  isLoading: boolean = false;
+  private isLoadingSubscription: Subscription;
+
   constructor(
     public dialog: MatDialog,
     private serviceService: ServiceRequestService,
@@ -61,6 +64,8 @@ export class ServiceListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.serviceService.getServices(this.page, this.limit);
+    //Show spinner
+    this.isLoading = true;
     this.serviceSubscription = this.serviceService
       .getServicesUpdateListener()
       .subscribe(
@@ -68,6 +73,12 @@ export class ServiceListComponent implements OnInit, OnDestroy {
           services: ServiceRequest[];
           servicesCount: number;
         }) => {
+          //Stop spinner
+          // this.isLoading = false;
+          this.isLoadingSubscription = this.serviceService.getIsLoadingListener()
+          .subscribe((isLoading) => {
+            this.isLoading = isLoading;
+          })
           this.services = serviceData.services;
           this.totalServices = serviceData.servicesCount;
           // console.log(this.services);
@@ -121,9 +132,10 @@ export class ServiceListComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        this.isLoading = true;
         this.serviceService.updateStatus(result.id, result.status);
-        console.log('The dialog was closed');
-        console.log(result);
+        // console.log('The dialog was closed');
+        // console.log(result);
       }
     });
   }
@@ -135,10 +147,11 @@ export class ServiceListComponent implements OnInit, OnDestroy {
       data: service,
     });
 
+    FIXME:
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         console.log(result.service.id);
-        this.serviceService.sendMessage(result.service.id, result.message);
+        // this.serviceService.sendMessage(result.service.id, result.message);
       }
     });
   }
@@ -167,8 +180,8 @@ export class ServiceListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // FIXME:
     this.authListenerSubs.unsubscribe();
     this.serviceSubscription.unsubscribe();
+    this.isLoadingSubscription.unsubscribe();
   }
 }

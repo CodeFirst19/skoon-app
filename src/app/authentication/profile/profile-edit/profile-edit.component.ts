@@ -52,8 +52,6 @@ export class ProfileEditComponent implements OnInit {
     if (form.invalid) {
       return;
     }
-    // console.log(form.value)
-    // console.log(this.socialProfiles);
      const user: {} = {
        preferredName: form.value.preferredName,
        address: form.value.address,

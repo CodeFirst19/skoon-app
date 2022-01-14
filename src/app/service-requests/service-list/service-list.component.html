@@ -1,8 +1,8 @@
 <app-service-stats></app-service-stats>
-<!-- Service able -->
-<mat-card class="mt-5">
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-card class="mt-5" *ngIf="services.length > 0 && !isLoading">
   <mat-card-content>
-    <div *ngIf="services.length > 0">
+    <div>
       <div class="search-div text-end">
         <mat-form-field class="example-full-width">
           <input matInput type="text" name="searchKey" [(ngModel)]="searchKey" placeholder="Type here to search..." (keydown)="applyFilter()" autocomplete="off"/>
@@ -76,8 +76,14 @@
         </mat-paginator>
       </div>
     </div>
-    <div class="no-services-returned" *ngIf="services.length <= 0">
+  </mat-card-content>
+</mat-card>
+<!-- Show if not services returned -->
+<mat-card class="services-not-found-message" *ngIf="services.length <= 0 && !isLoading">
+  <mat-card-content>
+    <div>
       <p>No services have been requested yet!</p>
     </div>
   </mat-card-content>
 </mat-card>
+

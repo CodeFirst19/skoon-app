@@ -4,7 +4,8 @@ mat-card {
   margin-left: auto;
   margin-right: auto;
 }
-mat-form-field, mat-checkbox,
+mat-form-field,
+mat-checkbox,
 input {
   width: 100%;
 }
@@ -12,3 +13,9 @@ input {
     display: block;
     margin-left: auto;
 } */
+
+mat-spinner {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10%;
+}

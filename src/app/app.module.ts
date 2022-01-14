@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
 import { NgxGaugeModule } from 'ngx-gauge';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
@@ -22,6 +23,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -84,7 +86,9 @@ import { UserStatsComponent } from './users/user-stats/user-stats.component';
     FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    SocialLoginModule,
     NgxGaugeModule,
+
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
@@ -102,8 +106,27 @@ import { UserStatsComponent } from './users/user-stats/user-stats.component';
     MatNativeDateModule,
     MatPaginatorModule,
     MatChipsModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '801836438696-eojjl4c8oob292rf61a6r6l9kfh1st6f.apps.googleusercontent.com'
+            ),
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('417082700164927'),
+          },
+        ],
+      } as SocialAuthServiceConfig,
+    },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],

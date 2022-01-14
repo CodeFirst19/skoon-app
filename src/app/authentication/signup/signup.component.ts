@@ -1,23 +1,33 @@
 import { Signup } from './signup.model';
 import { AuthService } from './../auth.service';
 import { NgForm } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   socialProfiles: string[] = [];
+
+  isLoading: boolean = false;
+  private isLoadingSubscription: Subscription;
+
   constructor(public authService: AuthService) {}
 
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isLoadingSubscription = this.authService
+      .getIsLoadingListener()
+      .subscribe((isLoading) => {
+        this.isLoading = isLoading;
+      });
+  }
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
@@ -43,7 +53,7 @@ export class SignupComponent implements OnInit {
     if (form.invalid) {
       return;
     }
-
+    this.isLoading = true;
     const user: Signup = {
       preferredName: form.value.preferredName,
       address: form.value.address,
@@ -56,5 +66,9 @@ export class SignupComponent implements OnInit {
 
     this.authService.signup(user);
     form.resetForm();
+  }
+
+  ngOnDestroy(): void {
+    this.isLoadingSubscription.unsubscribe();
   }
 }

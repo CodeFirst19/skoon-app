@@ -1,13 +1,15 @@
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/authentication/auth.service';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Injectable({ providedIn: 'root' })
 export class PasswordResetService {
-  private emailSentUpdated = new Subject<boolean>();
-  private passwordUpdated = new Subject<boolean>();
+  private isLoadingListener = new Subject<boolean>();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService, private router: Router) {}
 
   forgotPassword(email: string) {
     const userEmail = { email: email };
@@ -17,7 +19,12 @@ export class PasswordResetService {
         userEmail
       )
       .subscribe((response) => {
-        this.emailSentUpdated.next(true);
+        this.isLoadingListener.next(false);
+        this.showSweetSuccessToast(
+          'Sent',
+          'We have sent you an email with a password reset link. Please check your email inbox or spam folder.',
+          'success'
+        );
       });
   }
 
@@ -37,16 +44,14 @@ export class PasswordResetService {
         userPasswords
       )
       .subscribe((response) => {
-        this.passwordUpdated.next(true);
+        this.isLoadingListener.next(false);
+        this.showSweetSuccessToast(
+          'Updated',
+          'You have successfully reset your password. Please login again with a new password.',
+          'success'
+        );
+        this.router.navigate(['/signin']);
       });
-  }
-
-  getEmailSentUpdateListener() {
-    return this.emailSentUpdated.asObservable();
-  }
-
-  getPasswordUpdated() {
-    return this.passwordUpdated.asObservable();
   }
 
   updatePassword(
@@ -66,7 +71,21 @@ export class PasswordResetService {
         userPasswords
       )
       .subscribe((response) => {
-        this.passwordUpdated.next(true);
+        this.isLoadingListener.next(false);
+        this.showSweetSuccessToast(
+          'Updated',
+          'Your password was successfully updated. Please login again with a new password.',
+          'success'
+        );
+        this.authService.logout();
       });
+  }
+
+  getIsLoadingListener() {
+    return this.isLoadingListener.asObservable();
+  }
+
+  showSweetSuccessToast(tittle: string, message: string, response) {
+    Swal.fire(tittle, message, response);
   }
 }
