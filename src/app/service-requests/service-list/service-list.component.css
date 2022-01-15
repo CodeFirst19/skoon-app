@@ -1,15 +1,17 @@
 search-div {
-    width: 40%;
+  width: 40%;
 }
 
-mat-form-field, input {
-    width: 40%;
+mat-form-field,
+input {
+  width: 40%;
 }
-mat-card, mat-card-content {
-    width: 100%;
+mat-card,
+mat-card-content {
+  width: 100%;
 }
 table {
-    width: 100%;
+  width: 100%;
 }
 
 th.mat-sort-header-sorted {
@@ -17,12 +19,15 @@ th.mat-sort-header-sorted {
 }
 
 .services-not-found-message {
-    margin-top: 10%;
+  margin-top: 10%;
 }
 
 mat-spinner {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10%;
 }
 
+mat-icon {
+  vertical-align: middle;
+}

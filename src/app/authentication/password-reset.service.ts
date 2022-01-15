@@ -3,13 +3,18 @@ import { AuthService } from 'src/app/authentication/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import Swal from 'sweetalert2';
+import Swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Injectable({ providedIn: 'root' })
 export class PasswordResetService {
+  private errorListener = new Subject<{ message: string }>();
   private isLoadingListener = new Subject<boolean>();
 
-  constructor(private http: HttpClient, private authService: AuthService, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   forgotPassword(email: string) {
     const userEmail = { email: email };
@@ -20,12 +25,21 @@ export class PasswordResetService {
       )
       .subscribe((response) => {
         this.isLoadingListener.next(false);
-        this.showSweetSuccessToast(
-          'Sent',
+        this.errorListener.next({ message: null });
+        this.showSweetAlertToast(
+          'Email Sent',
           'We have sent you an email with a password reset link. Please check your email inbox or spam folder.',
           'success'
         );
-      });
+      }, (error) => {
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: error.error.message });
+          this.showSweetAlertToast(
+             'Email Failed',
+             'An error occurred while sending an email.',
+             'error'
+          );
+        });
   }
 
   resetPassword(
@@ -43,15 +57,27 @@ export class PasswordResetService {
         `http://localhost:3000/api/v1/users/reset-password/${token}`,
         userPasswords
       )
-      .subscribe((response) => {
-        this.isLoadingListener.next(false);
-        this.showSweetSuccessToast(
-          'Updated',
-          'You have successfully reset your password. Please login again with a new password.',
-          'success'
-        );
-        this.router.navigate(['/signin']);
-      });
+      .subscribe(
+        (response) => {
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: null });
+          this.showSweetAlertToast(
+            'Password Reset Successful',
+            'You have successfully reset your password. Please login again with a new password.',
+            'success'
+          );
+          this.router.navigate(['/signin']);
+        },
+        (error) => {
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: error.error.message });
+          this.showSweetAlertToast(
+            'Password Reset Failed',
+            'An error occurred while resetting your password.',
+            'error'
+          );
+        }
+      );
   }
 
   updatePassword(
@@ -72,20 +98,33 @@ export class PasswordResetService {
       )
       .subscribe((response) => {
         this.isLoadingListener.next(false);
-        this.showSweetSuccessToast(
-          'Updated',
-          'Your password was successfully updated. Please login again with a new password.',
+        this.errorListener.next({ message: null });
+        this.showSweetAlertToast(
+          'Password Updated Successful',
+          'Your password was successfully updated. We need to reauthenticate you. Please login again with your new password.',
           'success'
         );
         this.authService.logout();
-      });
+      }, (error) => {
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: error.error.message });
+          this.showSweetAlertToast(
+            'Password Update Failed',
+            'An error occurred while updating your password.',
+            'error'
+          );
+        });
+  }
+
+  getErrorListener() {
+    return this.errorListener.asObservable();
   }
 
   getIsLoadingListener() {
     return this.isLoadingListener.asObservable();
   }
 
-  showSweetSuccessToast(tittle: string, message: string, response) {
-    Swal.fire(tittle, message, response);
+  showSweetAlertToast(tittle: string, message: string, status: SweetAlertIcon) {
+    Swal.fire(tittle, message, status);
   }
 }

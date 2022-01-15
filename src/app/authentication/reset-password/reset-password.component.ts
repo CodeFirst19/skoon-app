@@ -12,6 +12,9 @@ import { Subscription } from 'rxjs';
 export class ResetPasswordComponent implements OnInit, OnDestroy {
   private passwordResetToken: string;
 
+  errorMsg: string;
+  private errorSubscription: Subscription;
+
   isLoading: boolean = false;
   private isLoadingSubscription: Subscription;
 
@@ -32,6 +35,11 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       .subscribe((isLoading) => {
         this.isLoading = isLoading;
       });
+    this.errorSubscription = this.passwordResetService
+      .getErrorListener()
+      .subscribe((errorMsg) => {
+        this.errorMsg = errorMsg.message;
+      });
   }
 
   onResetPassword(form: NgForm) {
@@ -49,5 +57,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.isLoadingSubscription.unsubscribe();
+    this.errorSubscription.unsubscribe();
   }
 }

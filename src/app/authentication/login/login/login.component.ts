@@ -11,7 +11,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  user: SocialUser;
+
+  errorMsg: string;
+  private errorSubscription: Subscription;
 
   isLoading: boolean = false;
   private isLoadingSubscription: Subscription;
@@ -20,7 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private socialAuthService: SocialAuthService
   ) {}
-  
+
   ngOnInit(): void {
     this.socialAuthService.authState.subscribe((user) => {
       if (user) {
@@ -28,6 +30,10 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.authService.socialLogin(user);
       }
     });
+    this.errorSubscription = this.authService.getErrorListener()
+      .subscribe((errorMsg) => {
+        this.errorMsg = errorMsg.message;
+      })
 
     this.isLoadingSubscription = this.authService
       .getIsLoadingListener()
@@ -35,7 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.isLoading = isLoading;
       });
   }
-  
+
   onLogin(form: NgForm) {
     if (form.invalid) {
       return;
@@ -45,11 +51,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       email: form.value.email,
       password: form.value.password,
     };
-    
+
     this.authService.login(user);
     form.resetForm();
   }
-  
+
   onSignInWithGoogle() {
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
@@ -58,5 +64,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.isLoadingSubscription.unsubscribe();
+    this.errorSubscription.unsubscribe();
   }
 }

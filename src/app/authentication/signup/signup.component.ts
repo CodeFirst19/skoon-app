@@ -16,6 +16,9 @@ export class SignupComponent implements OnInit, OnDestroy {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   socialProfiles: string[] = [];
 
+  errorMsg: string;
+  private errorSubscription: Subscription;
+
   isLoading: boolean = false;
   private isLoadingSubscription: Subscription;
 
@@ -26,6 +29,12 @@ export class SignupComponent implements OnInit, OnDestroy {
       .getIsLoadingListener()
       .subscribe((isLoading) => {
         this.isLoading = isLoading;
+      });
+
+    this.errorSubscription = this.authService
+      .getErrorListener()
+      .subscribe((errorMsg) => {
+        this.errorMsg = errorMsg.message;
       });
   }
 
@@ -70,5 +79,6 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.isLoadingSubscription.unsubscribe();
+    this.errorSubscription.unsubscribe();
   }
 }

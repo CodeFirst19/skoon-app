@@ -1,6 +1,9 @@
 <app-user-stats></app-user-stats>
+<div class="alert alert-danger mt-3" role="alert" *ngIf="errorMsg && numUsers">
+ <mat-icon>error</mat-icon> {{ errorMsg }}
+</div>
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<mat-card class="mt-5" *ngIf="users.length > 0 && !isLoading">
+<mat-card class="mt-4" *ngIf="numUsers && !isLoading">
   <mat-card-content>
     <div>
       <div class="search-div text-end">
@@ -72,10 +75,13 @@
   </mat-card-content>
 </mat-card>
 <!-- Show if not services returned -->
-<mat-card class="users-not-found-message" *ngIf="users.length <= 0 && !isLoading">
+<mat-card class="users-not-found-message" *ngIf="!numUsers && !isLoading">
   <mat-card-content>
-    <div>
-      <p>No users have have been found!</p>
+     <div class="alert alert-danger" role="alert">
+      <h2 class="alert-heading"><mat-icon>error</mat-icon> No Users Found!</h2>
+      <p>{{ errorMsg }}</p>
+      <hr>
+      <p class="mb-0">Might be that no user signed up yet or the page you requested does not exists.</p>
     </div>
   </mat-card-content>
 </mat-card>

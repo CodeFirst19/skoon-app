@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ServiceRequest } from './service-requests.model';
-import Swal from 'sweetalert2';
+import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
@@ -13,6 +13,8 @@ export class ServiceRequestService {
     services: ServiceRequest[];
     servicesCount: number;
   }>();
+
+  private errorListener = new Subject<{ message: string }>();
   private isLoadingListener = new Subject<boolean>();
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -51,14 +53,11 @@ export class ServiceRequestService {
           servicesCount: transformedServicesData.totalServices,
         });
         this.isLoadingListener.next(false);
-        // console.log(transformedServicesData.services);
+        this.errorListener.next({ message: null });
+      }, (error) => {
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: error.error.message });
       });
-  }
-
-  getService(id: string) {
-    console.log(this.services);
-    console.log(this.services.find((s) => s.id === id));
-    return { ...this.services.find((s) => s.id === id) };
   }
 
   getServicesUpdateListener() {
@@ -74,6 +73,7 @@ export class ServiceRequestService {
       .subscribe((response) => {
         //Get returned service Id
         const serviceId = { service: response.data['newService']._id };
+        FIXME:
         //Update user services property
         this.http
           .patch<{ status: string; data: {} }>(
@@ -81,10 +81,21 @@ export class ServiceRequestService {
             serviceId
           )
           .subscribe((response) => {
-            this.isLoadingListener.next(false);
-          });
-        this.showSweetSuccessToast('request sent successfully!');
+              this.isLoadingListener.next(false);
+              this.errorListener.next({ message: null });
+            }, (error) => {
+              this.isLoadingListener.next(false);
+              this.errorListener.next({ message: error.error.message });
+              console.log(error.error.message);
+            },
+          );
+        this.showSweetAlertToast('Request Sent', 'Your request was sent successfully!', 'success');
         this.router.navigate(['/services']);
+      }, (error) => {
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: error.error.message });
+          this.showSweetAlertToast('Request Failed', 'Error occurred while sending the request!', 'error');
+          console.log(error.error.message);
       });
   }
 
@@ -102,22 +113,33 @@ export class ServiceRequestService {
         `http://localhost:3000/api/v1/services/${id}`,
         service
       )
-      .subscribe((responseData) => {
-        const index = this.services.findIndex((s) => s.id === id);
-        this.services[index].status = service.status;
-        // this.servicesUpdated.next([...this.services]);
-        this.showSweetSuccessToast('Status updated successfully!');
-        this.isLoadingListener.next(false)
-        // console.log(responseData.status);
-        this.router.navigate(['/services']);
-      });
+      .subscribe(
+        (response) => {
+          const index = this.services.findIndex((s) => s.id === id);
+          this.services[index].status = service.status;
+          this.showSweetAlertToast('Status Updated', 'Status updated successfully!', 'success');
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: null });
+          this.router.navigate(['/services']);
+        },
+        (error) => {
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: error.error.message });
+          this.showSweetAlertToast('Update Failed', 'Error occurred while updating the status!', 'error');
+          console.log(error.error.message);
+        }
+      );
+  }
+
+  getErrorListener() {
+    return this.errorListener.asObservable();
   }
 
   getIsLoadingListener() {
     return this.isLoadingListener.asObservable();
   }
 
-  showSweetSuccessToast(message) {
-    Swal.fire('Success!', message, 'success');
+  showSweetAlertToast(title: string, message: string, status: SweetAlertIcon) {
+    Swal.fire(title, message, status);
   }
 }

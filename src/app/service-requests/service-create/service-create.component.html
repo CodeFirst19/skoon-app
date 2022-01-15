@@ -2,6 +2,9 @@
 <mat-card *ngIf="!isLoading">
   <mat-card-title class="mb-3">Unlimited Packages</mat-card-title>
   <mat-card-content>
+  <div class="alert alert-danger global-service-error mt-3" role="alert" *ngIf="errorMsg">
+    <mat-icon>error</mat-icon> {{ errorMsg }}
+  </div>
     <form
       (submit)="onAddService(serviceForm)" #serviceForm="ngForm" autocomplete="off">
       <!-- Service Type -->

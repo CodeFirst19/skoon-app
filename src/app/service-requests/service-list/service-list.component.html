@@ -1,6 +1,9 @@
 <app-service-stats></app-service-stats>
+<div class="alert alert-danger mt-3" role="alert" *ngIf="errorMsg && numServices">
+ <mat-icon>error</mat-icon> {{ errorMsg }}
+</div>
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<mat-card class="mt-5" *ngIf="services.length > 0 && !isLoading">
+<mat-card class="mt-4" *ngIf="numServices && !isLoading">
   <mat-card-content>
     <div>
       <div class="search-div text-end">
@@ -79,10 +82,13 @@
   </mat-card-content>
 </mat-card>
 <!-- Show if not services returned -->
-<mat-card class="services-not-found-message" *ngIf="services.length <= 0 && !isLoading">
+<mat-card class="services-not-found-message" *ngIf="!numServices && !isLoading">
   <mat-card-content>
-    <div>
-      <p>No services have been requested yet!</p>
+    <div class="alert alert-danger" role="alert">
+      <h2 class="alert-heading"><mat-icon>error</mat-icon> No Orders Found!</h2>
+      <p>{{ errorMsg }}</p>
+      <hr>
+      <p class="mb-0">Might be that users made no orders or the page you requested does not exists.</p>
     </div>
   </mat-card-content>
 </mat-card>

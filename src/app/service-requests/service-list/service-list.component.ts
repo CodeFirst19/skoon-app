@@ -2,12 +2,7 @@ import { AuthService } from './../../authentication/auth.service';
 import { ServiceViewComponent } from './../service-view/service-view.component';
 import { ServiceRequestService } from '../service-request.service';
 import { ServiceRequest } from '../service-requests.model';
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  OnDestroy,
-} from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
@@ -43,7 +38,9 @@ export class ServiceListComponent implements OnInit, OnDestroy {
     'viewMore',
   ];
   private serviceSubscription: Subscription;
-
+  //DOM Rendering
+  numServices: number;
+  // Pagination
   totalServices: number = 0;
   limit: number = 5;
   page: number = 1;
@@ -51,6 +48,9 @@ export class ServiceListComponent implements OnInit, OnDestroy {
   searchKey: string = '';
 
   @ViewChild(MatSort) sort: MatSort;
+
+  errorMsg: string;
+  private errorSubscription: Subscription;
 
   isLoading: boolean = false;
   private isLoadingSubscription: Subscription;
@@ -73,14 +73,9 @@ export class ServiceListComponent implements OnInit, OnDestroy {
           services: ServiceRequest[];
           servicesCount: number;
         }) => {
-          //Stop spinner
-          // this.isLoading = false;
-          this.isLoadingSubscription = this.serviceService.getIsLoadingListener()
-          .subscribe((isLoading) => {
-            this.isLoading = isLoading;
-          })
           this.services = serviceData.services;
           this.totalServices = serviceData.servicesCount;
+          this.numServices = serviceData.servicesCount;
           // console.log(this.services);
           this.dataSource = new MatTableDataSource<ServiceRequest>(
             this.services
@@ -90,6 +85,19 @@ export class ServiceListComponent implements OnInit, OnDestroy {
           });
         }
       );
+    //Stop spinner
+    this.isLoadingSubscription = this.serviceService
+      .getIsLoadingListener()
+      .subscribe((isLoading) => {
+        this.isLoading = isLoading;
+      });
+
+    this.errorSubscription = this.serviceService
+      .getErrorListener()
+      .subscribe((errorMsg) => {
+        this.errorMsg = errorMsg.message;
+      });
+      
     this.userIsAuthenticated = this.authService.getIsAuthenticated();
     this.authListenerSubs = this.authService
       .getAuthStatusListener()
@@ -147,8 +155,7 @@ export class ServiceListComponent implements OnInit, OnDestroy {
       data: service,
     });
 
-    FIXME:
-    dialogRef.afterClosed().subscribe((result) => {
+    FIXME: dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         console.log(result.service.id);
         // this.serviceService.sendMessage(result.service.id, result.message);
@@ -183,5 +190,6 @@ export class ServiceListComponent implements OnInit, OnDestroy {
     this.authListenerSubs.unsubscribe();
     this.serviceSubscription.unsubscribe();
     this.isLoadingSubscription.unsubscribe();
+    this.errorSubscription.unsubscribe();
   }
 }

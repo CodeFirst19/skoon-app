@@ -1,88 +1,168 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 <mat-card class="p-5" *ngIf="!isLoading">
-    <mat-card-title class="text-center mb-3">Sign Up</mat-card-title>
-    <mat-card-content>
-       <p class="mb-4 text-center">Please signup below to have access to our unlimited services</p>
-        <form (submit)="onSignup(signupForm)" #signupForm="ngForm">
+  <mat-card-title class="text-center mb-3">Sign Up</mat-card-title>
+  <mat-card-content>
+    <p class="mb-4 text-center">
+      Please signup below to have access to our unlimited services
+    </p>
+    <div class="alert alert-danger" role="alert" *ngIf="errorMsg">
+      {{ errorMsg }}
+    </div>
+    <form (submit)="onSignup(signupForm)" #signupForm="ngForm">
+      <mat-form-field class="example-full-width">
+        <mat-label>Preferred Name</mat-label>
+        <input
+          matInput
+          type="text"
+          name="preferredName"
+          #name="ngModel"
+          ngModel
+          required
+        />
+        <mat-error *ngIf="name.invalid"
+          >Preferred name is <strong>required</strong></mat-error
+        >
+      </mat-form-field>
+      <!-- Address -->
+      <mat-form-field class="example-full-width">
+        <mat-label>Address</mat-label>
+        <input
+          matInput
+          type="text"
+          name="address"
+          #address="ngModel"
+          ngModel
+          required
+        />
+        <mat-error *ngIf="address.invalid"
+          >Email address is <strong>required</strong></mat-error
+        >
+      </mat-form-field>
+      <div class="row">
+        <div class="col-md-6">
+          <!-- Email Address -->
           <mat-form-field class="example-full-width">
-            <mat-label>Preferred Name</mat-label>
-            <input matInput type="text" name="preferredName" #name="ngModel" ngModel required/>
-            <mat-error *ngIf="name.invalid">Preferred name is <strong>required</strong></mat-error>
-          </mat-form-field>  
-          <!-- Address -->
-          <mat-form-field class="example-full-width">
-            <mat-label>Address</mat-label>
-            <input 
-              matInput 
-              type="text" 
-              name="address" #address="ngModel" 
-              ngModel 
-              required/>
-            <mat-error *ngIf="address.invalid">Email address is <strong>required</strong></mat-error>
-          </mat-form-field>  
-          <div class="row">
-            <div class="col-md-6">
-              <!-- Email Address -->
-               <mat-form-field class="example-full-width">
-                <mat-label>Email address</mat-label>
-                <input matInput type="email" name="email" #email="ngModel" ngModel required email/>
-                <mat-error *ngIf="email.invalid">Email address is <strong>required</strong></mat-error>
-               </mat-form-field>  
-            </div>
-            <div class="col-md-6">
-              <!-- Phone Number -->
-               <mat-form-field class="example-full-width">
-                <mat-label>Phone Number</mat-label>
-                <input matInput type="tel" name="phone" #phone="ngModel" ngModel required phone/>
-                <mat-error *ngIf="phone.invalid">Phone number is <strong>required</strong></mat-error>
-              </mat-form-field>  
-            </div>
-          </div>
-          <!-- Social Media Handles -->
-          <mat-form-field class="example-chip-list">
-            <mat-label>Social Media Handles</mat-label>
-            <mat-chip-list #chipList aria-label="Fruit selection">
-              <mat-chip *ngFor="let element of socialProfiles" (removed)="remove(element)">
-                {{element}}
-                <button matChipRemove>
-                  <mat-icon>cancel</mat-icon>
-                </button>
-              </mat-chip>
-              <input placeholder="Enter item and click ENTER ans so on...(optional)"
-                    [matChipInputFor]="chipList"
-                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                    [matChipInputAddOnBlur]="addOnBlur"
-                    (matChipInputTokenEnd)="add($event)"
-                    name="socialMediaHandles" #socialMediaHandles="ngModel" ngModel>
-            </mat-chip-list>
+            <mat-label>Email address</mat-label>
+            <input
+              matInput
+              type="email"
+              name="email"
+              #email="ngModel"
+              ngModel
+              required
+              email
+            />
+            <mat-error *ngIf="email.invalid"
+              >Email address is <strong>required</strong></mat-error
+            >
           </mat-form-field>
-          <div class="row">
-            <div class="col-md-6">
-              <!-- Password -->
-              <mat-form-field class="example-full-width">
-                <mat-label>Password</mat-label>
-                <input matInput type="password" name="password" #password="ngModel" ngModel required autocomplete="new-password"/>
-                <mat-error *ngIf="password.invalid">Password is <strong>required</strong></mat-error>
-              </mat-form-field>
-            </div>
-            <div class="col-md-6">
-              <!-- Password confirm -->
-              <mat-form-field class="example-full-width">
-                <mat-label>Confirm Password</mat-label>
-                <input matInput type="password" name="passwordConfirm" #passwordConfirm="ngModel" ngModel required/>
-                <mat-error *ngIf="passwordConfirm.invalid">Password confirmation is <strong>required</strong></mat-error>
-              </mat-form-field>
-            </div>
-          </div>
-          <mat-checkbox class="mt-3" color="primary">By signing up, you agree to the Terms of Service</mat-checkbox>
-          <!-- Signup button -->
-          <div class="d-grid gap-2 mt-4">
-            <button mat-flat-button class="btn btn rounded-pill py-1" color="primary" type="submit">Sign Up</button>
-          </div>
-           <!-- <button class="mt-2" type="submit" mat-raised-button color="primary" [disabled]="signupForm.invalid">Signup</button>  -->
-          <div class="text-center mt-3">
-            <p>Already have an account?<a mat-button class="login-signup-button font-weight-bolder px-0">Login</a></p>
-          </div>
+        </div>
+        <div class="col-md-6">
+          <!-- Phone Number -->
+          <mat-form-field class="example-full-width">
+            <mat-label>Phone Number</mat-label>
+            <input
+              matInput
+              type="tel"
+              name="phone"
+              #phone="ngModel"
+              ngModel
+              required
+              phone
+            />
+            <mat-error *ngIf="phone.invalid"
+              >Phone number is <strong>required</strong></mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- Social Media Handles -->
+      <mat-form-field class="example-chip-list">
+        <mat-label>Social Media Handles</mat-label>
+        <mat-chip-list #chipList aria-label="Fruit selection">
+          <mat-chip
+            *ngFor="let element of socialProfiles"
+            (removed)="remove(element)"
+          >
+            {{ element }}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input
+            placeholder="Enter item and click ENTER ans so on...(optional)"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)"
+            name="socialMediaHandles"
+            #socialMediaHandles="ngModel"
+            ngModel
+          />
+        </mat-chip-list>
+      </mat-form-field>
+      <div class="row">
+        <div class="col-md-6">
+          <!-- Password -->
+          <mat-form-field class="example-full-width">
+            <mat-label>Password</mat-label>
+            <input
+              matInput
+              type="password"
+              name="password"
+              #password="ngModel"
+              ngModel
+              required
+              autocomplete="new-password"
+            />
+            <mat-error *ngIf="password.invalid"
+              >Password is <strong>required</strong></mat-error
+            >
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <!-- Password confirm -->
+          <mat-form-field class="example-full-width">
+            <mat-label>Confirm Password</mat-label>
+            <input
+              matInput
+              type="password"
+              name="passwordConfirm"
+              #passwordConfirm="ngModel"
+              ngModel
+              required
+            />
+            <mat-error *ngIf="passwordConfirm.invalid"
+              >Password confirmation is <strong>required</strong></mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+      <mat-checkbox class="mt-3" color="primary"
+        >By signing up, you agree to the Terms of Service</mat-checkbox
+      >
+      <!-- Signup button -->
+      <div class="d-grid gap-2 mt-4">
+        <button
+          mat-flat-button
+          class="btn btn rounded-pill py-1"
+          color="primary"
+          type="submit"
+        >
+          Sign Up
+        </button>
+      </div>
+      <!-- <button class="mt-2" type="submit" mat-raised-button color="primary" [disabled]="signupForm.invalid">Signup</button>  -->
+      <div class="text-center mt-3">
+        <p>
+          Already have an account?<a
+            mat-button
+            class="login-signup-button font-weight-bolder px-0"
+            routerLink="/signin"
+            >Login</a
+          >
+        </p>
+      </div>
     </form>
   </mat-card-content>
 </mat-card>

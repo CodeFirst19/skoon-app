@@ -9,6 +9,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./password-change.component.css'],
 })
 export class PasswordChangeComponent implements OnInit, OnDestroy {
+  errorMsg: string;
+  private errorSubscription: Subscription;
+
   isLoading: boolean = false;
   private isLoadingSubscription: Subscription;
 
@@ -19,6 +22,11 @@ export class PasswordChangeComponent implements OnInit, OnDestroy {
       .getIsLoadingListener()
       .subscribe((isLoading) => {
         this.isLoading = isLoading;
+      });
+    this.errorSubscription = this.passwordResetService
+      .getErrorListener()
+      .subscribe((errorMsg) => {
+        this.errorMsg = errorMsg.message;
       });
   }
 
@@ -37,5 +45,6 @@ export class PasswordChangeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.isLoadingSubscription.unsubscribe();
+    this.errorSubscription.unsubscribe();
   }
 }

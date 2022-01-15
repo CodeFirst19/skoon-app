@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/authentication/auth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile-view',
@@ -14,6 +15,9 @@ import { MatDialog } from '@angular/material/dialog';
 export class ProfileViewComponent implements OnInit, OnDestroy {
   user: User;
   private userListenerSubs: Subscription;
+
+  errorMsg: string;
+  private errorSubscription: Subscription;
 
   isLoading: boolean = false;
   private isLoadingSubscription: Subscription;
@@ -32,11 +36,18 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
       .getUserUpdateListener()
       .subscribe((user) => {
         this.user = user;
-       this.isLoadingSubscription = this.userService
-         .getIsLoadingListener()
-         .subscribe((isLoading) => {
-           this.isLoading = isLoading;
-         });
+      });
+
+    this.isLoadingSubscription = this.userService
+      .getIsLoadingListener()
+      .subscribe((isLoading) => {
+        this.isLoading = isLoading;
+      });
+
+    this.errorSubscription = this.userService
+      .getErrorListener()
+      .subscribe((errorMsg) => {
+        this.errorMsg = errorMsg.message;
       });
   }
 
@@ -49,11 +60,25 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
   }
 
   onDeleteUserAccount() {
-    this.userService.deleteMe();
+    Swal.fire({
+      title: 'Are you sure you want to permanently delete your account?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3F51B5',
+      cancelButtonColor: '#F44336',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
+        this.userService.deleteMe();
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.userListenerSubs.unsubscribe();
-    this.isLoadingSubscription.unsubscribe()
+    this.isLoadingSubscription.unsubscribe();
+    this.errorSubscription.unsubscribe();
   }
 }

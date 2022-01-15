@@ -3,8 +3,8 @@ import { ServiceRequest } from './../service-requests.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ServiceRequestService } from './../service-request.service';
-import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-service-create',
@@ -32,9 +32,8 @@ export class ServiceCreateComponent implements OnInit, OnDestroy {
     'Cancelled',
   ];
 
-  private mode = 'create';
-  private serviceId: string;
-  private service: ServiceRequest;
+  errorMsg: string;
+  private errorSubscription: Subscription;
 
   isLoading: boolean = false;
   private isLoadingSubscription: Subscription;
@@ -43,37 +42,56 @@ export class ServiceCreateComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     public serviceRequestService: ServiceRequestService
   ) {}
-  
+
   ngOnInit(): void {
     this.userId = this.authService.getUserId();
-    this.isLoadingSubscription = this.serviceRequestService.getIsLoadingListener()
-    .subscribe((isLoading) => {
-      this.isLoading = false;
-    })
+    this.isLoadingSubscription = this.serviceRequestService
+      .getIsLoadingListener()
+      .subscribe((isLoading) => {
+        this.isLoading = isLoading;
+      });
+    this.errorSubscription = this.serviceRequestService
+      .getErrorListener()
+      .subscribe((errorMsg) => {
+        this.errorMsg = errorMsg.message;
+      });
   }
-  
+
   onAddService(form: NgForm) {
     if (form.invalid) {
       return;
     }
-    this.isLoading = true;
-    const service: ServiceRequest = {
-      id: null,
-      serviceType: form.value.serviceType,
-      reference: form.value.reference,
-      pickupTime: form.value.pickupTime,
-      paymentMethod: form.value.paymentMethod,
-      paymentStatus: 'Pending',
-      status: this.status[0],
-      requestedOn: new Date(Date.now()).toISOString(),
-      returnedOn: null,
-      owner: this.userId,
-    };
-    this.serviceRequestService.addService(service);
-    form.resetForm();
+    Swal.fire({
+      title: 'Proceed?',
+      text: "You won't be able to update this order once it is created!",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3F51B5',
+      cancelButtonColor: '#F44336',
+      confirmButtonText: 'Yes, create it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
+        const service: ServiceRequest = {
+          id: null,
+          serviceType: form.value.serviceType,
+          reference: form.value.reference,
+          pickupTime: form.value.pickupTime,
+          paymentMethod: form.value.paymentMethod,
+          paymentStatus: 'Pending',
+          status: this.status[0],
+          requestedOn: new Date(Date.now()).toISOString(),
+          returnedOn: null,
+          owner: this.userId,
+        };
+        this.serviceRequestService.addService(service);
+        form.resetForm();
+      }
+    });
   }
 
   ngOnDestroy(): void {
-   this.isLoadingSubscription.unsubscribe();
+    this.isLoadingSubscription.unsubscribe();
+    this.errorSubscription.unsubscribe();
   }
 }

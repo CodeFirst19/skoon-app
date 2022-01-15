@@ -31,7 +31,8 @@ export class UserListComponent implements OnInit, OnDestroy {
     'viewMore',
   ];
   private userSubscription: Subscription;
-
+  //DOM Rendering
+  numUsers: number;
   //For pagination
   totalUsers: number = 0;
   limit: number = 5;
@@ -40,6 +41,9 @@ export class UserListComponent implements OnInit, OnDestroy {
   searchKey: string = '';
 
   @ViewChild(MatSort) sort: MatSort;
+
+  errorMsg: string;
+  private errorSubscription: Subscription;
 
   isLoading: boolean = false;
   private isLoadingSubscription: Subscription;
@@ -57,18 +61,28 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.userSubscription = this.userService
       .getUsersUpdateListener()
       .subscribe((userData: { users: User[]; usersCount: number }) => {
-        this.isLoadingSubscription = this.userService.getIsLoadingListener()
-          .subscribe((isLoading) => {
-            this.isLoading = isLoading;
-          });
         this.users = userData.users;
         console.log(this.users);
         this.totalUsers = userData.usersCount;
+        this.numUsers = userData.usersCount;
         this.dataSource = new MatTableDataSource<User>(this.users);
         setTimeout(() => {
           this.dataSource.sort = this.sort;
         });
       });
+
+    this.isLoadingSubscription = this.userService
+      .getIsLoadingListener()
+      .subscribe((isLoading) => {
+        this.isLoading = isLoading;
+      });
+
+    this.errorSubscription = this.userService
+      .getErrorListener()
+      .subscribe((errorMsg) => {
+        this.errorMsg = errorMsg.message;
+      });
+      
     this.userIsAuthenticated = this.authService.getIsAuthenticated();
     this.authListenerSubs = this.authService
       .getAuthStatusListener()
@@ -120,5 +134,6 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.authListenerSubs.unsubscribe();
     this.userSubscription.unsubscribe();
     this.isLoadingSubscription.unsubscribe();
+    this.errorSubscription.unsubscribe();
   }
 }

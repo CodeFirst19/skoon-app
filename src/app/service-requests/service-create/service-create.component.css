@@ -1,5 +1,5 @@
 mat-card {
-  margin-top: 10%;
+  margin-top: 7%;
 }
 mat-form-field,
 mat-radio-group {
@@ -18,4 +18,8 @@ mat-spinner {
   margin-left: auto;
   margin-right: auto;
   margin-top: 10%;
+}
+
+mat-icon {
+  vertical-align: middle;
 }

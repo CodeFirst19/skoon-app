@@ -14,6 +14,7 @@ export class UserService {
   private usersUpdated = new Subject<{ users: User[]; usersCount: number }>();
   private userUpdated = new Subject<User>();
 
+  private errorListener = new Subject<{ message: string }>();
   private isLoadingListener = new Subject<boolean>();
 
   constructor(private http: HttpClient, private authService: AuthService) {}
@@ -49,6 +50,10 @@ export class UserService {
           usersCount: transformedUsersData.totalUsers,
         });
         this.isLoadingListener.next(false);
+        this.errorListener.next({ message: null });
+      }, (error) => {
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: error.error.message });
       });
   }
 
@@ -66,11 +71,15 @@ export class UserService {
         `http://localhost:3000/api/v1/users/${id}`
       )
       .subscribe((response) => {
-        this.user = response.data['user'];
-        this.userUpdated.next({ ...this.user });
-        this.isLoadingListener.next(false);
-        // console.log(this.user);
-      });
+          this.user = response.data['user'];
+          this.userUpdated.next({ ...this.user });
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: null });
+        }, (error) => {
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: error.error.message });
+        }
+      );
   }
 
   updateMe(user: {}) {
@@ -85,41 +94,50 @@ export class UserService {
         this.userUpdated.next({ ...this.user });
         this.isLoadingListener.next(false);
         this.isLoadingListener.next(false);
+        this.errorListener.next({ message: null });
         this.showSweetSuccessToast(
           'Updated',
           'Your profile was successfully updated',
           'success'
         );
+      }, (error) => {
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: error.error.message });
+           this.showSweetSuccessToast(
+             'Update Failed!',
+             'An error occurred while trying to update your profile.',
+             'error'
+           );
       });
   }
 
   deleteMe() {
-    Swal.fire({
-      title: 'Are you sure you want to permanently delete your account?',
-      text: "You won't be able to revert this!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3F51B5',
-      cancelButtonColor: '#F44336',
-      confirmButtonText: 'Yes, delete it!',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.isLoadingListener.next(true);
-        this.http
-          .delete<{ status: string; data: null }>(
-            'http://localhost:3000/api/v1/users/delete-me'
-          )
-          .subscribe((response) => {
-            this.isLoadingListener.next(false);
-            this.showSweetSuccessToast(
-              'Deleted!',
-              'Your account has been deleted permanently.',
-              'success'
-            );
-            this.authService.logout();
-          });
-      }
-    });
+    this.http
+      .delete<{ status: string; data: null }>(
+        'http://localhost:3000/api/v1/users/delete-me'
+      )
+      .subscribe((response) => {
+        this.isLoadingListener.next(false);
+        this.errorListener.next({ message: null });
+        this.showSweetSuccessToast(
+          'Deleted!',
+          'Your account has been deleted permanently.',
+          'success'
+        );
+        this.authService.logout();
+      }, (error) => {
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: error.error.message });
+          this.showSweetSuccessToast(
+            'Delete Failed!',
+            'An error occurred while trying to delete your account.',
+            'error'
+          );
+      });
+  }
+
+  getErrorListener() {
+    return this.errorListener.asObservable();
   }
 
   getIsLoadingListener() {

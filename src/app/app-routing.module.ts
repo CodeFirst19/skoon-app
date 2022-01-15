@@ -1,3 +1,4 @@
+import { NotFoundComponent } from './not-found/not-found.component';
 import { HomeComponent } from './home/home.component';
 import { PasswordChangeComponent } from './authentication/profile/password-change/password-change.component';
 import { ProfileViewComponent } from './authentication/profile/profile-view/profile-view.component';
@@ -21,10 +22,11 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
   { path: 'my-profile', component: ProfileViewComponent, canActivate: [AuthGuard] },
-  { path: 'update-profile', component: PasswordChangeComponent, canActivate: [AuthGuard] },
+  { path: 'update-password', component: PasswordChangeComponent, canActivate: [AuthGuard] },
   { path: 'users', component: UserListComponent, canActivate: [AuthGuard] },
   { path: 'services', component: ServiceListComponent, canActivate: [AuthGuard] },
   { path: 'request-service', component: ServiceCreateComponent, canActivate: [AuthGuard] },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({
