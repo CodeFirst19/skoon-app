@@ -1,17 +1,12 @@
 main {
     margin-top: 2%;
+    margin-left: 10%;
+    margin-right: 10%;
 }
-
-/* @media only screen and (max-width: 736px) and (orientation:portrait) {
-    mat-header-row, mat-row {
-      width: 100%; 
-    }
-
-    mat-row{
-        font-size:8px;
-    }
-
-   mat-cell{
-    font-size:8px;  
-   }
-} */
+@media screen and (max-width: 768px) {
+ main {
+    margin-left: 2%;
+    margin-right: 2%;
+    padding-top: 8%;
+ }
+}

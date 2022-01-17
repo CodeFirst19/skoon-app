@@ -53,8 +53,8 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
 
   onEditProfileDialog(user): void {
     this.dialog.open(ProfileEditComponent, {
+      panelClass: 'dialog-responsive',
       autoFocus: false,
-      width: '45%',
       data: user,
     });
   }

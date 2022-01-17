@@ -31,3 +31,6 @@ mat-spinner {
 mat-icon {
   vertical-align: middle;
 }
+@media screen and (max-width: 768px) {
+ 
+}

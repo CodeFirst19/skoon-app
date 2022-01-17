@@ -27,7 +27,7 @@
   color: #fff;
 }
 #hero h1 span {
-  border-bottom: 4px solid #009961;
+  border-bottom: 4px solid #3F51B5;
 }
 #hero h2 {
   color: rgba(255, 255, 255, 0.8);
@@ -35,7 +35,6 @@
   font-size: 24px;
 }
 #hero .btn-get-started {
-  font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-size: 13px;
   letter-spacing: 2px;
@@ -44,11 +43,11 @@
   border-radius: 4px;
   transition: ease-in-out 0.3s;
   color: #fff;
-  background: #009961;
+  background: #3F51B5;
   text-transform: uppercase;
 }
 #hero .btn-get-started:hover {
-  background: #009961;
+  background: #3F51B5;
 }
 @media (max-width: 992px) {
   #hero {

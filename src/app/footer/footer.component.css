@@ -10,7 +10,6 @@
   font-weight: 700;
   color: #fff;
   position: relative;
-  font-family: "Poppins", sans-serif;
   padding: 0;
   margin: 0 0 15px 0;
 }
@@ -26,7 +25,7 @@
 #footer .social-links a {
   font-size: 18px;
   display: inline-block;
-  background: #009961;
+  background: #3F51B5;
   color: #fff;
   line-height: 1;
   padding: 8px 0;
@@ -38,7 +37,7 @@
   transition: 0.3s;
 }
 #footer .social-links a:hover {
-  background: #00b371;
+  background: #3F51B5;
   color: #fff;
   text-decoration: none;
 }
@@ -49,11 +48,11 @@
   font-size: 13px;
 }
 #footer .credits a {
-  color: #00b371;
+  color: #3F51B5;
   transition: 0.3s;
 }
 #footer .credits a:hover {
-  color: #009961;
+  color: #3F51B5;
 }
 /*--------------------------------------------------------------
 # Back to top button
@@ -65,7 +64,7 @@
   right: 15px;
   bottom: 15px;
   z-index: 996;
-  background: #009961;
+  background: #3F51B5;
   width: 40px;
   height: 40px;
   border-radius: 50px;
@@ -77,10 +76,16 @@
   line-height: 0;
 }
 .back-to-top:hover {
-  background: #00c27b;
+  background: #3F51B5;
   color: #fff;
 }
 .back-to-top.active {
   visibility: visible;
   opacity: 1;
+}
+.logo {
+  font-size: 24px;
+}
+.designed-by {
+  font-weight: bolder;
 }

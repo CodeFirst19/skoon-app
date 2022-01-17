@@ -94,8 +94,8 @@ export class UserListComponent implements OnInit, OnDestroy {
   onViewUserDialog(user): void {
     console.log(user);
     const dialogRef = this.dialog.open(UserViewComponent, {
+      panelClass: 'dialog-responsive',
       autoFocus: false,
-      width: '30%',
       data: user,
     });
 

@@ -69,3 +69,12 @@ mat-spinner {
   margin-right: auto;
   margin-top: 10%;
 }
+
+@media screen and (max-width: 768px) {
+  mat-card {
+  width: 100%;
+  margin-left: auto;
+  margin-top: 10%;
+  margin-right: auto;
+}
+}

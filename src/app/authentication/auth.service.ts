@@ -10,6 +10,7 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   isAuthenticated: boolean = false;
   private token: string;
+  private role: string;
   private tokenTimer: any;
   private authStatusListener = new Subject<boolean>();
 
@@ -73,7 +74,7 @@ export class AuthService {
           const now = new Date();
           const expirationDate = new Date(now.getTime() + expiresInDuration);
           const user = response.data['user'];
-          this.SaveAuthData(user._id, token, expirationDate);
+          this.SaveAuthData(user._id, user.role, token, expirationDate);
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: null });
           this.route.navigate(['/services']);
@@ -103,7 +104,7 @@ export class AuthService {
             const now = new Date();
             const expirationDate = new Date(now.getTime() + expiresInDuration);
             const user = response.data['user'];
-            this.SaveAuthData(user._id, token, expirationDate);
+            this.SaveAuthData(user._id,user.role, token, expirationDate);
             this.isLoadingListener.next(false);
             this.errorListener.next({ message: null });
             this.route.navigate(['/services']);
@@ -152,14 +153,16 @@ export class AuthService {
     }, duration);
   }
 
-  private SaveAuthData(id: string, token: string, expirationDate: Date) {
+  private SaveAuthData(id: string, role: string, token: string, expirationDate: Date) {
     localStorage.setItem('id', id);
+    localStorage.setItem('role', role);
     localStorage.setItem('token', token);
     localStorage.setItem('expiration', expirationDate.toISOString());
   }
 
   private clearAuthData() {
     localStorage.removeItem('id');
+    localStorage.removeItem('role');
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
   }

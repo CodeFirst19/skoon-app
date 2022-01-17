@@ -52,6 +52,9 @@ import { HomeComponent } from './home/home.component';
 import { ServiceStatsComponent } from './service-requests/service-stats/service-stats.component';
 import { UserStatsComponent } from './users/user-stats/user-stats.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 
 @NgModule({
@@ -81,6 +84,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     ServiceStatsComponent,
     UserStatsComponent,
     NotFoundComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -109,6 +113,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MatPaginatorModule,
     MatChipsModule,
     MatProgressSpinnerModule,
+    LayoutModule,
+    MatSidenavModule,
   ],
   providers: [
     {

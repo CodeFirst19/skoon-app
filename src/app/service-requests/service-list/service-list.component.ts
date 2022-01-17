@@ -134,7 +134,7 @@ export class ServiceListComponent implements OnInit, OnDestroy {
 
   onUpdateStatusDialog(serviceId): void {
     const dialogRef = this.dialog.open(ServiceEditComponent, {
-      width: '35%',
+      panelClass: 'dialog-responsive',
       data: serviceId,
     });
 
@@ -151,7 +151,7 @@ export class ServiceListComponent implements OnInit, OnDestroy {
   onViewServiceDialog(service): void {
     console.log(service);
     const dialogRef = this.dialog.open(ServiceViewComponent, {
-      width: '40%',
+      panelClass: "dialog-responsive",
       data: service,
     });
 

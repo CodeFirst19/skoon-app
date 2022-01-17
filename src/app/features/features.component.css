@@ -20,9 +20,8 @@
 }
 .pricing .box h4 {
   font-size: 42px;
-  color: #009961;
+  color: #3F51B5;
   font-weight: 500;
-  font-family: "Open Sans", sans-serif;
   margin-bottom: 20px;
 }
 .pricing .box h4 sup {
@@ -47,7 +46,7 @@
   padding-bottom: 16px;
 }
 .pricing .box ul i {
-  color: #009961;
+  color: #3F51B5;
   font-size: 18px;
   padding-right: 4px;
 }
@@ -63,28 +62,27 @@
   display: inline-block;
   padding: 10px 40px 12px 40px;
   border-radius: 50px;
-  border: 2px solid #009961;
-  color: #009961;
+  border: 2px solid #3F51B5;
+  color: #3F51B5;
   font-size: 14px;
   font-weight: 400;
-  font-family: "Raleway", sans-serif;
   font-weight: 600;
   transition: 0.3s;
 }
 .pricing .box .btn-buy:hover {
-  background: #009961;
+  background: #3F51B5;
   color: #fff;
 }
 .pricing .recommended {
-  border-color: #009961;
+  border-color: #3F51B5;
 }
 .pricing .recommended .btn-buy {
-  background: #009961;
+  background: #3F51B5;
   color: #fff;
 }
 .pricing .recommended .btn-buy:hover {
-  background: #00b371;
-  border-color: #00b371;
+  background: #3F51B5;
+  border-color: #3F51B5;
 }
 .pricing .recommended-badge {
   position: absolute;
@@ -94,8 +92,8 @@
   z-index: 1;
   font-size: 13px;
   padding: 3px 25px 6px 25px;
-  background: #edfbf0;
-  color: #009961;
+  background: #3F51B5;
+  color: #fff;
   border-radius: 50px;
 }
 
@@ -112,7 +110,7 @@
   content: "";
   width: 40px;
   height: 2px;
-  background: #80d6a3;
+  background: #3F51B5;
   position: absolute;
   top: 12px;
   left: -60px;
@@ -121,7 +119,7 @@
   content: "";
   width: 40px;
   height: 2px;
-  background: #80d6a3;
+  background: #3F51B5;
   position: absolute;
   top: 12px;
   right: -60px;
