@@ -86,16 +86,14 @@ export class ServiceRequestService {
             }, (error) => {
               this.isLoadingListener.next(false);
               this.errorListener.next({ message: error.error.message });
-              console.log(error.error.message);
             },
           );
         this.showSweetAlertToast('Request Sent', 'Your request was sent successfully!', 'success');
-        this.router.navigate(['/services']);
+        this.router.navigate(['/my-orders']);
       }, (error) => {
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: error.error.message });
           this.showSweetAlertToast('Request Failed', 'Error occurred while sending the request!', 'error');
-          console.log(error.error.message);
       });
   }
 
@@ -120,7 +118,7 @@ export class ServiceRequestService {
           this.showSweetAlertToast('Status Updated', 'Status updated successfully!', 'success');
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: null });
-          this.router.navigate(['/services']);
+          this.router.navigate(['/all-orders']);
         },
         (error) => {
           this.isLoadingListener.next(false);

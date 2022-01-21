@@ -5,16 +5,17 @@ import { HttpClient } from '@angular/common/http';
 import { SocialAuthService, SocialUser } from 'angularx-social-login';
 import { Signup } from './signup/signup.model';
 import { Injectable } from '@angular/core';
+import Swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   isAuthenticated: boolean = false;
   private token: string;
-  private role: string;
   private tokenTimer: any;
   private authStatusListener = new Subject<boolean>();
+  isAdminListener = new Subject<boolean>();
 
-  private errorListener = new Subject<{message: string}>();
+  private errorListener = new Subject<{ message: string }>();
   private isLoadingListener = new Subject<boolean>();
 
   constructor(
@@ -29,6 +30,10 @@ export class AuthService {
 
   getIsAuthenticated() {
     return this.isAuthenticated;
+  }
+
+  getIsAdminListener() {
+    return this.isAdminListener.asObservable();
   }
 
   getAuthStatusListener() {
@@ -46,13 +51,17 @@ export class AuthService {
           // this.token = response.token;
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: null });
+           this.showSweetAlertToast(
+             'Account Created Successfully',
+             'You may now sign in with your new credentials.',
+             'success'
+           );
           this.route.navigate(['/signin']);
         },
         (error) => {
           this.authStatusListener.next(false);
           this.isLoadingListener.next(false);
-          this.errorListener.next({message: error.error.message})
-          console.log(error.error.message);
+          this.errorListener.next({ message: error.error.message });
         }
       );
   }
@@ -63,27 +72,36 @@ export class AuthService {
         'http://localhost:3000/api/v1/users/login',
         user
       )
-      .subscribe((response) => {
-        const token = response.token;
-        this.token = token;
-        if (token) {
-          const expiresInDuration = response.expiresIn;
-          this.setAuthTimer(expiresInDuration / 1000);
-          this.isAuthenticated = true;
-          this.authStatusListener.next(true);
-          const now = new Date();
-          const expirationDate = new Date(now.getTime() + expiresInDuration);
-          const user = response.data['user'];
-          this.SaveAuthData(user._id, user.role, token, expirationDate);
-          this.isLoadingListener.next(false);
-          this.errorListener.next({ message: null });
-          this.route.navigate(['/services']);
-        }
-      }, (error) => {
+      .subscribe(
+        (response) => {
+          const token = response.token;
+          this.token = token;
+          if (token) {
+            const user = response.data['user'];
+            const expiresInDuration = response.expiresIn;
+            this.setAuthTimer(expiresInDuration / 1000);
+            this.isAuthenticated = true;
+            const isAdmin = user.role === 'admin' ? true : false;
+            this.isAdminListener.next(isAdmin);
+            this.authStatusListener.next(true);
+            const now = new Date();
+            const expirationDate = new Date(now.getTime() + expiresInDuration);
+            this.SaveAuthData(user._id, user.role, token, expirationDate);
+            this.isLoadingListener.next(false);
+            this.errorListener.next({ message: null });
+            if (isAdmin) {
+              this.route.navigate(['/all-orders']);
+            } else {
+              this.route.navigate(['/my-orders']);
+            }
+          }
+        },
+        (error) => {
           this.authStatusListener.next(false);
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: error.error.message });
-      });
+        }
+      );
   }
 
   socialLogin(user: SocialUser) {
@@ -97,18 +115,23 @@ export class AuthService {
           const token = response.token;
           this.token = token;
           if (token) {
+            const user = response.data['user'];
             const expiresInDuration = response.expiresIn;
             this.setAuthTimer(expiresInDuration / 1000);
             this.isAuthenticated = true;
+            const isAdmin = user.role === 'admin' ? true : false;
+            this.isAdminListener.next(isAdmin);
             this.authStatusListener.next(true);
             const now = new Date();
             const expirationDate = new Date(now.getTime() + expiresInDuration);
-            const user = response.data['user'];
-            this.SaveAuthData(user._id,user.role, token, expirationDate);
+            this.SaveAuthData(user._id, user.role, token, expirationDate);
             this.isLoadingListener.next(false);
             this.errorListener.next({ message: null });
-            this.route.navigate(['/services']);
-            console.log(response);
+            if (isAdmin) {
+              this.route.navigate(['/all-orders']);
+            } else {
+              this.route.navigate(['/my-orders']);
+            }
           }
         },
         (error) => {
@@ -129,11 +152,17 @@ export class AuthService {
     if (expiresIn > 0) {
       this.token = authInformation.token;
       this.isAuthenticated = true;
+      const isAdmin = authInformation.role === 'admin' ? true : false;
+      this.isAdminListener.next(isAdmin);
       this.setAuthTimer(expiresIn / 1000);
       this.authStatusListener.next(true);
       this.isLoadingListener.next(false);
       this.errorListener.next({ message: null });
-      this.route.navigate(['/services']);
+      if (isAdmin) {
+        this.route.navigate(['/all-orders']);
+      } else {
+        this.route.navigate(['/my-orders']);
+      }
     }
   }
 
@@ -153,7 +182,12 @@ export class AuthService {
     }, duration);
   }
 
-  private SaveAuthData(id: string, role: string, token: string, expirationDate: Date) {
+  private SaveAuthData(
+    id: string,
+    role: string,
+    token: string,
+    expirationDate: Date
+  ) {
     localStorage.setItem('id', id);
     localStorage.setItem('role', role);
     localStorage.setItem('token', token);
@@ -169,6 +203,7 @@ export class AuthService {
 
   private getAuthData() {
     const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
     const expirationDate = localStorage.getItem('expiration');
     if (!token && !expirationDate) {
       return undefined;
@@ -176,6 +211,7 @@ export class AuthService {
 
     return {
       token: token,
+      role: role,
       expirationDate: new Date(expirationDate),
     };
   }
@@ -191,5 +227,9 @@ export class AuthService {
 
   getIsLoadingListener() {
     return this.isLoadingListener.asObservable();
+  }
+
+  showSweetAlertToast(tittle: string, message: string, status: SweetAlertIcon) {
+    Swal.fire(tittle, message, status);
   }
 }

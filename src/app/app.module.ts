@@ -55,7 +55,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
-
+import { UserServicesComponent } from './users/user-services/user-services.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +85,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     UserStatsComponent,
     NotFoundComponent,
     NavbarComponent,
+    UserServicesComponent,
   ],
   imports: [
     BrowserModule,

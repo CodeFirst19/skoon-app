@@ -13,7 +13,6 @@ export class UserStatsComponent implements OnInit, OnDestroy {
   stats: { users: number; administrators: number; total: number };
   gaugeType = 'semi';
   gaugeValue = 28.3;
-  // gaugeLabel = 'Speed';
   gaugeAppendText;
   thickValue = 4;
   foregroundColor = '#303F9F';

@@ -13,7 +13,6 @@ export class ServiceStatsComponent implements OnInit, OnDestroy {
   stats: { basic: number; advanced: number; premium: number; total: number };
   gaugeType = 'semi';
   gaugeValue = 28.3;
-  // gaugeLabel = 'Speed';
   gaugeAppendText;
   thickValue = 4;
   foregroundColor = '#303F9F';

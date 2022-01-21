@@ -20,13 +20,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 export class ServiceListComponent implements OnInit, OnDestroy {
   userIsAuthenticated: boolean = false;
   private authListenerSubs: Subscription;
-
   services: ServiceRequest[] = [];
-  stats: { basic: number; advanced: number; premium: number };
-  gaugeType = 'semi';
-  gaugeValue = 28.3;
-  gaugeLabel = 'Speed';
-  gaugeAppendText = 'km/hr';
 
   dataSource: MatTableDataSource<ServiceRequest>;
   displayedColumns: string[] = [
@@ -76,10 +70,7 @@ export class ServiceListComponent implements OnInit, OnDestroy {
           this.services = serviceData.services;
           this.totalServices = serviceData.servicesCount;
           this.numServices = serviceData.servicesCount;
-          // console.log(this.services);
-          this.dataSource = new MatTableDataSource<ServiceRequest>(
-            this.services
-          );
+          this.dataSource = new MatTableDataSource<ServiceRequest>(this.services);
           setTimeout(() => {
             this.dataSource.sort = this.sort;
           });

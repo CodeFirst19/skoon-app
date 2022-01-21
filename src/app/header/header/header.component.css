@@ -48,6 +48,7 @@ nav .links a {
 }
 nav .links a:hover {
   color: #3F51B5;
+  cursor: pointer;
 }
 #nav-toggle {
 	position: absolute;

@@ -1,3 +1,4 @@
+import { UserServicesComponent } from './users/user-services/user-services.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HomeComponent } from './home/home.component';
 import { PasswordChangeComponent } from './authentication/profile/password-change/password-change.component';
@@ -23,10 +24,12 @@ const routes: Routes = [
   { path: 'reset-password/:token', component: ResetPasswordComponent },
   { path: 'my-profile', component: ProfileViewComponent, canActivate: [AuthGuard] },
   { path: 'update-password', component: PasswordChangeComponent, canActivate: [AuthGuard] },
-  { path: 'users', component: UserListComponent, canActivate: [AuthGuard] },
-  { path: 'services', component: ServiceListComponent, canActivate: [AuthGuard] },
-  { path: 'request-service', component: ServiceCreateComponent, canActivate: [AuthGuard] },
-  { path: '**', component: NotFoundComponent },
+  { path: 'all-users', component: UserListComponent, canActivate: [AuthGuard] },
+  { path: 'all-orders', component: ServiceListComponent, canActivate: [AuthGuard] },
+  { path: 'my-orders', component: UserServicesComponent, canActivate: [AuthGuard] },
+  { path: 'place-order', component: ServiceCreateComponent, canActivate: [AuthGuard] },
+  { path: '404', component: NotFoundComponent },
+  {path: '**', redirectTo: '404'}
 ];
 
 @NgModule({

@@ -9,12 +9,21 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   userIsAuthenticated: boolean = false;
+  userIsAdmin: boolean = false;
+  role: string;
   private authListenerSubs: Subscription;
+  private isAdminListenerSubs: Subscription;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
+    const role = localStorage.getItem('role');
+    this.userIsAdmin = role === 'admin' ? true : false;
     this.userIsAuthenticated = this.authService.getIsAuthenticated();
+    this.isAdminListenerSubs = this.authService.getIsAdminListener()
+      .subscribe((isAdmin) => {
+        this.userIsAdmin = isAdmin;
+      });
     this.authListenerSubs = this.authService
       .getAuthStatusListener()
       .subscribe((isAuthenticated) => {
@@ -23,7 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public onToggleSidenav = () => {};
-  
+
   onLogout() {
     this.authService.logout();
   }

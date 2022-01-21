@@ -4,36 +4,41 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import Swal, { SweetAlertIcon } from 'sweetalert2';
+import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/authentication/auth.service';
-import { UserViewComponent } from '../user-view/user-view.component';
+import { ServiceRequest } from 'src/app/service-requests/service-requests.model';
 import { User } from '../user.model';
 import { UserService } from '../user.service';
+import { ServiceRequestService } from 'src/app/service-requests/service-request.service';
 
 @Component({
-  selector: 'app-user-list',
-  templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.css'],
+  selector: 'app-user-services',
+  templateUrl: './user-services.component.html',
+  styleUrls: ['./user-services.component.css'],
 })
-export class UserListComponent implements OnInit, OnDestroy {
+export class UserServicesComponent implements OnInit, OnDestroy {
   userIsAuthenticated: boolean = false;
   private authListenerSubs: Subscription;
+  private userListenerSubs: Subscription;
+  userId:string
+  services: ServiceRequest[] = [];
 
-  users: User[] = [];
-  dataSource: MatTableDataSource<User>;
+  dataSource: MatTableDataSource<ServiceRequest>;
   displayedColumns: string[] = [
-    'username',
-    'email',
-    'phone',
-    'role',
-    'servicesRequested',
-    'viewMore',
+    'package',
+    'pickupTime',
+    'paymentMethod',
+    'status',
+    'returnedOn',
+    'orderAgain',
   ];
-  private userSubscription: Subscription;
+
   //DOM Rendering
-  numUsers: number;
-  //For pagination
-  totalUsers: number = 0;
+  numServices: number;
+  // Pagination
+  totalServices: number = 0;
   limit: number = 5;
   page: number = 1;
   pageSizeOptions: number[] = [3, 5, 10, 25, 50];
@@ -49,22 +54,22 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialog: MatDialog,
-    private userService: UserService,
     private _liveAnnouncer: LiveAnnouncer,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService,
+    public serviceRequestService: ServiceRequestService
   ) {}
 
   ngOnInit(): void {
-    this.userService.getUsers(this.page, this.limit);
     this.isLoading = true;
-    this.userSubscription = this.userService
-      .getUsersUpdateListener()
-      .subscribe((userData: { users: User[]; usersCount: number }) => {
-        this.users = userData.users;
-        console.log(this.users);
-        this.totalUsers = userData.usersCount;
-        this.numUsers = userData.usersCount;
-        this.dataSource = new MatTableDataSource<User>(this.users);
+    this.userId = this.authService.getUserId();
+    this.userService.getUser(this.userId);
+    this.userListenerSubs = this.userService
+      .getUserUpdateListener()
+      .subscribe((user) => {
+        this.services = JSON.parse(JSON.stringify(user.services));
+        this.numServices = this.services.length;
+        this.dataSource = new MatTableDataSource<ServiceRequest>(this.services);
         setTimeout(() => {
           this.dataSource.sort = this.sort;
         });
@@ -81,7 +86,7 @@ export class UserListComponent implements OnInit, OnDestroy {
       .subscribe((errorMsg) => {
         this.errorMsg = errorMsg.message;
       });
-      
+
     this.userIsAuthenticated = this.authService.getIsAuthenticated();
     this.authListenerSubs = this.authService
       .getAuthStatusListener()
@@ -90,26 +95,43 @@ export class UserListComponent implements OnInit, OnDestroy {
       });
   }
 
-  onViewUserDialog(user): void {
-    console.log(user);
-    const dialogRef = this.dialog.open(UserViewComponent, {
-      panelClass: 'dialog-responsive',
-      autoFocus: false,
-      data: user,
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        console.log(result);
-        // this.userService.sendMessage(result.service.id, result.message);
+  onReOrder(userService: ServiceRequest) {
+    Swal.fire({
+      title: 'Proceed?',
+      text: "You won't be able to update this order once it is created!",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3F51B5',
+      cancelButtonColor: '#F44336',
+      confirmButtonText: 'Yes, create it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
+        const service: ServiceRequest = {
+          id: null,
+          serviceType: userService.serviceType,
+          reference: userService.reference,
+          pickupTime: userService.pickupTime,
+          paymentMethod: userService.paymentMethod,
+          paymentStatus: 'Pending',
+          status: 'Pending collection',
+          requestedOn: new Date(Date.now()).toISOString(),
+          returnedOn: null,
+          owner: this.userId,
+        };
+        this.serviceRequestService.addService(service);
       }
     });
+  }
+
+  formatDate(date) {
+    return moment(date).format('DD/MM/YYYY, HH:mm');
   }
 
   onPageChanged(pageData: PageEvent) {
     this.page = pageData.pageIndex + 1;
     this.limit = pageData.pageSize;
-    this.userService.getUsers(this.page, this.limit);
+    //this.serviceService.getServices(this.page, this.limit);
   }
 
   announceSortChange(sortState: Sort) {
@@ -130,8 +152,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.authListenerSubs.unsubscribe();
-    this.userSubscription.unsubscribe();
+    this.userListenerSubs.unsubscribe();
     this.isLoadingSubscription.unsubscribe();
     this.errorSubscription.unsubscribe();
   }

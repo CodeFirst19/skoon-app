@@ -1,0 +1,50 @@
+.global-error-message {
+  margin-top: 10%;
+}
+
+search-div {
+  width: 40%;
+}
+
+mat-form-field,
+input {
+  width: 40%;
+}
+mat-card {
+  margin-top: 7%;
+}
+mat-card,
+mat-card-content {
+  width: 100%;
+}
+table {
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.services-not-found-message {
+  margin-top: 10%;
+}
+
+mat-spinner {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10%;
+}
+
+mat-icon {
+  vertical-align: middle;
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+a:hover{
+   color: #3f51b5;
+}

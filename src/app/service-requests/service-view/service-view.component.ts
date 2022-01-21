@@ -18,7 +18,6 @@ export class ServiceViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.service.owner)
     this.user = JSON.parse(JSON.stringify(this.service.owner));
   }
 
