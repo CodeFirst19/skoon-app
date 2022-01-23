@@ -7,6 +7,11 @@
   margin-top: 70px;
   padding: 0;
 }
+@media screen and (max-width: 768px) {
+  #hero {
+    margin-top: 22px;
+  }
+}
 #hero:before {
   content: "";
   background: rgba(56, 64, 70, 0.7);

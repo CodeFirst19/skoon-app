@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { User } from './user.model';
+import { Router } from '@angular/router';
 
 
 @Injectable({ providedIn: 'root' })
@@ -17,7 +18,11 @@ export class UserService {
   private errorListener = new Subject<{ message: string }>();
   private isLoadingListener = new Subject<boolean>();
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   getUsers(page: number, limit: number) {
     const queryParameters = `?page=${page}&limit=${limit}`;
@@ -37,24 +42,28 @@ export class UserService {
                 socialMediaHandles: user.socialMediaHandles,
                 role: user.role,
                 services: user.services,
+                subscription: user.subscription,
               };
             }),
             totalUsers: usersData.result,
           };
         })
       )
-      .subscribe((transformedUsersData) => {
-        this.users = transformedUsersData.users;
-        this.usersUpdated.next({
-          users: [...this.users],
-          usersCount: transformedUsersData.totalUsers,
-        });
-        this.isLoadingListener.next(false);
-        this.errorListener.next({ message: null });
-      }, (error) => {
+      .subscribe(
+        (transformedUsersData) => {
+          this.users = transformedUsersData.users;
+          this.usersUpdated.next({
+            users: [...this.users],
+            usersCount: transformedUsersData.totalUsers,
+          });
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: null });
+        },
+        (error) => {
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: error.error.message });
-      });
+        }
+      );
   }
 
   getUsersUpdateListener() {
@@ -70,12 +79,14 @@ export class UserService {
       .get<{ status: string; data: {} }>(
         `http://localhost:3000/api/v1/users/${id}`
       )
-      .subscribe((response) => {
+      .subscribe(
+        (response) => {
           this.user = response.data['user'];
           this.userUpdated.next({ ...this.user });
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: null });
-        }, (error) => {
+        },
+        (error) => {
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: error.error.message });
         }
@@ -89,26 +100,30 @@ export class UserService {
         'http://localhost:3000/api/v1/users/update-me',
         user
       )
-      .subscribe((response) => {
-        this.user = response.data['user'];
-        this.userUpdated.next({ ...this.user });
-        this.isLoadingListener.next(false);
-        this.isLoadingListener.next(false);
-        this.errorListener.next({ message: null });
-        this.showSweetSuccessToast(
-          'Updated',
-          'Your profile was successfully updated',
-          'success'
-        );
-      }, (error) => {
+      .subscribe(
+        (response) => {
+          this.user = response.data['user'];
+          this.userUpdated.next({ ...this.user });
+          this.isLoadingListener.next(false);
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: null });
+          this.showSweetSuccessToast(
+            'Success',
+            'Your request has completed successfully.',
+            'success'
+          );
+          this.router.navigate(['/my-profile']);
+        },
+        (error) => {
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: error.error.message });
-           this.showSweetSuccessToast(
-             'Update Failed!',
-             'An error occurred while trying to update your profile.',
-             'error'
-           );
-      });
+          this.showSweetSuccessToast(
+            'Request Failed!',
+            'An error while processing your request. Please again a bit later.',
+            'error'
+          );
+        }
+      );
   }
 
   deleteMe() {
@@ -116,16 +131,18 @@ export class UserService {
       .delete<{ status: string; data: null }>(
         'http://localhost:3000/api/v1/users/delete-me'
       )
-      .subscribe((response) => {
-        this.isLoadingListener.next(false);
-        this.errorListener.next({ message: null });
-        this.showSweetSuccessToast(
-          'Deleted!',
-          'Your account has been deleted permanently.',
-          'success'
-        );
-        this.authService.logout();
-      }, (error) => {
+      .subscribe(
+        (response) => {
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: null });
+          this.showSweetSuccessToast(
+            'Deleted!',
+            'Your account has been deleted permanently.',
+            'success'
+          );
+          this.authService.logout();
+        },
+        (error) => {
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: error.error.message });
           this.showSweetSuccessToast(
@@ -133,7 +150,8 @@ export class UserService {
             'An error occurred while trying to delete your account.',
             'error'
           );
-      });
+        }
+      );
   }
 
   getErrorListener() {

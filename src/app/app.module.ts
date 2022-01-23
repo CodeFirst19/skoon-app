@@ -56,6 +56,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { UserServicesComponent } from './users/user-services/user-services.component';
+import { UserSubscriptionComponent } from './users/user-subscription/user-subscription.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { UserServicesComponent } from './users/user-services/user-services.compo
     NotFoundComponent,
     NavbarComponent,
     UserServicesComponent,
+    UserSubscriptionComponent,
   ],
   imports: [
     BrowserModule,

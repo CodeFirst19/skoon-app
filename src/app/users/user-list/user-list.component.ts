@@ -61,7 +61,6 @@ export class UserListComponent implements OnInit, OnDestroy {
       .getUsersUpdateListener()
       .subscribe((userData: { users: User[]; usersCount: number }) => {
         this.users = userData.users;
-        console.log(this.users);
         this.totalUsers = userData.usersCount;
         this.numUsers = userData.usersCount;
         this.dataSource = new MatTableDataSource<User>(this.users);

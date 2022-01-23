@@ -21,6 +21,7 @@ export class ServiceListComponent implements OnInit, OnDestroy {
   userIsAuthenticated: boolean = false;
   private authListenerSubs: Subscription;
   services: ServiceRequest[] = [];
+  private serviceSubscription: Subscription;
 
   dataSource: MatTableDataSource<ServiceRequest>;
   displayedColumns: string[] = [
@@ -31,7 +32,6 @@ export class ServiceListComponent implements OnInit, OnDestroy {
     'statusUpdate',
     'viewMore',
   ];
-  private serviceSubscription: Subscription;
   //DOM Rendering
   numServices: number;
   // Pagination
@@ -62,10 +62,9 @@ export class ServiceListComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.serviceSubscription = this.serviceService
       .getServicesUpdateListener()
-      .subscribe(
-        (serviceData: {
-          services: ServiceRequest[];
-          servicesCount: number;
+      .subscribe((serviceData: {
+          services: ServiceRequest[],
+          servicesCount: number
         }) => {
           this.services = serviceData.services;
           this.totalServices = serviceData.servicesCount;
@@ -133,8 +132,6 @@ export class ServiceListComponent implements OnInit, OnDestroy {
       if (result) {
         this.isLoading = true;
         this.serviceService.updateStatus(result.id, result.status);
-        // console.log('The dialog was closed');
-        // console.log(result);
       }
     });
   }

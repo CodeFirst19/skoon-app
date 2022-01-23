@@ -1,23 +1,102 @@
 <nav>
-	<input id="nav-toggle" type="checkbox">
-	<div class="logo"><strong>KEEPITSKOON</strong></div>
-	<ul class="links">
-     <li><a class="nav-link scrollto active" routerLink="/" *ngIf="!userIsAuthenticated">Home</a></li>
-      <!-- <li><a class="nav-link scrollto" href="#about">About</a></li> -->
-      <li><a class="nav-link scrollto" href="#pricing" *ngIf="!userIsAuthenticated">Services</a></li>
-      <li><a class="nav-link scrollto" href="#contact" *ngIf="!userIsAuthenticated">Contact</a></li>
-      <li><a class="nav-link scrollto" routerLink="/signin" *ngIf="!userIsAuthenticated">Sign In</a></li>
-      <li><a class="nav-link scrollto" routerLink="/signup" *ngIf="!userIsAuthenticated">Sign Up</a></li>
-      <li><a class="nav-link scrollto" routerLink="/all-users" *ngIf="userIsAuthenticated &&  userIsAdmin">All Users</a></li>
-      <li><a class="nav-link scrollto" routerLink="/all-orders" *ngIf="userIsAuthenticated &&  userIsAdmin">All Orders</a></li>
-      <li><a class="nav-link scrollto" routerLink="/my-orders" *ngIf="userIsAuthenticated">My Orders</a></li>
-      <li><a class="nav-link scrollto" routerLink="/place-order" *ngIf="userIsAuthenticated">Place Order</a></li>
-      <li><a class="nav-link scrollto" routerLink="/my-profile" *ngIf="userIsAuthenticated">Profile</a></li>
-      <li><a class="nav-link scrollto" *ngIf="userIsAuthenticated" (click)="onLogout()">Sign Out</a></li>
-	</ul>
-	<label for="nav-toggle" class="icon-burger">
-		<div class="line"></div>
-		<div class="line"></div>
-		<div class="line"></div>
-	</label>
+  <input id="nav-toggle" type="checkbox" />
+  <div class="logo"><strong>KEEPITSKOON</strong></div>
+  <ul class="links">
+    <li>
+      <a
+        class="nav-link scrollto active"
+        routerLink="/"
+        *ngIf="!userIsAuthenticated"
+        >Home</a
+      >
+    </li>
+    <!-- <li><a class="nav-link scrollto" href="#about">About</a></li> -->
+    <li>
+      <a class="nav-link scrollto" href="#pricing" *ngIf="!userIsAuthenticated"
+        >Services</a
+      >
+    </li>
+    <li>
+      <a class="nav-link scrollto" href="#contact" *ngIf="!userIsAuthenticated"
+        >Contact</a
+      >
+    </li>
+    <li>
+      <a
+        class="nav-link scrollto"
+        routerLink="/signin"
+        *ngIf="!userIsAuthenticated"
+        >Sign In</a
+      >
+    </li>
+    <li>
+      <a
+        class="nav-link scrollto"
+        routerLink="/signup"
+        *ngIf="!userIsAuthenticated"
+        >Sign Up</a
+      >
+    </li>
+    <li>
+      <a
+        class="nav-link scrollto"
+        routerLink="/my-profile"
+        *ngIf="userIsAuthenticated"
+        >Profile</a
+      >
+    </li>
+    <li>
+      <a
+        class="nav-link scrollto"
+        routerLink="/all-users"
+        *ngIf="userIsAuthenticated && userIsAdmin"
+        >Users</a
+      >
+    </li>
+    <li>
+      <a
+        class="nav-link scrollto"
+        routerLink="/all-orders"
+        *ngIf="userIsAuthenticated && userIsAdmin"
+        >Orders</a
+      >
+    </li>
+    <li>
+      <a
+        class="nav-link scrollto"
+        routerLink="/my-orders"
+        *ngIf="userIsAuthenticated"
+        >My Orders</a
+      >
+    </li>
+    <li>
+      <a
+        class="nav-link scrollto"
+        routerLink="/place-order"
+        *ngIf="userIsAuthenticated"
+        >Place Order</a
+      >
+    </li>
+    <li>
+      <a
+        class="nav-link scrollto"
+        routerLink="/payment-details"
+        *ngIf="userIsAuthenticated && userIsAdmin"
+        >More</a
+      >
+    </li>
+    <li>
+      <a
+        class="nav-link scrollto"
+        *ngIf="userIsAuthenticated"
+        (click)="onLogout()"
+        >Sign Out</a
+      >
+    </li>
+  </ul>
+  <label for="nav-toggle" class="icon-burger">
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+  </label>
 </nav>

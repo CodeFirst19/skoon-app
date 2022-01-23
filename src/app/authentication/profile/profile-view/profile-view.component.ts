@@ -22,6 +22,9 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   private isLoadingSubscription: Subscription;
 
+  notSubscribed: string = 'CURRENTLY NOT SUBSCRIBED TO ANY SERVICE';
+  subscribed: string;
+
   constructor(
     public dialog: MatDialog,
     private authService: AuthService,
@@ -36,6 +39,7 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
       .getUserUpdateListener()
       .subscribe((user) => {
         this.user = user;
+        this.subscribed = `CURRENTLY SUBSCRIBED TO ${this.user.subscription}`;
       });
 
     this.isLoadingSubscription = this.userService

@@ -1,3 +1,4 @@
+import { User } from 'src/app/users/user.model';
 import { AuthService } from 'src/app/authentication/auth.service';
 import { ServiceRequest } from './../service-requests.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -5,6 +6,7 @@ import { NgForm } from '@angular/forms';
 import { ServiceRequestService } from './../service-request.service';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
+import { UserService } from 'src/app/users/user.service';
 
 @Component({
   selector: 'app-service-create',
@@ -12,14 +14,16 @@ import Swal from 'sweetalert2';
   styleUrls: ['./service-create.component.css'],
 })
 export class ServiceCreateComponent implements OnInit, OnDestroy {
-  userId: string;
+  private userId: string;
+  user: User;
+  private userListenerSubs: Subscription;
   todayDate: Date = new Date();
   serviceTypes = [
-    'Basic: R659pm Wash, Dry & Fold',
-    'Premium: R719pm Iron Only',
-    'Advanced: R829pm Wash, Dry, Iron & Fold',
+    'Basic: R164.75 Wash, Dry & Fold',
+    'Premium: R179.75 Iron Only',
+    'Advanced: R207.25 Wash, Dry, Iron & Fold',
   ];
-  paymentMethods = ['In-app payment', 'cash on delivery'];
+  paymentMethods = ['In-app payment', 'Cash on delivery'];
   //Load only on update
   status = [
     'Pending collection',
@@ -38,13 +42,24 @@ export class ServiceCreateComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   private isLoadingSubscription: Subscription;
 
+  showPaymentDetails = false;
+
   constructor(
     private authService: AuthService,
-    public serviceRequestService: ServiceRequestService
+    private userService: UserService,
+    private serviceRequestService: ServiceRequestService
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.userId = this.authService.getUserId();
+    this.userService.getUser(this.userId);
+    this.userListenerSubs = this.userService
+      .getUserUpdateListener()
+      .subscribe((user) => {
+        this.user = user;
+        this.isLoading = false;
+      });
     this.isLoadingSubscription = this.serviceRequestService
       .getIsLoadingListener()
       .subscribe((isLoading) => {
@@ -61,6 +76,10 @@ export class ServiceCreateComponent implements OnInit, OnDestroy {
     if (form.invalid) {
       return;
     }
+
+    this.showPaymentDetails =
+      form.value.paymentMethod === 'In-app payment' ? true : false;
+
     Swal.fire({
       title: 'Proceed?',
       text: "You won't be able to update this order once it is created!",
@@ -91,6 +110,7 @@ export class ServiceCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.userListenerSubs.unsubscribe();
     this.isLoadingSubscription.unsubscribe();
     this.errorSubscription.unsubscribe();
   }

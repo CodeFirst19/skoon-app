@@ -21,7 +21,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private socialAuthService: SocialAuthService,
-    private route: Router
+    private router: Router
   ) {}
 
   getToken() {
@@ -46,8 +46,29 @@ export class AuthService {
         'http://localhost:3000/api/v1/users/signup',
         user
       )
-      .subscribe(
-        (response) => {
+      .subscribe((response) => {
+        const token = response.token;
+        this.token = token;
+        if (token) {
+          const user = response.data['user'];
+          const expiresInDuration = response.expiresIn;
+          this.setAuthTimer(expiresInDuration / 1000);
+          this.isAuthenticated = true;
+          const isAdmin = user.role === 'admin' ? true : false;
+          this.isAdminListener.next(isAdmin);
+          this.authStatusListener.next(true);
+          const now = new Date();
+          const expirationDate = new Date(now.getTime() + expiresInDuration);
+          this.SaveAuthData(user._id, user.role, token, expirationDate);
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: null });
+          this.showSweetAlertToast(
+            'Account Created Successfully',
+            'You may now sign in with your new credentials.',
+            'success'
+           );
+          this.router.navigate(['/subscribe']);
+        }
           // this.token = response.token;
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: null });
@@ -56,7 +77,7 @@ export class AuthService {
              'You may now sign in with your new credentials.',
              'success'
            );
-          this.route.navigate(['/signin']);
+          this.router.navigate(['/signin']);
         },
         (error) => {
           this.authStatusListener.next(false);
@@ -90,9 +111,9 @@ export class AuthService {
             this.isLoadingListener.next(false);
             this.errorListener.next({ message: null });
             if (isAdmin) {
-              this.route.navigate(['/all-orders']);
+              this.router.navigate(['/all-orders']);
             } else {
-              this.route.navigate(['/my-orders']);
+              this.router.navigate(['/my-orders']);
             }
           }
         },
@@ -128,9 +149,9 @@ export class AuthService {
             this.isLoadingListener.next(false);
             this.errorListener.next({ message: null });
             if (isAdmin) {
-              this.route.navigate(['/all-orders']);
+              this.router.navigate(['/all-orders']);
             } else {
-              this.route.navigate(['/my-orders']);
+              this.router.navigate(['/my-orders']);
             }
           }
         },
@@ -159,9 +180,9 @@ export class AuthService {
       this.isLoadingListener.next(false);
       this.errorListener.next({ message: null });
       if (isAdmin) {
-        this.route.navigate(['/all-orders']);
+        this.router.navigate(['/all-orders']);
       } else {
-        this.route.navigate(['/my-orders']);
+        this.router.navigate(['/my-orders']);
       }
     }
   }
@@ -173,7 +194,7 @@ export class AuthService {
     clearTimeout(this.tokenTimer);
     this.authStatusListener.next(false);
     this.clearAuthData();
-    this.route.navigate(['/']);
+    this.router.navigate(['/']);
   }
 
   private setAuthTimer(duration: number) {

@@ -1,6 +1,9 @@
 <mat-card>
   <mat-card-title class="mb-3">Add Payment Details</mat-card-title>
   <mat-card-content>
+    <div class="alert alert-danger global-service-error mt-3" role="alert" *ngIf="errorMsg">
+      <mat-icon>error</mat-icon> {{ errorMsg }}
+    </div>
     <form (submit)="onAddPaymentDetails(paymentDetailsForm)" #paymentDetailsForm="ngForm" autocomplete="off">
       <!-- Account name -->
       <mat-form-field class="example-full-width">
@@ -35,7 +38,7 @@
         <input matInput type="text" name="reference" ngModel />
       </mat-form-field>
       <!-- Button -->
-      <button type="submit" mat-raised-button>SAVE</button>
+      <button type="submit" [disabled]="paymentDetailsForm.invalid" color="primary" mat-raised-button>Add</button>
     </form>
   </mat-card-content>
 </mat-card>
