@@ -1,15 +1,12 @@
-<div class="alert alert-danger global-service-error mt-3" role="alert" *ngIf="errorMsg">
+<!-- <div class="alert alert-danger global-service-error mt-3" role="alert" *ngIf="errorMsg">
   <mat-icon>error</mat-icon> {{ errorMsg }}
-</div>
+</div> -->
 <!-- ======= Pricing Section ======= -->
 <section id="pricing" class="pricing " *ngIf="!errorMsg">
   <div class="container pb-2">
     <div class="section-title">
 		<div class="row text-center mt-5 py-3">
 			<div class="col-md-12">
-          <div class="text-center mt-2 mb-3" *ngIf="showSkipButton">
-            <a class="btn-skip" routerLink="/my-orders">Skip for now</a>
-          </div>
 				<div class="title">
 					<h2>Services and Pricing</h2>
 					<p>Our services are classified into three - Basic, advanced, and Premium.<br> Choose the one that fits your needs.</p>
@@ -30,7 +27,7 @@
             <li>Folding</li>
           </ul>
           <div class="btn-wrap">
-            <a class="btn-buy" (click)="onServiceSubscription('basic')">{{ buttonText }}</a>
+            <a class="btn-buy" (click)="onServiceSubscription('BASIC')">{{ buttonText }}</a>
           </div>
         </div>
       </div>
@@ -47,7 +44,7 @@
             <li>Folding</li>
           </ul>
           <div class="btn-wrap">
-            <a class="btn-buy" (click)="onServiceSubscription('advanced')">{{ buttonText }}</a>
+            <a class="btn-buy" (click)="onServiceSubscription('ADVANCED')">{{ buttonText }}</a>
           </div>
         </div>
       </div>
@@ -63,7 +60,7 @@
             <li class="na">Folding</li>
           </ul>
           <div class="btn-wrap">
-            <a class="btn-buy" (click)="onServiceSubscription('premium')">{{ buttonText }}</a>
+            <a class="btn-buy" (click)="onServiceSubscription('PREMIUM')">{{ buttonText }}</a>
           </div>
         </div>
       </div>

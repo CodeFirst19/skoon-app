@@ -59,10 +59,9 @@ export class FeaturesComponent implements OnInit, OnDestroy {
     if (!this.userIsAuthenticated) {
       this.router.navigate(['/signup']);
     } else {
-      this.showSkipButton = true;
       Swal.fire({
         title: 'New Subscription',
-        text: `You are about to subscribe for ${this.serviceTypes[serviceType]}`,
+        text: `You are about to subscribe for ${this.serviceTypes[serviceType.toLowerCase()]}`,
         icon: 'info',
         showCancelButton: true,
         confirmButtonColor: '#3F51B5',
@@ -71,8 +70,7 @@ export class FeaturesComponent implements OnInit, OnDestroy {
       }).then((result) => {
         if (result.isConfirmed) {
           this.isLoading = true;
-          const newSubscription = { subscription: serviceType };
-          this.userService.updateMe(newSubscription);
+          this.userService.updateMe({ subscription: serviceType });
         }
       });
     }

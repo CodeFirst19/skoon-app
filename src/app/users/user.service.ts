@@ -107,6 +107,7 @@ export class UserService {
           this.isLoadingListener.next(false);
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: null });
+          console.log(this.user.subscription);
           this.showSweetSuccessToast(
             'Success',
             'Your request has completed successfully.',

@@ -9,7 +9,7 @@
                 <div class="check"><i class="fas fa-check"></i></div>
                 <h3 class="name">{{ user.preferredName }} ({{ user.role }})</h3>
                 <p class="title">{{ user.address || 'Address not provided' }}</p>
-                <p class="title">{{ user.subscription === 'None' ? notSubscribed : subscribed  }}</p>
+                <p class="title">{{ user.subscription ? subscribed : notSubscribed  }}</p>
                 <p class="description">{{ user.preferredName }} has by far requested <strong>{{ user.services.length }}</strong> services.</p>
             <div class="social-icons text-center">
                 <div class="icon me-5">

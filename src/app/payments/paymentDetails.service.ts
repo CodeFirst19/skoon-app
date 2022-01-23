@@ -120,6 +120,12 @@ export class PaymentDetailsService {
         (response) => {
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: null });
+          this.paymentDetails = this.paymentDetails.filter(p=>p.id !== id);
+          this.paymentDetailsUpdated.next({
+            paymentDetails: [...this.paymentDetails],
+            paymentDetailsCount: this.paymentDetails.length,
+          });
+
           this.showSweetAlertToast(
             'Deleted!',
             'Item has been deleted permanently.',

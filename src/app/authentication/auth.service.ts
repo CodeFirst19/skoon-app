@@ -77,7 +77,7 @@ export class AuthService {
              'You may now sign in with your new credentials.',
              'success'
            );
-          this.router.navigate(['/signin']);
+          this.router.navigate(['/subscribe']);
         },
         (error) => {
           this.authStatusListener.next(false);
