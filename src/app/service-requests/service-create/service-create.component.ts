@@ -19,9 +19,9 @@ export class ServiceCreateComponent implements OnInit, OnDestroy {
   private userListenerSubs: Subscription;
   todayDate: Date = new Date();
   serviceTypes = [
-    'Basic: R164.75 Wash, Dry & Fold',
+    'Basic: R35.95/kg Wash, Dry & Fold',
     'Premium: R179.75 Iron Only',
-    'Advanced: R207.25 Wash, Dry, Iron & Fold',
+    'Advanced: R49.95 Wash, Dry, Iron & Fold',
   ];
   paymentMethods = ['In-app payment', 'Cash on delivery'];
   //Load only on update
@@ -91,12 +91,19 @@ export class ServiceCreateComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (result.isConfirmed) {
         this.isLoading = true;
+
+        let serviceTypeModified;
+        if (!this.user.subscription) {
+          serviceTypeModified = form.value.serviceType.split(':');
+          console.log(serviceTypeModified[0]);
+        }
+        
         const service: ServiceRequest = {
           id: null,
-          serviceType: form.value.serviceType,
+          serviceType: serviceTypeModified[0] || this.user.subscription,
           reference: form.value.reference,
           pickupTime: form.value.pickupTime,
-          paymentMethod: form.value.paymentMethod,
+          paymentMethod: form.value.paymentMethod || 'Monthly subscription',
           paymentStatus: 'Pending',
           status: this.status[0],
           requestedOn: new Date(Date.now()).toISOString(),

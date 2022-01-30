@@ -4,7 +4,7 @@
 }
 .contact .info i {
   font-size: 32px;
-  color: #3F51B5;
+  color: #120A3B;
   float: left;
   line-height: 1;
 }
@@ -42,7 +42,7 @@
 .contact .php-email-form .sent-message {
   display: none;
   color: #fff;
-  background: #3F51B5;
+  background: #120A3B;
   text-align: left;
   padding: 15px;
   font-weight: 600;
@@ -63,7 +63,7 @@
   width: 24px;
   height: 24px;
   margin: 0 10px -6px 0;
-  border: 3px solid #3F51B5;
+  border: 3px solid #120A3B;
   border-top-color: #eee;
   -webkit-animation: animate-loading 1s linear infinite;
   animation: animate-loading 1s linear infinite;
@@ -75,7 +75,7 @@
   border-radius: 4px;
 }
 .contact .php-email-form input:focus, .contact .php-email-form textarea:focus {
-  border-color: #3F51B5;
+  border-color: #120A3B;
 }
 .contact .php-email-form input {
   height: 44px;
@@ -84,7 +84,7 @@
   padding: 10px 12px;
 }
 .contact .php-email-form button[type=submit] {
-  background: #3F51B5;
+  background: #120A3B;
   border: 0;
   padding: 10px 30px;
   color: #fff;
@@ -92,7 +92,7 @@
   border-radius: 50px;
 }
 .contact .php-email-form button[type=submit]:hover {
-  background: #3F51B5;
+  background: #120A3B;
 }
 @-webkit-keyframes animate-loading {
   0% {
@@ -124,7 +124,7 @@
   content: "";
   width: 40px;
   height: 2px;
-  background: #3F51B5;
+  background: #120A3B;
   position: absolute;
   top: 12px;
   left: -60px;
@@ -133,7 +133,7 @@
   content: "";
   width: 40px;
   height: 2px;
-  background: #3F51B5;
+  background: #120A3B;
   position: absolute;
   top: 12px;
   right: -60px;

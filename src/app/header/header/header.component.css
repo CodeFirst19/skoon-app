@@ -14,8 +14,11 @@ nav {
   top: 0;
   padding: 0 5%;
   height: 70px;
-  background-color: white;
+  background-color: #0E0D32;
   box-shadow: 0 3px 2px -2px lightgray;
+}
+nav img {
+  border: none;
 }
 nav .logo {
   float: left;
@@ -24,7 +27,7 @@ nav .logo {
   display: flex;
   align-items: center;
   font-size: 24px;
-  color: black;
+  color: #120A3B;
 }
 nav .links {
   float: right;
@@ -44,7 +47,7 @@ nav .links a {
   padding: 1em;
   font-size: 16px;
   font-weight: bold;
-  color: black;
+  color: #fff;
   text-decoration: none;
 }
 nav .links a:hover {
@@ -65,7 +68,7 @@ nav .icon-burger {
 nav .icon-burger .line {
   width: 30px;
   height: 5px;
-  background-color: black;
+  background-color: #fff;
   margin: 5px;
   border-radius: 3px;
   transition: all 0.3s ease-in-out;
