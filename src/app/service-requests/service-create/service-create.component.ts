@@ -93,7 +93,7 @@ export class ServiceCreateComponent implements OnInit, OnDestroy {
 
     setTimeout(() => {
       this.showAlerts = false;
-    }, 10000);
+    }, 8000);
   }
 
   onAddService(form: NgForm) {

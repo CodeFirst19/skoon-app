@@ -6,10 +6,10 @@
     <mat-icon>error</mat-icon> {{ errorMsg }}
   </div>
   <div class="alert alert-info global-service-error mt-3" role="alert" *ngIf="!user.subscription && showAlerts">
-     <mat-icon>info</mat-icon> You currently do have have any subscription. You will therefore be charged a once-off fee
+     <mat-icon>info</mat-icon> You currently do have have any subscription. <strong>You will therefore be charged a once-off fee</strong>
   </div>
-  <div class="alert alert-warning global-service-error mt-3" role="alert" *ngIf="(!user.address || !user.phone) && showAlerts">
-     <mat-icon>info</mat-icon> Please go to your profile to provide your address and phone number before performing this action.
+  <div class="alert alert-warning global-service-error mt-3" role="alert" *ngIf="!user.address || !user.phone">
+     <mat-icon>info</mat-icon> Please go to your profile to provide your address and phone number before performing this action
   </div>
     <form
       (submit)="onAddService(serviceForm)" #serviceForm="ngForm" autocomplete="off">
