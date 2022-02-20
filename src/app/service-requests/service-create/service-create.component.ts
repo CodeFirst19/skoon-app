@@ -14,6 +14,7 @@ import { UserService } from 'src/app/users/user.service';
   styleUrls: ['./service-create.component.css'],
 })
 export class ServiceCreateComponent implements OnInit, OnDestroy {
+  showAlerts = true;
   private userId: string;
   user: User;
   private userListenerSubs: Subscription;
@@ -89,6 +90,10 @@ export class ServiceCreateComponent implements OnInit, OnDestroy {
       });
 
     this.googlePaymentRequest();
+
+    setTimeout(() => {
+      this.showAlerts = false;
+    }, 10000);
   }
 
   onAddService(form: NgForm) {
