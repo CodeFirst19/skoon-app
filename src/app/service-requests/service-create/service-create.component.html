@@ -5,7 +5,7 @@
   <div class="alert alert-danger global-service-error mt-3" role="alert" *ngIf="errorMsg">
     <mat-icon>error</mat-icon> {{ errorMsg }}
   </div>
-  <div class="alert alert-info global-service-error mt-3" role="alert" *ngIf="user.subscription">
+  <div class="alert alert-info global-service-error mt-3" role="alert" *ngIf="!user.subscription">
      <mat-icon>info</mat-icon> You currently do have have any subscription. You will therefore be charged a once-off fee
   </div>
   <div class="alert alert-info global-service-error mt-3" role="alert" *ngIf="!user.address || !user.phone">
@@ -17,7 +17,7 @@
       <mat-radio-group color="primary" name="serviceType" #serviceType="ngModel" ngModel required *ngIf="!user.subscription">
         <div class="">
           <div class="mt-3" *ngFor="let service of serviceTypes">
-            <mat-radio-button [value]="service">{{ service }}</mat-radio-button>
+            <mat-radio-button [value]="service.name">{{ service.description }}</mat-radio-button>
           </div>
         </div>
         <!-- <mat-error class="mt-2" *ngIf="serviceType.invalid">Service type is <strong>required</strong></mat-error> -->
@@ -52,7 +52,25 @@
         </mat-radio-group>
       </div>
       <!-- Button -->
-      <button class="mt-3" type="submit" [disabled]="serviceForm.invalid" mat-raised-button color="primary">Request</button>
+      <button 
+        class="mt-3 w-100" 
+        type="submit" 
+        [disabled]="serviceForm.invalid" 
+        mat-raised-button 
+        color="primary"
+        *ngIf="user.subscription">Order
+      </button>
+      <google-pay-button 
+        class="w-100 mt-3"
+        environment="TEST"
+        buttonType="buy"
+        buttonColor="default"
+        buttonSizeMode="fill"
+        [paymentRequest]="paymentRequest" 
+        (loadpaymentdata)="onLoadPaymentData($event)"
+        *ngIf="!user.subscription && !serviceForm.invalid">
+      </google-pay-button>
     </form>
   </mat-card-content>
 </mat-card>
+

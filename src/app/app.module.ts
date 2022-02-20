@@ -6,6 +6,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
 import { NgxGaugeModule } from 'ngx-gauge';
+import { GooglePayButtonModule } from '@google-pay/button-angular';
+
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input'
@@ -52,11 +54,10 @@ import { HomeComponent } from './home/home.component';
 import { ServiceStatsComponent } from './service-requests/service-stats/service-stats.component';
 import { UserStatsComponent } from './users/user-stats/user-stats.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { NavbarComponent } from './navbar/navbar.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { UserServicesComponent } from './users/user-services/user-services.component';
 import { UserSubscriptionComponent } from './users/user-subscription/user-subscription.component';
+import { GPayDisableDirective } from './g-pay-disable.directive';
 
 @NgModule({
   declarations: [
@@ -85,9 +86,9 @@ import { UserSubscriptionComponent } from './users/user-subscription/user-subscr
     ServiceStatsComponent,
     UserStatsComponent,
     NotFoundComponent,
-    NavbarComponent,
     UserServicesComponent,
     UserSubscriptionComponent,
+    GPayDisableDirective,
   ],
   imports: [
     BrowserModule,
@@ -97,7 +98,7 @@ import { UserSubscriptionComponent } from './users/user-subscription/user-subscr
     HttpClientModule,
     SocialLoginModule,
     NgxGaugeModule,
-
+    GooglePayButtonModule,
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
@@ -117,7 +118,6 @@ import { UserSubscriptionComponent } from './users/user-subscription/user-subscr
     MatChipsModule,
     MatProgressSpinnerModule,
     LayoutModule,
-    MatSidenavModule,
   ],
   providers: [
     {

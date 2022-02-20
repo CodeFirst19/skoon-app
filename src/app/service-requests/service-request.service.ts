@@ -46,23 +46,41 @@ export class ServiceRequestService {
           };
         })
       )
-      .subscribe((transformedServicesData) => {
-        this.services = transformedServicesData.services;
-        this.servicesUpdated.next({
-          services: [...this.services],
-          servicesCount: transformedServicesData.totalServices,
-        });
-        this.isLoadingListener.next(false);
-        this.errorListener.next({ message: null });
-      }, (error) => {
+      .subscribe(
+        (transformedServicesData) => {
+          this.services = transformedServicesData.services;
+          this.servicesUpdated.next({
+            services: [...this.services],
+            servicesCount: transformedServicesData.totalServices,
+          });
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: null });
+        },
+        (error) => {
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: error.error.message });
-      });
+        }
+      );
   }
 
   getServicesUpdateListener() {
     return this.servicesUpdated.asObservable();
   }
+
+   processOrder(order: {}, paymentData: any) {
+    // console.log(
+    //   'TODO: send order to server',
+    //   order,
+    //   paymentData.shippingAddress,
+    //   paymentData.shippingOptionData?.id,
+    //   paymentData.paymentMethodData,
+    // );
+
+    return Promise.resolve({
+      orderId: Date.now().valueOf().toString(),
+    });
+  }
+
 
   addService(service: ServiceRequest) {
     this.http
@@ -70,31 +88,43 @@ export class ServiceRequestService {
         'http://localhost:3000/api/v1/services',
         service
       )
-      .subscribe((response) => {
-        //Get returned service Id
-        const serviceId = { service: response.data['newService']._id };
-        FIXME:
-        //Update user services property
-        this.http
-          .patch<{ status: string; data: {} }>(
-            'http://localhost:3000/api/v1/users/update-user-service',
-            serviceId
-          )
-          .subscribe((response) => {
-              this.isLoadingListener.next(false);
-              this.errorListener.next({ message: null });
-            }, (error) => {
-              this.isLoadingListener.next(false);
-              this.errorListener.next({ message: error.error.message });
-            },
+      .subscribe(
+        (response) => {
+          //Get returned service Id
+          const serviceId = { service: response.data['newService']._id };
+          //Update user services property
+          this.http
+            .patch<{ status: string; data: {} }>(
+              'http://localhost:3000/api/v1/users/update-user-service',
+              serviceId
+            )
+            .subscribe(
+              (response) => {
+                this.isLoadingListener.next(false);
+                this.errorListener.next({ message: null });
+              },
+              (error) => {
+                this.isLoadingListener.next(false);
+                this.errorListener.next({ message: error.error.message });
+              }
+            );
+          this.showSweetAlertToast(
+            'Request Sent',
+            'Your request was sent successfully!',
+            'success'
           );
-        this.showSweetAlertToast('Request Sent', 'Your request was sent successfully!', 'success');
-        this.router.navigate(['/my-orders']);
-      }, (error) => {
+          this.router.navigate(['/my-orders']);
+        },
+        (error) => {
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: error.error.message });
-          this.showSweetAlertToast('Request Failed', 'Error occurred while sending the request!', 'error');
-      });
+          this.showSweetAlertToast(
+            'Request Failed',
+            'Error occurred while sending the request!',
+            'error'
+          );
+        }
+      );
   }
 
   updateStatus(id: string, status: string) {
@@ -115,7 +145,11 @@ export class ServiceRequestService {
         (response) => {
           const index = this.services.findIndex((s) => s.id === id);
           this.services[index].status = service.status;
-          this.showSweetAlertToast('Status Updated', 'Status updated successfully!', 'success');
+          this.showSweetAlertToast(
+            'Status Updated',
+            'Status updated successfully!',
+            'success'
+          );
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: null });
           this.router.navigate(['/all-orders']);
@@ -123,7 +157,11 @@ export class ServiceRequestService {
         (error) => {
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: error.error.message });
-          this.showSweetAlertToast('Update Failed', 'Error occurred while updating the status!', 'error');
+          this.showSweetAlertToast(
+            'Update Failed',
+            'Error occurred while updating the status!',
+            'error'
+          );
           console.log(error.error.message);
         }
       );
