@@ -27,7 +27,7 @@ export class ServiceListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'package',
     'pickupTime',
-    'paymentMethod',
+    'paymentStatus',
     'status',
     'statusUpdate',
     'viewMore',

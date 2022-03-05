@@ -40,7 +40,7 @@
     <li>
       <a
         class="nav-link scrollto"
-        routerLink="/my-profile"
+        routerLink="dashboard/my-profile"
         *ngIf="userIsAuthenticated"
         >Profile</a
       >
@@ -48,7 +48,7 @@
     <li>
       <a
         class="nav-link scrollto"
-        routerLink="/all-users"
+        routerLink="dashboard/all-users"
         *ngIf="userIsAuthenticated && userIsAdmin"
         >Users</a
       >
@@ -56,7 +56,7 @@
     <li>
       <a
         class="nav-link scrollto"
-        routerLink="/all-orders"
+        routerLink="dashboard/all-orders"
         *ngIf="userIsAuthenticated && userIsAdmin"
         >Orders</a
       >
@@ -64,7 +64,7 @@
     <li>
       <a
         class="nav-link scrollto"
-        routerLink="/my-orders"
+        routerLink="dashboard/my-orders"
         *ngIf="userIsAuthenticated"
         >My Orders</a
       >
@@ -72,19 +72,19 @@
     <li>
       <a
         class="nav-link scrollto"
-        routerLink="/place-order"
+        routerLink="dashboard/place-order"
         *ngIf="userIsAuthenticated"
         >Place Order</a
       >
     </li>
-    <li>
+    <!-- <li>
       <a
         class="nav-link scrollto"
-        routerLink="/payment-details"
+        routerLink="dashboard/payment-details"
         *ngIf="userIsAuthenticated && userIsAdmin"
         >More</a
       >
-    </li>
+    </li> -->
     <li>
       <a
         class="nav-link scrollto"

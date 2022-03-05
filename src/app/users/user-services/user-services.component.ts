@@ -29,7 +29,7 @@ export class UserServicesComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'package',
     'pickupTime',
-    'paymentMethod',
+    'paymentStatus',
     'status',
     'returnedOn',
     'orderAgain',

@@ -67,7 +67,7 @@ export class AuthService {
             'You may now sign in with your new credentials.',
             'success'
            );
-          this.router.navigate(['/subscribe']);
+          this.router.navigate(['/dashboard/subscribe']);
         }
           // this.token = response.token;
           this.isLoadingListener.next(false);
@@ -77,7 +77,7 @@ export class AuthService {
              'You may now sign in with your new credentials.',
              'success'
            );
-          this.router.navigate(['/subscribe']);
+          this.router.navigate(['/dashboard/subscribe']);
         },
         (error) => {
           this.authStatusListener.next(false);
@@ -111,9 +111,9 @@ export class AuthService {
             this.isLoadingListener.next(false);
             this.errorListener.next({ message: null });
             if (isAdmin) {
-              this.router.navigate(['/all-orders']);
+              this.router.navigate(['/dashboard/all-orders']);
             } else {
-              this.router.navigate(['/my-orders']);
+              this.router.navigate(['/dashboard/my-orders']);
             }
           }
         },
@@ -149,9 +149,9 @@ export class AuthService {
             this.isLoadingListener.next(false);
             this.errorListener.next({ message: null });
             if (isAdmin) {
-              this.router.navigate(['/all-orders']);
+              this.router.navigate(['/dashboard/all-orders']);
             } else {
-              this.router.navigate(['/my-orders']);
+              this.router.navigate(['/dashboard/my-orders']);
             }
           }
         },
@@ -180,9 +180,9 @@ export class AuthService {
       this.isLoadingListener.next(false);
       this.errorListener.next({ message: null });
       if (isAdmin) {
-        this.router.navigate(['/all-orders']);
+        this.router.navigate(['/dashboard/all-orders']);
       } else {
-        this.router.navigate(['/my-orders']);
+        this.router.navigate(['/dashboard/my-orders']);
       }
     }
   }

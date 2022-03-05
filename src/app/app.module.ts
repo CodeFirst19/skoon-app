@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
 import { NgxGaugeModule } from 'ngx-gauge';
 import { GooglePayButtonModule } from '@google-pay/button-angular';
+import { Angular4PaystackModule } from 'angular4-paystack';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
@@ -58,6 +59,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { UserServicesComponent } from './users/user-services/user-services.component';
 import { UserSubscriptionComponent } from './users/user-subscription/user-subscription.component';
 import { GPayDisableDirective } from './g-pay-disable.directive';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +91,7 @@ import { GPayDisableDirective } from './g-pay-disable.directive';
     UserServicesComponent,
     UserSubscriptionComponent,
     GPayDisableDirective,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -118,6 +121,7 @@ import { GPayDisableDirective } from './g-pay-disable.directive';
     MatChipsModule,
     MatProgressSpinnerModule,
     LayoutModule,
+    Angular4PaystackModule.forRoot('pk_test_4a7d011b31248be9d5bd84e9b11ab193de825c02'),
   ],
   providers: [
     {

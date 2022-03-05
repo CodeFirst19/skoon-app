@@ -30,11 +30,11 @@
             <td mat-cell *matCellDef="let element"> {{formatDate(element.pickupTime)}} </td>
           </ng-container>
           <!-- Payment Method Column -->
-          <ng-container matColumnDef="paymentMethod">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by payment method">
-              Payment Method
+          <ng-container matColumnDef="paymentStatus">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by payment status">
+              Payment Status
             </th>
-            <td mat-cell *matCellDef="let element"> {{element.paymentMethod}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.paymentStatus}} </td>
           </ng-container>
           <!-- Status Column -->
           <ng-container matColumnDef="status">

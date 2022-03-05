@@ -33,7 +33,7 @@
       </div>
       <!-- Login button -->
       <div class="d-grid gap-2 mt-4">
-        <button mat-flat-button class="btn btn rounded-pill py-1" type="submit" color="primary">Sign In</button>
+        <button mat-flat-button class="btn btn rounded-pill py-1" type="submit" color="primary" [disabled]="loginForm.invalid">Sign In</button>
       </div>
       <span class="d-block text-center my-4 text-muted"> or sign up with</span>
                   

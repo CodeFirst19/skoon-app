@@ -1,3 +1,4 @@
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { PaymentCreateComponent } from './payments/payment-create/payment-create.component';
 import { UserSubscriptionComponent } from './users/user-subscription/user-subscription.component';
 import { UserServicesComponent } from './users/user-services/user-services.component';
@@ -24,15 +25,20 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
-  { path: 'my-profile', component: ProfileViewComponent, canActivate: [AuthGuard] },
-  { path: 'subscribe', component: UserSubscriptionComponent, canActivate: [AuthGuard] },
-  { path: 'update-password', component: PasswordChangeComponent, canActivate: [AuthGuard] },
-  { path: 'all-users', component: UserListComponent, canActivate: [AuthGuard] },
-  { path: 'all-orders', component: ServiceListComponent, canActivate: [AuthGuard] },
-  { path: 'my-orders', component: UserServicesComponent, canActivate: [AuthGuard] },
-  { path: 'place-order', component: ServiceCreateComponent, canActivate: [AuthGuard] },
-  { path: 'payment-details', component: PaymentListComponent, canActivate: [AuthGuard] },
-  { path: 'add-payment-details', component: PaymentCreateComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: DashboardComponent,
+    children: [
+      { path: 'my-profile', component: ProfileViewComponent, canActivate: [AuthGuard] },
+      { path: 'subscribe', component: UserSubscriptionComponent, canActivate: [AuthGuard] },
+      { path: 'update-password', component: PasswordChangeComponent, canActivate: [AuthGuard] },
+      { path: 'all-users', component: UserListComponent, canActivate: [AuthGuard] },
+      { path: 'all-orders', component: ServiceListComponent, canActivate: [AuthGuard] },
+      { path: 'my-orders', component: UserServicesComponent, canActivate: [AuthGuard] },
+      { path: 'place-order', component: ServiceCreateComponent, canActivate: [AuthGuard] },
+      { path: 'payment-details', component: PaymentListComponent, canActivate: [AuthGuard] },
+      { path: 'add-payment-details', component: PaymentCreateComponent, canActivate: [AuthGuard] },
+    ],
+    canActivate: [AuthGuard] 
+  },
   { path: '404', component: NotFoundComponent },
   {path: '**', redirectTo: '404'}
 ];

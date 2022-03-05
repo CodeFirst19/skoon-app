@@ -14,6 +14,13 @@ import { UserService } from 'src/app/users/user.service';
   styleUrls: ['./service-create.component.css'],
 })
 export class ServiceCreateComponent implements OnInit, OnDestroy {
+  // For paystack payment
+  currency = 'ZAR';
+  reference = `ref-${Math.ceil(Math.random() * 10e13)}`;
+  showPaymentServices = false;
+  order: { email: string; amount: number; reference: string };
+  paymentStatus: string;
+
   showAlerts = true;
   private userId: string;
   user: User;
@@ -22,22 +29,22 @@ export class ServiceCreateComponent implements OnInit, OnDestroy {
   serviceTypes = [
     {
       name: 'Basic',
-      price: 135.95,
+      price: 136 * 100,
       description: 'Basic: R135.95 Wash, Dry & Fold',
     },
     {
       name: 'Premium',
-      price: 179.75,
+      price: 180 * 100,
       description: 'Premium: R179.75 Iron Only',
     },
     {
       name: 'Advanced',
-      price: 189.95,
+      price: 190 * 100,
       description: 'Advanced: R49.95 Wash, Dry, Iron & Fold',
     },
   ];
 
-  selectedServiceType: { name: string; price: number; description: string };
+  selectedServiceType: any = {}
   paymentRequest: google.payments.api.PaymentDataRequest;
 
   paymentMethods = ['In-app payment', 'Cash on delivery'];
@@ -59,7 +66,9 @@ export class ServiceCreateComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   private isLoadingSubscription: Subscription;
 
-  showPaymentDetails = false;
+  inAppPayment = false;
+
+  locked = false;
 
   constructor(
     private authService: AuthService,
@@ -94,56 +103,91 @@ export class ServiceCreateComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.showAlerts = false;
     }, 8000);
+
+    //Paystack payment reference
+    this.reference = `ref-${Math.ceil(Math.random() * 10e13)}`;
   }
 
-  onAddService(form: NgForm) {
+  pickupTime: string;
+  paymentMethod: string;
+
+  onMakeOrder(form: NgForm) {
+    // Check if form is valid
     if (form.invalid) {
       return;
     }
+    // Assign form with values to the high level form variable
+    this.pickupTime = form.value.pickupTime;
+    this.paymentMethod = form.value.paymentMethod;
 
-    this.showPaymentDetails =
-      form.value.paymentMethod === 'In-app payment' ? true : false;
+    // For in-app-payment
+    this.inAppPayment = this.paymentMethod === 'In-app payment' ? true : false;
 
+    //If user not subscribed, get service chosen - once off
+    if (!this.user.subscription) {
+      this.selectedServiceType = this.serviceTypes.find(
+        (s) => s.name === form.value.serviceType
+      );
+      console.log(this.selectedServiceType);
+    }
+    // Show confirm dialogue
     Swal.fire({
-      title: 'Proceed?',
+      title: 'Place order',
       text: "You won't be able to update this order once it is created!",
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3F51B5',
       cancelButtonColor: '#F44336',
-      confirmButtonText: 'Yes, create it!',
+      confirmButtonText: 'Yes, proceed',
     }).then((result) => {
       if (result.isConfirmed) {
-        //this.isLoading = true;
-        console.log(form.value);
+        //Lock fields to be not editable
+        this.locked = true;
 
-        if (!this.user.subscription) {
-          this.selectedServiceType = this.serviceTypes.find(
-            (s) => s.name === form.value.serviceType
-          );
-          console.log(this.selectedServiceType);
+        // User on subscription
+        if (this.user.subscription) {
+          this.paymentStatus = 'Monthly';
+          console.log('User on subscription');
+          this.onAddService();
         }
-
-        // const service: ServiceRequest = {
-        //   id: null,
-        //   serviceType: this.selectedServiceType.name || this.user.subscription,
-        //   reference: form.value.reference,
-        //   pickupTime: form.value.pickupTime,
-        //   paymentMethod: form.value.paymentMethod || 'Monthly subscription',
-        //   paymentStatus: 'Pending',
-        //   status: this.status[0],
-        //   requestedOn: new Date(Date.now()).toISOString(),
-        //   returnedOn: null,
-        //   owner: this.userId,
-        // };
-
-        // this.serviceRequestService.addService(service);
-        // form.resetForm();
-        // console.log(service);
+        // Once-off on cash-on-delivery
+        else if (form.value.paymentMethod === 'Cash on delivery') {
+          this.paymentStatus = 'Pending';
+          console.log('Once-off on cash-on-delivery');
+          this.onAddService();
+          // Once-off on in-app-payment
+        } else {
+          console.log('Once-off on in-app-payment');
+          this.showPaymentServices = true;
+          this.order = {
+            email: this.user.email,
+            amount: this.selectedServiceType.price,
+            reference: form.value.reference,
+          };
+        }
       }
     });
   }
 
+  onAddService() {
+    console.log('onAddService Called');
+    //this.isLoading = true;
+    const service: ServiceRequest = {
+      id: null,
+      serviceType: this.selectedServiceType.name || this.user.subscription,
+      reference: this.reference,
+      pickupTime: this.pickupTime,
+      paymentMethod: this.paymentMethod || 'Monthly subscription',
+      paymentStatus: this.paymentStatus,
+      status: this.status[0],
+      requestedOn: new Date(Date.now()).toISOString(),
+      returnedOn: null,
+      owner: this.userId,
+    };
+    this.serviceRequestService.addService(service);
+  }
+
+  // Google pay
   googlePaymentRequest() {
     this.paymentRequest = {
       apiVersion: 2,
@@ -181,9 +225,33 @@ export class ServiceCreateComponent implements OnInit, OnDestroy {
   async onLoadPaymentData(event: Event) {
     const paymentData = (event as CustomEvent<google.payments.api.PaymentData>)
       .detail;
-    const emptyCart = {}
+    const emptyCart = {};
     await this.serviceRequestService.processOrder(emptyCart, paymentData);
-    this.router.navigate(['my-orders'])
+    this.router.navigate(['my-orders']);
+  }
+
+  //Paystack
+  paymentInit() {
+    console.log('Payment initialized');
+  }
+
+  paymentDone(ref: any) {
+    console.log('Payment successful', ref);
+    this.paymentStatus = ref.message;
+    if (ref.status === 'success') {
+      console.log(this.pickupTime, this.paymentCancel)
+      this.onAddService();
+    } else {
+      this.locked = false;
+      this.showPaymentServices = false;
+    }
+    console.log(this.paymentStatus);
+  }
+
+  paymentCancel() {
+    this.paymentStatus = 'Cancelled';
+    this.reference = `ref-${Math.ceil(Math.random() * 10e13)}`;
+    console.log('payment cancelled');
   }
 
   ngOnDestroy(): void {

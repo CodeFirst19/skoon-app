@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../authentication/auth.service';
 import { UserService } from '../users/user.service';
@@ -11,9 +11,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./features.component.css'],
 })
 export class FeaturesComponent implements OnInit, OnDestroy {
-  userIsAuthenticated: boolean = false;
-  private authListenerSubs: Subscription;
-  buttonText: string = this.userIsAuthenticated ? 'Subscribe' : 'Get it now';
+  @Input() userIsAuthenticated: boolean = false;
+  buttonText: string;
+  
   showSkipButton: boolean = false;
 
   errorMsg: string;
@@ -35,12 +35,7 @@ export class FeaturesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.userIsAuthenticated = this.authService.getIsAuthenticated();
-    this.authListenerSubs = this.authService
-      .getAuthStatusListener()
-      .subscribe((isAuthenticated) => {
-        this.userIsAuthenticated = isAuthenticated;
-      });
+    this.buttonText = this.userIsAuthenticated ? 'Subscribe' : 'Get it now';
 
     this.isLoadingSubscription = this.userService
       .getIsLoadingListener()
@@ -74,10 +69,10 @@ export class FeaturesComponent implements OnInit, OnDestroy {
         }
       });
     }
+    console.log(this.userIsAuthenticated);
   }
 
   ngOnDestroy(): void {
-    this.authListenerSubs.unsubscribe();
     this.errorSubscription.unsubscribe();
     this.isLoadingSubscription.unsubscribe();
     this.showSkipButton = false;

@@ -12,7 +12,7 @@
                 <div class="check"><i class="fas fa-check"></i></div>
                 <h3 class="name">{{ user.preferredName }}</h3>
                 <p class="title">{{ user.address || 'Address not provided' }}</p>
-                <p class="title">{{ user.subscription ? subscribed : notSubscribed  }} <a color="primary" routerLink="/subscribe"><mat-icon>edit</mat-icon></a></p>
+                <p class="title">{{ user.subscription ? subscribed : notSubscribed  }} <a color="primary" routerLink="/dashboard/subscribe"><mat-icon>edit</mat-icon></a></p>
                 <p class="description mx-5">You has by far requested <strong>{{ user.services.length }}</strong> services. <a class="user-services-link"><strong>Click here</strong></a> to view all your completed service requests.</p>
                 <div class="social-icons text-center">
                     <div class="icon me-5">

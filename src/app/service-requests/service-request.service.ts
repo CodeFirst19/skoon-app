@@ -113,7 +113,7 @@ export class ServiceRequestService {
             'Your request was sent successfully!',
             'success'
           );
-          this.router.navigate(['/my-orders']);
+          this.router.navigate(['/dashboard/my-orders']);
         },
         (error) => {
           this.isLoadingListener.next(false);
@@ -152,7 +152,7 @@ export class ServiceRequestService {
           );
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: null });
-          this.router.navigate(['/all-orders']);
+          this.router.navigate(['/dashboard/all-orders']);
         },
         (error) => {
           this.isLoadingListener.next(false);
