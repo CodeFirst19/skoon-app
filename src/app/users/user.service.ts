@@ -113,7 +113,7 @@ export class UserService {
             'Your request has completed successfully.',
             'success'
           );
-          this.router.navigate(['/my-profile']);
+          this.router.navigate(['/dashboard/my-profile']);
         },
         (error) => {
           this.isLoadingListener.next(false);
