@@ -66,7 +66,7 @@
       <mat-card-title class="mb-3">Choose your payment service</mat-card-title>
       <mat-card-content>
         <!-- Pay with Google -->
-        <google-pay-button 
+        <!-- <google-pay-button 
           class="w-100"
           environment="TEST"
           buttonType="buy"
@@ -74,19 +74,20 @@
           buttonSizeMode="fill"
           [paymentRequest]="paymentRequest" 
           (loadpaymentdata)="onLoadPaymentData($event)">
-        </google-pay-button>
+        </google-pay-button> -->
         <!-- Pay with Paystack -->
         <angular4-paystack
+          mat-raised-button 
+          color="primary"
           class="w-100 mt-2"
           [email]="order.email"
           [amount]="order.amount"
           [currency]="currency"
           [ref]="order.reference"
           [channels]="['bank']"
-          [class]="'btn btn-dark'"
           (onClose)="paymentCancel()"
           (callback)="paymentDone($event)">
-          Paystack
+          Pay Here
         </angular4-paystack>
       </mat-card-content>
     </mat-card>

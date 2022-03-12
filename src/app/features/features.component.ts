@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../authentication/auth.service';
 import { UserService } from '../users/user.service';
@@ -11,15 +11,17 @@ import Swal from 'sweetalert2';
   styleUrls: ['./features.component.css'],
 })
 export class FeaturesComponent implements OnInit, OnDestroy {
-  @Input() userIsAuthenticated: boolean = false;
+  @Input() userIsAuthenticated = false;
+  @Output() serviceSubscription = new EventEmitter<string>();
+
   buttonText: string;
-  
-  showSkipButton: boolean = false;
+
+  showSkipButton = false;
 
   errorMsg: string;
   private errorSubscription: Subscription;
 
-  isLoading: boolean = false;
+  isLoading = false;
   private isLoadingSubscription: Subscription;
 
   serviceTypes = {
@@ -50,26 +52,8 @@ export class FeaturesComponent implements OnInit, OnDestroy {
       });
   }
 
-  onServiceSubscription(serviceType) {
-    if (!this.userIsAuthenticated) {
-      this.router.navigate(['/signup']);
-    } else {
-      Swal.fire({
-        title: 'New Subscription',
-        text: `You are about to subscribe for ${this.serviceTypes[serviceType.toLowerCase()]}`,
-        icon: 'info',
-        showCancelButton: true,
-        confirmButtonColor: '#3F51B5',
-        cancelButtonColor: '#F44336',
-        confirmButtonText: 'Yes, subscribe!',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.isLoading = true;
-          this.userService.updateMe({ subscription: serviceType });
-        }
-      });
-    }
-    console.log(this.userIsAuthenticated);
+  onServiceSubscription(serviceType: string) {
+    this.serviceSubscription.emit(serviceType);
   }
 
   ngOnDestroy(): void {

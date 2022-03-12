@@ -26,6 +26,7 @@
     "angular4-paystack": "^3.0.2",
     "angularx-social-login": "^4.0.1",
     "bootstrap": "^5.1.3",
+    "chart.js": "^2.5.0",
     "creditcardpayments": "^1.0.3",
     "moment": "^2.29.1",
     "ngx-gauge": "^4.0.0",

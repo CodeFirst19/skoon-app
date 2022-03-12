@@ -60,6 +60,7 @@ import { UserServicesComponent } from './users/user-services/user-services.compo
 import { UserSubscriptionComponent } from './users/user-subscription/user-subscription.component';
 import { GPayDisableDirective } from './g-pay-disable.directive';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SubscribeComponent } from './users/user-subscription/subscribe/subscribe.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     UserSubscriptionComponent,
     GPayDisableDirective,
     DashboardComponent,
+    SubscribeComponent,
   ],
   imports: [
     BrowserModule,

@@ -13,7 +13,7 @@
                 <h3 class="name">{{ user.preferredName }}</h3>
                 <p class="title">{{ user.address || 'Address not provided' }}</p>
                 <p class="title">{{ user.subscription ? subscribed : notSubscribed  }} <a color="primary" routerLink="/dashboard/subscribe"><mat-icon>edit</mat-icon></a></p>
-                <p class="description mx-5">You has by far requested <strong>{{ user.services.length }}</strong> services. <a class="user-services-link"><strong>Click here</strong></a> to view all your completed service requests.</p>
+                <p class="description mx-5">You has by far requested <strong>{{ user.services.length }}</strong> services. <a class="user-services-link" routerLink="/dashboard/my-orders"><strong>Click here</strong></a> to view all your completed service requests.</p>
                 <div class="social-icons text-center">
                     <div class="icon me-5">
                             <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon">

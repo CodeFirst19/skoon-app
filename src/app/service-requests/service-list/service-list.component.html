@@ -6,19 +6,25 @@
 <mat-card class="mt-4" *ngIf="numServices && !isLoading">
   <mat-card-content>
     <div>
-      <div class="search-div text-end">
-        <mat-form-field class="example-full-width">
-          <input matInput type="text" name="searchKey" [(ngModel)]="searchKey" placeholder="Type here to search..." (keydown)="applyFilter()" autocomplete="off"/>
-          <button *ngIf="searchKey" class="clear-btn" (click)="onSearchClear()" mat-button matSuffix mat-icon-button aria-label="Clear">
-            <mat-icon>clear</mat-icon>
-          </button>
-        </mat-form-field>
+      <div class="row">
+        <div class="col-md-6">
+          <button mat-raised-button color="primary" routerLink="/dashboard/my-orders">My Orders</button>
+        </div>
+        <div class="col-md-6 search-div text-end">
+          <mat-form-field class="example-full-width">
+            <input matInput type="text" name="searchKey" [(ngModel)]="searchKey" placeholder="Type here to search..." (keydown)="applyFilter()" autocomplete="off"/>
+            <button *ngIf="searchKey" class="clear-btn" (click)="onSearchClear()" mat-button matSuffix mat-icon-button aria-label="Clear">
+              <mat-icon>clear</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
       </div>
+
       <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
           <!-- Package Column -->
           <ng-container matColumnDef="package">
-            <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by package">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by package">
               Package
             </th>
             <td mat-cell *matCellDef="let element"> {{element.serviceType}} </td>

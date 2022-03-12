@@ -2,62 +2,56 @@
   <input id="nav-toggle" type="checkbox" />
   <div class="logo"><img src="../../../assets/images/nav-logo.PNG" alt=""></div>
   <ul class="links">
-    <li>
+    <li *ngIf="!userIsAuthenticated">
       <a
         class="nav-link scrollto active"
         routerLink="/"
-        *ngIf="!userIsAuthenticated"
         >Home</a
       >
     </li>
     <!-- <li><a class="nav-link scrollto" href="#about">About</a></li> -->
-    <li>
-      <a class="nav-link scrollto" href="#pricing" *ngIf="!userIsAuthenticated"
+    <li *ngIf="!userIsAuthenticated">
+      <a class="nav-link scrollto" href="#pricing"
         >Services</a
       >
     </li>
-    <li>
-      <a class="nav-link scrollto" href="#contact" *ngIf="!userIsAuthenticated"
+    <li *ngIf="!userIsAuthenticated">
+      <a class="nav-link scrollto" href="#contact"
         >Contact</a
       >
     </li>
-    <li>
+    <!-- <li *ngIf="!userIsAuthenticated">
       <a
         class="nav-link scrollto"
         routerLink="/signin"
-        *ngIf="!userIsAuthenticated"
         >Sign In</a
       >
-    </li>
-    <li>
+    </li> -->
+    <li *ngIf="!userIsAuthenticated">
       <a
         class="nav-link scrollto"
         routerLink="/signup"
-        *ngIf="!userIsAuthenticated"
         >Sign Up</a
       >
     </li>
-    <li>
+    <li *ngIf="userIsAuthenticated">
       <a
         class="nav-link scrollto"
         routerLink="dashboard/my-profile"
-        *ngIf="userIsAuthenticated"
         >Profile</a
       >
     </li>
-    <li>
+    <li *ngIf="userIsAuthenticated && userIsAdmin">
       <a
         class="nav-link scrollto"
         routerLink="dashboard/all-users"
-        *ngIf="userIsAuthenticated && userIsAdmin"
         >Users</a
       >
     </li>
-    <li>
+    <li *ngIf="userIsAuthenticated && userIsAdmin">
       <a
         class="nav-link scrollto"
         routerLink="dashboard/all-orders"
-        *ngIf="userIsAuthenticated && userIsAdmin"
         >Orders</a
       >
     </li>
@@ -65,18 +59,17 @@
       <a
         class="nav-link scrollto"
         routerLink="dashboard/my-orders"
-        *ngIf="userIsAuthenticated"
+        *ngIf="userIsAuthenticated && !userIsAdmin"
         >My Orders</a
       >
     </li>
-    <li>
+    <!-- <li *ngIf="userIsAuthenticated">
       <a
         class="nav-link scrollto"
         routerLink="dashboard/place-order"
-        *ngIf="userIsAuthenticated"
-        >Place Order</a
+        >New Order</a
       >
-    </li>
+    </li> -->
     <!-- <li>
       <a
         class="nav-link scrollto"
@@ -85,10 +78,9 @@
         >More</a
       >
     </li> -->
-    <li>
+    <li *ngIf="userIsAuthenticated">
       <a
         class="nav-link scrollto"
-        *ngIf="userIsAuthenticated"
         (click)="onLogout()"
         >Sign Out</a
       >
