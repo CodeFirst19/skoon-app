@@ -77,9 +77,8 @@
         </google-pay-button> -->
         <!-- Pay with Paystack -->
         <angular4-paystack
-          mat-raised-button 
-          color="primary"
           class="w-100 mt-2"
+          [class]="'btn btn-dark'"
           [email]="order.email"
           [amount]="order.amount"
           [currency]="currency"
