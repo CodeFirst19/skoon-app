@@ -13,8 +13,6 @@ export class SubscribeComponent implements OnInit {
   currency = 'ZAR';
   reference = `ref-${Math.ceil(Math.random() * 10e13)}`;
 
-  disabled = true;
-
   constructor(
     private userService: UserService,
     private router:Router,
@@ -42,8 +40,8 @@ export class SubscribeComponent implements OnInit {
   paymentDone(ref: any) {
     console.log(ref);
     if (ref.status === 'success') {
-      this.userService.updateMe({ subscription: this.subscription.serviceName });
-      this.disabled = false;
+      this.userService.updateMe({ subscription: this.subscription.serviceName, email: this.subscription.email });
+      this.dialogRef.close();
       this.router.navigate(['/dashboard/my-profile']);
     }
   }

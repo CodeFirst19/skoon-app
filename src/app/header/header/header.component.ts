@@ -20,7 +20,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const role = localStorage.getItem('role');
     this.userIsAdmin = role === 'admin' ? true : false;
     this.userIsAuthenticated = this.authService.getIsAuthenticated();
-    this.isAdminListenerSubs = this.authService.getIsAdminListener()
+    this.isAdminListenerSubs = this.authService
+      .getIsAdminListener()
       .subscribe((isAdmin) => {
         this.userIsAdmin = isAdmin;
       });
@@ -30,9 +31,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.userIsAuthenticated = isAuthenticated;
       });
   }
-
-  public onToggleSidenav = () => {};
-
+  
   onLogout() {
     this.authService.logout();
   }

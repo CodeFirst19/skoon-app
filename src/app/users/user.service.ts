@@ -116,6 +116,7 @@ export class UserService {
           this.router.navigate(['/dashboard/my-profile']);
         },
         (error) => {
+          console.log(error)
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: error.error.message });
           this.showSweetSuccessToast(
