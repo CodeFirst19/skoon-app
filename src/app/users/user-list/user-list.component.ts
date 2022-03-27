@@ -90,7 +90,6 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   onViewUserDialog(user): void {
-    console.log(user);
     const dialogRef = this.dialog.open(UserViewComponent, {
       panelClass: 'dialog-responsive',
       autoFocus: false,
@@ -99,7 +98,6 @@ export class UserListComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
         // this.userService.sendMessage(result.service.id, result.message);
       }
     });

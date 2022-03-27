@@ -9,7 +9,7 @@ import { UserService } from '../../user.service';
   templateUrl: './subscribe.component.html',
   styleUrls: ['./subscribe.component.css'],
 })
-export class SubscribeComponent implements OnInit {
+export class SubscribeComponent {
   currency = 'ZAR';
   reference = `ref-${Math.ceil(Math.random() * 10e13)}`;
 
@@ -29,16 +29,11 @@ export class SubscribeComponent implements OnInit {
     dialogRef.disableClose = true;
   }
 
-  ngOnInit(): void {
-    console.log(this.subscription);
-  }
-
   paymentCancel() {
     this.reference = `ref-${Math.ceil(Math.random() * 10e13)}`;
   }
 
   paymentDone(ref: any) {
-    console.log(ref);
     if (ref.status === 'success') {
       this.userService.updateMe({ subscription: this.subscription.serviceName, email: this.subscription.email });
       this.dialogRef.close();

@@ -30,11 +30,7 @@ export class FeaturesComponent implements OnInit, OnDestroy {
     premium: 'a premium service for R719/pm',
   };
 
-  constructor(
-    private authService: AuthService,
-    public userService: UserService,
-    private router: Router
-  ) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     this.buttonText = this.userIsAuthenticated ? 'Subscribe' : 'Get it now';
@@ -53,7 +49,11 @@ export class FeaturesComponent implements OnInit, OnDestroy {
   }
 
   onServiceSubscription(serviceType: string) {
-    this.serviceSubscription.emit(serviceType);
+    if (this.userIsAuthenticated) {
+      this.serviceSubscription.emit(serviceType);
+    } else {
+      this.router.navigate(['/signin']);
+    }
   }
 
   ngOnDestroy(): void {

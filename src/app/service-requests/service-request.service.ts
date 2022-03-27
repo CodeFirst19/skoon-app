@@ -76,9 +76,9 @@ export class ServiceRequestService {
     //   paymentData.paymentMethodData,
     // );
 
-    return Promise.resolve({
-      orderId: Date.now().valueOf().toString(),
-    });
+    // return Promise.resolve({
+    //   orderId: Date.now().valueOf().toString(),
+    // });
   }
 
 
@@ -162,7 +162,6 @@ export class ServiceRequestService {
             'Error occurred while updating the status!',
             'error'
           );
-          console.log(error.error.message);
         }
       );
   }

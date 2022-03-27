@@ -65,7 +65,6 @@ export class PaymentListComponent implements OnInit, OnDestroy {
   }
 
   onDeletePAymentDetails(paymentDetailId) {
-    console.log(paymentDetailId);
     Swal.fire({
       title: 'Are you sure you want to delete this item?',
       text: "You won't be able to revert this!",

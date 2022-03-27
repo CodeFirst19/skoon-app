@@ -27,7 +27,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('token')) {
         this.passwordResetToken = paramMap.get('token');
-        console.log(this.passwordResetToken);
       }
     });
     this.isLoadingSubscription = this.passwordResetService

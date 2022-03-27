@@ -137,18 +137,16 @@ export class ServiceListComponent implements OnInit, OnDestroy {
   }
 
   onViewServiceDialog(service): void {
-    console.log(service);
     const dialogRef = this.dialog.open(ServiceViewComponent, {
       panelClass: "dialog-responsive",
       data: service,
     });
 
-    FIXME: dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        console.log(result.service.id);
-        // this.serviceService.sendMessage(result.service.id, result.message);
-      }
-    });
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   if (result) {
+    //     // this.serviceService.sendMessage(result.service.id, result.message);
+    //   }
+    // });
   }
 
   onPageChanged(pageData: PageEvent) {

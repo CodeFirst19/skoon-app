@@ -107,7 +107,6 @@ export class UserService {
           this.isLoadingListener.next(false);
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: null });
-          console.log(this.user.subscription);
           this.showSweetSuccessToast(
             'Success',
             'Your request has completed successfully.',
@@ -116,7 +115,6 @@ export class UserService {
           this.router.navigate(['/dashboard/my-profile']);
         },
         (error) => {
-          console.log(error)
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: error.error.message });
           this.showSweetSuccessToast(

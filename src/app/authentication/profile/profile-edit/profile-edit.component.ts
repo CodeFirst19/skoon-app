@@ -59,7 +59,6 @@ export class ProfileEditComponent implements OnInit {
        email: form.value.email,
        phone: form.value.phone,
      };
-    console.log(form.value.phone);
     this.userService.updateMe(user);
     form.resetForm();
   }

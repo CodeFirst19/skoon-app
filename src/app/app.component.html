@@ -1,6 +1,7 @@
 <div>
-  <app-header></app-header>
-  <main>
+  <app-header (loader)="onLogoutLoader($event)"></app-header>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <main *ngIf="!isLoading">
     <router-outlet></router-outlet>
   </main>
 </div>

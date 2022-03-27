@@ -68,7 +68,6 @@ export class UserSubscriptionComponent implements OnInit, OnDestroy {
       .getAuthStatusListener()
       .subscribe((isAuthenticated) => {
         this.userIsAuthenticated = isAuthenticated;
-        console.log(isAuthenticated);
       });
 
     this.isLoadingSubscription = this.userService

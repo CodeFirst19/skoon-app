@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 import { AuthService } from './../../authentication/auth.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +13,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   role: string;
   private authListenerSubs: Subscription;
   private isAdminListenerSubs: Subscription;
+
+  isLoading: boolean;
+  @Output() loader = new EventEmitter<boolean>();
 
   constructor(private authService: AuthService) {}
 
@@ -31,9 +34,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.userIsAuthenticated = isAuthenticated;
       });
   }
-  
+
   onLogout() {
-    this.authService.logout();
+    this.isLoading = true;
+    this.loader.emit(this.isLoading);
+    setTimeout(() => {
+      this.isLoading = false
+      this.loader.emit(this.isLoading);
+      this.authService.logout();
+    }, 1500);
   }
 
   ngOnDestroy(): void {

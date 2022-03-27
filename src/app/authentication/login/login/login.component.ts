@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.socialAuthService.authState.subscribe((user) => {
       if (user) {
-        console.log(user);
         this.authService.socialLogin(user);
       }
     });

@@ -8,11 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-
   constructor(private authService: AuthService) {}
+  isLoading = false;
 
   ngOnInit(): void {
-   this.authService.autoAuthUser()
+    this.authService.autoAuthUser();
   }
 
+  onLogoutLoader(isLoading: boolean) {
+    this.isLoading = isLoading;
+  }
 }

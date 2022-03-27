@@ -3071,7 +3071,6 @@
           }
         }
 
-        console.log('stopSlideVideo is deprecated, use slidePlayerPause');
         var player = this.getSlidePlayerInstance(slide);
 
         if (player && player.playing) {
