@@ -171,3 +171,7 @@ img {
 .user-services-link:hover {
     color: #0275d8;
 } 
+
+mat-icon {
+  vertical-align: middle;
+}

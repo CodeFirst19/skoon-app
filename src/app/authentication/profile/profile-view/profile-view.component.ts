@@ -65,8 +65,8 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
 
   onDeleteUserAccount() {
     Swal.fire({
-      title: 'Are you sure you want to permanently delete your account?',
-      text: "You won't be able to revert this!",
+      title: 'By confirming, you agree that this account will be deleted permanently.',
+      text: "We recommend that you cancel your services or complete them first before deleting your account.",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3F51B5',

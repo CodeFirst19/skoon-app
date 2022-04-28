@@ -6,6 +6,7 @@ export interface User {
   address: string;
   socialMediaHandles: string[];
   role: String;
+  active: boolean;
   services: ServiceRequest[];
   subscription: string;
 }

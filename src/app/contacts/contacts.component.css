@@ -83,7 +83,7 @@
 .contact .php-email-form textarea {
   padding: 10px 12px;
 }
-.contact button[type=submit] {
+.contact .enquiry-form  button[type=submit] {
   background: #120A3B;
   border: 0;
   padding: 10px 30px;
@@ -143,18 +143,4 @@
   line-height: 24px;
   font-weight: 300;
   color: #817c7c;
-}
-
-mat-form-field {
-  width: 100%;
-}
-
-mat-icon {
-  vertical-align: middle;
-}
-
-mat-spinner {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 10%;
 }
