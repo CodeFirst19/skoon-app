@@ -33,6 +33,9 @@ a {
   .dialog-responsive {
     width: 100%;
   }
+  ::-webkit-scrollbar {
+    display: none;
+}
 }
 
 ::-webkit-scrollbar {

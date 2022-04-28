@@ -2,7 +2,7 @@
   <mat-icon>error</mat-icon> {{ errorMsg }}
 </div> -->
 <!-- ======= Pricing Section ======= -->
-<section id="pricing" class="pricing " *ngIf="!errorMsg">
+<section id="pricing" class="pricing pb-3" *ngIf="!errorMsg">
   <div class="container pb-2">
     <div class="section-title">
 		<div class="row text-center mt-5 py-3">
@@ -16,51 +16,84 @@
     </div>
 
     <div class="row">
-      <div class="col-lg-4 col-md-6">
-        <div class="box">
-          <h3>Basic</h3>
-          <h4><sup>R</sup>679<span> / month</span></h4>
-          <ul>
-            <li>Washing</li>
-            <li>Drying</li>
-			      <li class="na">Ironing</li>
-            <li>Folding</li>
-          </ul>
-          <div class="btn-wrap">
-            <a class="btn-buy" (click)="onServiceSubscription('Basic')">{{ buttonText }}</a>
+      <div #flipCardBasic class="col-lg-4 col-md-6 flip-card">
+        <div #flipCardInnerBasic class="box flip-card-inner">
+          <div class="flip-card-front">
+            <h3>Basic</h3>
+            <h4><sup>R</sup>679<span> / month</span></h4>
+            <ul>
+              <li>Washing</li>
+              <li>Drying</li>
+              <li class="na">Ironing</li>
+              <li>Folding</li>
+            </ul>
+            <div class="btn-wrap">
+              <a class="btn-buy" (click)="onViewMore('basic')">View More</a>
+            </div>
+          </div>
+          <div class="flip-card-back">
+            <mat-icon class="flip-card-close" (click)="onCancel('basic')">cancel</mat-icon>
+            <h1>John Doe</h1> 
+            <p>Architect & Engineer</p> 
+            <p>We love that guy</p>
+            <div class="btn-wrap">
+              <a class="btn-buy" (click)="onServiceSubscription('Basic')">{{ buttonText }}</a>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-4 col-md-6 mt-4 mt-md-0">
-        <div class="box recommended">
-          <span class="recommended-badge">Recommended</span>
-          <h3>Advanced</h3>
-          <h4><sup>R</sup>859<span> / month</span></h4>
-          <ul>
-            <li>Washing</li>
-            <li>Drying</li>
-            <li>Ironing</li>
-            <li>Folding</li>
-          </ul>
-          <div class="btn-wrap">
-            <a class="btn-buy" (click)="onServiceSubscription('Advanced')">{{ buttonText }}</a>
+      <div #flipCardAdvanced class="col-lg-4 col-md-6 mt-4 mt-md-0 flip-card">
+        <div #flipCardInnerAdvanced class="box recommended flip-card-inner">
+          <div class="flip-card-front">
+            <span class="recommended-badge">Recommended</span>
+            <h3>Advanced</h3>
+            <h4><sup>R</sup>859<span> / month</span></h4>
+            <ul>
+              <li>Washing</li>
+              <li>Drying</li>
+              <li>Ironing</li>
+              <li>Folding</li>
+            </ul>
+            <div class="btn-wrap">
+              <a class="btn-buy" (click)="onViewMore('advanced')">View More</a>
+            </div>
+          </div>
+          <div class="flip-card-back">
+            <mat-icon class="flip-card-close" (click)="onCancel('advanced')">cancel</mat-icon>
+            <h1>John Doe</h1> 
+            <p>Architect & Engineer</p> 
+            <p>We love that guy</p>
+            <div class="btn-wrap">
+              <a class="btn-buy" (click)="onServiceSubscription('Advanced')">{{ buttonText }}</a>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-4 col-md-6 mt-4 mt-lg-0">
-        <div class="box">
-          <h3>Premium</h3>
-          <h4><sup>R</sup>749<span> / month</span></h4>
-          <ul>
-            <li class="na">Washing</li>
-            <li class="na">Drying</li>
-			<li>Ironing</li>
-            <li class="na">Folding</li>
-          </ul>
-          <div class="btn-wrap">
-            <a class="btn-buy" (click)="onServiceSubscription('Premium')">{{ buttonText }}</a>
+      <div #flipCardPremium class="col-lg-4 col-md-6 mt-4 mt-lg-0 flip-card">
+        <div #flipCardInnerPremium class="box flip-card-inner">
+          <div class="flip-card-front">
+            <h3>Premium</h3>
+            <h4><sup>R</sup>749<span> / month</span></h4>
+            <ul>
+              <li class="na">Washing</li>
+              <li class="na">Drying</li>
+              <li>Ironing</li>
+              <li class="na">Folding</li>
+            </ul>
+            <div class="btn-wrap">
+              <a class="btn-buy" (click)="onViewMore('premium')">View More</a>
+            </div>
+          </div>
+          <div class="flip-card-back">
+            <mat-icon class="flip-card-close" (click)="onCancel('premium')">cancel</mat-icon>
+            <h1>John Doe</h1> 
+            <p>Architect & Engineer</p> 
+            <p>We love that guy</p>
+            <div class="btn-wrap">
+              <a class="btn-buy" (click)="onServiceSubscription('Premium')">{{ buttonText }}</a>
+            </div>
           </div>
         </div>
       </div>

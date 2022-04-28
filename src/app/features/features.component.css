@@ -6,7 +6,7 @@
   text-align: center;
   border-radius: 8px;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
   background: #fefefe;
   box-shadow: 0px 5px 90px 0px rgba(110, 123, 131, 0.1);
 }
@@ -87,7 +87,7 @@
 }
 .pricing .recommended-badge {
   position: absolute;
-  top: 20px;
+  top: -15px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
@@ -130,4 +130,62 @@
   line-height: 24px;
   font-weight: 300;
   color: #817c7c;
+}
+
+.flip-card {
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+  background-color: transparent;
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  height: auto;
+  height: 500px;
+}
+
+/* .flip-card:hover .flip-card-inner,
+.flip-card:focus .flip-card-inner{
+  transform: rotateY(180deg);
+} */
+
+.flip-card-hover .flip-card-inner-transform,
+.flip-card-hover:focus .flip-card-inner-transform{
+  transform: rotateY(180deg);
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+/* .flip-card:hover .flip-card-inner{
+  transform: rotateY(180deg);
+} */
+
+.flip-card-hover .flip-card-inner-transform {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.flip-card-front {
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style the back side */
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+.flip-card-close {
+  position: absolute;
+  right: -10px;
+  top: -30px;
+  color: #120A3B;
+  cursor: pointer;
 }

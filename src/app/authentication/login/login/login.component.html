@@ -4,7 +4,7 @@
   <mat-card-content>
     <p class="mb-4 text-center">Please login below to access your account</p>
     <div class="alert alert-danger" role="alert" *ngIf="errorMsg">
-      {{ errorMsg }}
+      <mat-icon>error</mat-icon> {{ errorMsg }}
     </div>
     <form (submit)="onLogin(loginForm)" #loginForm="ngForm">
       <!-- Email -->

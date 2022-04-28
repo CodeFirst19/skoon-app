@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../authentication/auth.service';
 import { UserService } from '../users/user.service';
@@ -30,6 +30,15 @@ export class FeaturesComponent implements OnInit, OnDestroy {
     premium: 'a premium service for R719/pm',
   };
 
+  @ViewChild('flipCardBasic') flipCardBasic: ElementRef;
+  @ViewChild('flipCardInnerBasic') flipCardInnerBasic: ElementRef;
+
+  @ViewChild('flipCardAdvanced') flipCardAdvanced: ElementRef;
+  @ViewChild('flipCardInnerAdvanced') flipCardInnerAdvanced: ElementRef;
+
+  @ViewChild('flipCardPremium') flipCardPremium: ElementRef;
+  @ViewChild('flipCardInnerPremium') flipCardInnerPremium: ElementRef;
+
   constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
@@ -53,6 +62,53 @@ export class FeaturesComponent implements OnInit, OnDestroy {
       this.serviceSubscription.emit(serviceType);
     } else {
       this.router.navigate(['/signin']);
+    }
+  }
+
+  onViewMore(serviceType: string) {
+    switch (serviceType) {
+      case 'basic':
+        this.flipCardBasic.nativeElement.classList.add('flip-card-hover');
+        this.flipCardInnerBasic.nativeElement.classList.add(
+          'flip-card-inner-transform'
+        );
+        break;
+      case 'advanced':
+        this.flipCardAdvanced.nativeElement.classList.add('flip-card-hover');
+        this.flipCardInnerAdvanced.nativeElement.classList.add(
+          'flip-card-inner-transform'
+        );
+        break;
+      case 'premium':
+        this.flipCardPremium.nativeElement.classList.add('flip-card-hover');
+        this.flipCardInnerPremium.nativeElement.classList.add(
+          'flip-card-inner-transform'
+        );
+        break;
+    }
+  }
+
+  onCancel(serviceType: string) {
+    switch (serviceType) {
+      case 'basic':
+        this.flipCardBasic.nativeElement.classList.remove('flip-card-hover');
+        this.flipCardInnerBasic.nativeElement.classList.remove(
+          'flip-card-inner-transform'
+        );
+        console.log('removed');
+        break;
+      case 'advanced':
+        this.flipCardAdvanced.nativeElement.classList.remove('flip-card-hover');
+        this.flipCardInnerAdvanced.nativeElement.classList.remove(
+          'flip-card-inner-transform'
+        );
+        break;
+      case 'premium':
+        this.flipCardPremium.nativeElement.classList.remove('flip-card-hover');
+        this.flipCardInnerPremium.nativeElement.classList.remove(
+          'flip-card-inner-transform'
+        );
+        break;
     }
   }
 

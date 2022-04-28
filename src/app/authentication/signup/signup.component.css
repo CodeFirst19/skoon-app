@@ -24,3 +24,7 @@ mat-spinner {
     margin-right: auto;
   }
 }
+
+mat-icon {
+  vertical-align: middle;
+}

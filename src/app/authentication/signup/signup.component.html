@@ -6,7 +6,7 @@
       Please signup below to have access to our unlimited services
     </p>
     <div class="alert alert-danger" role="alert" *ngIf="errorMsg">
-      {{ errorMsg }}
+       <mat-icon>error</mat-icon> {{ errorMsg }}
     </div>
     <form (submit)="onSignup(signupForm)" #signupForm="ngForm">
       <mat-form-field class="example-full-width">
