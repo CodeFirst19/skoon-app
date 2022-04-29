@@ -18,7 +18,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 
 
@@ -43,7 +42,6 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     MatPaginatorModule,
     MatChipsModule,
     MatProgressSpinnerModule,
-    NgxMaterialTimepickerModule,
    
   ],
 })
