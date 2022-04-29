@@ -28,9 +28,9 @@
         <input matInput type="text" name="reference" #paymentReference="ngModel" ngModel/>
       </mat-form-field>
       <div class="mt-2">
-        <!-- Pickup time -->
+        <!-- Pickup date -->
         <mat-form-field>
-          <mat-label>Pickup Time</mat-label>
+          <mat-label>Pickup Date</mat-label>
           <input matInput [matDatepicker]="picker" name="pickupTime" #pickupTime="ngModel" [min]="todayDate"  ngModel required/>
           <mat-datepicker-toggle matSuffix [for]="picker"
           ></mat-datepicker-toggle>
@@ -38,7 +38,7 @@
           <mat-error *ngIf="pickupTime.invalid">Pickup time is <strong>required</strong></mat-error>
         </mat-form-field>
         <!-- Payment type -->
-        <mat-label>Check Out</mat-label>
+        <!-- <mat-label>Check Out</mat-label>
         <mat-radio-group color="primary" name="paymentMethod" #paymentMethod="ngModel" ngModel required *ngIf="!user.subscription">
           <div class="">
             <div class="mt-2" *ngFor="let payment of paymentMethods">
@@ -46,9 +46,9 @@
                 payment
               }}</mat-radio-button>
             </div>
-            <!-- <mat-error class="mt-2" *ngIf="paymentMethod.invalid">Payment time is <strong>required</strong></mat-error> -->
+            <mat-error class="mt-2" *ngIf="paymentMethod.invalid">Payment time is <strong>required</strong></mat-error>
           </div>
-        </mat-radio-group>
+        </mat-radio-group> -->
       </div>
       <!-- Button -->
       <button 

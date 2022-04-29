@@ -18,6 +18,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+
+
 
 @NgModule({
   // You can remove the imports array and just have only exports to avoid redundancy
@@ -40,6 +43,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatPaginatorModule,
     MatChipsModule,
     MatProgressSpinnerModule,
+    NgxMaterialTimepickerModule,
+   
   ],
 })
 export class AngularMaterialModule {}

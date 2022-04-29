@@ -19,7 +19,7 @@ export class ServiceCreateComponent implements OnInit, OnDestroy {
   private userId: string;
   user: User;
   private userListenerSubs: Subscription;
-  todayDate: Date = new Date();
+  todayDate: Date = new Date();z
   serviceTypes = [
     {
       name: 'Basic',
