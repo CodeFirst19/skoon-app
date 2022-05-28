@@ -39,7 +39,9 @@
             <p>Collection once a week for 4 weeks</p>
             <p>Saving you 65% off on your laundry</p>
             <div class="btn-wrap">
-              <a class="btn-buy" (click)="onServiceSubscription('Basic')">{{ buttonText }}</a>
+              <a class="btn-buy mb-2" (click)="onGetOnceOffDialog('Basic')" *ngIf="!userIsAuthenticated">Get Once Off</a>
+              <br>
+              <a class="btn-buy" (click)="onServiceSubscription('Basic')">Subscribe</a>
             </div>
           </div>
         </div>
@@ -69,7 +71,9 @@
             <p>Collection once a week for 4 weeks</p>
             <p>Saving you 65% off on your laundry</p>
             <div class="btn-wrap">
-              <a class="btn-buy" (click)="onServiceSubscription('Advanced')">{{ buttonText }}</a>
+              <a class="btn-buy mb-2" (click)="onGetOnceOffDialog('Advanced')" *ngIf="!userIsAuthenticated">Get Once Off</a>
+              <br>
+              <a class="btn-buy" (click)="onServiceSubscription('Advanced')">Subscribe</a>
             </div>
           </div>
         </div>
@@ -98,7 +102,9 @@
             <p>Collection once a week for 4 weeks</p>
             <p>Saving you 65% off on your laundry</p>
             <div class="btn-wrap">
-              <a class="btn-buy" (click)="onServiceSubscription('Premium')">{{ buttonText }}</a>
+              <a class="btn-buy mb-2" (click)="onGetOnceOffDialog('Premium')" *ngIf="!userIsAuthenticated">Get Once Off</a>
+              <br>
+              <a class="btn-buy" (click)="onServiceSubscription('Premium')">Subscribe</a>
             </div>
           </div>
         </div>

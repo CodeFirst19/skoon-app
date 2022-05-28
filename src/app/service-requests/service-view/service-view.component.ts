@@ -18,7 +18,9 @@ export class ServiceViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.user = JSON.parse(JSON.stringify(this.service.owner));
+    this.user = this.service.owner
+      ? JSON.parse(JSON.stringify(this.service.owner))
+      : JSON.parse(JSON.stringify(this.service.onceOff));
   }
 
   onNoClick(): void {

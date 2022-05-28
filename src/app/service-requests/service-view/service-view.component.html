@@ -6,9 +6,10 @@
         <img mat-card-image src="../../../assets/images/profile-icon.png" />
       </div>
       <div class="check"><i class="fas fa-check"></i></div>
-      <h3 class="name">{{ user.preferredName }}</h3>
+      <h3 class="name">{{ user.preferredName }} </h3> <h3 class="name" *ngIf="!user.role">(Once-ff user)</h3>
       <p class="title">{{ user.address || 'Address not provided' }}</p>
-      <p class="title">{{ 'USER SUBSCRIBED TO ' + user.subscription}}</p>
+      <p class="title" *ngIf="user.subscription">{{ 'USER SUBSCRIBED TO ' + user.subscription}}</p>
+      <p class="title" *ngIf="!user.subscription && user.role">CURRENTLY NOT SUBSCRIBED TO ANY SERVICE</p>
       <div class="social-icons text-center">
         <div class="icon me-5">
           <button

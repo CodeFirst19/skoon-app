@@ -42,7 +42,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.isLoading = false
       this.loader.emit(this.isLoading);
       this.authService.logout();
-    }, 1500);
+    }, 1000);
   }
 
   ngOnDestroy(): void {

@@ -118,8 +118,9 @@ export class UserServicesComponent implements OnInit, OnDestroy {
           requestedOn: new Date(Date.now()).toISOString(),
           returnedOn: null,
           owner: this.userId,
+          onceOff: null,
         };
-        this.serviceRequestService.addService(service);
+        this.serviceRequestService.addService(service, null);
       }
     });
   }

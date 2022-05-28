@@ -37,18 +37,6 @@
           <mat-datepicker #picker></mat-datepicker>
           <mat-error *ngIf="pickupTime.invalid">Pickup time is <strong>required</strong></mat-error>
         </mat-form-field>
-        <!-- Payment type -->
-        <!-- <mat-label>Check Out</mat-label>
-        <mat-radio-group color="primary" name="paymentMethod" #paymentMethod="ngModel" ngModel required *ngIf="!user.subscription">
-          <div class="">
-            <div class="mt-2" *ngFor="let payment of paymentMethods">
-              <mat-radio-button [value]="payment">{{
-                payment
-              }}</mat-radio-button>
-            </div>
-            <mat-error class="mt-2" *ngIf="paymentMethod.invalid">Payment time is <strong>required</strong></mat-error>
-          </div>
-        </mat-radio-group> -->
       </div>
       <!-- Button -->
       <button 
@@ -56,8 +44,7 @@
         type="submit" 
         [disabled]="serviceForm.invalid" 
         mat-raised-button 
-        color="primary"
-        >
+        color="primary">
         Send Request
       </button>
     </form>

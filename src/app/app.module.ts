@@ -45,6 +45,7 @@ import { BannerComponent } from './banner/banner.component';
 import { FeaturesComponent } from './features/features.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { HomeComponent } from './home/home.component';
+import { GetOnceOffComponent } from './features/get-once-off/get-once-off.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { HomeComponent } from './home/home.component';
     GPayDisableDirective,
     DashboardComponent,
     SubscribeComponent,
+    GetOnceOffComponent,
   ],
   imports: [
     BrowserModule,

@@ -10,4 +10,5 @@ export interface ServiceRequest {
   returnedOn: string;
   reference: string;
   owner: string;
+  onceOff: string;
 }

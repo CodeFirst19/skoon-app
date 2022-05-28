@@ -3,7 +3,8 @@ import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ElementRef, 
 import { Subscription } from 'rxjs';
 import { AuthService } from '../authentication/auth.service';
 import { UserService } from '../users/user.service';
-import Swal from 'sweetalert2';
+import { MatDialog } from '@angular/material/dialog';
+import { GetOnceOffComponent } from './get-once-off/get-once-off.component';
 
 @Component({
   selector: 'app-features',
@@ -14,8 +15,6 @@ export class FeaturesComponent implements OnInit, OnDestroy {
   @Input() userIsAuthenticated = false;
   @Output() serviceSubscription = new EventEmitter<string>();
 
-  buttonText: string;
-
   showSkipButton = false;
 
   errorMsg: string;
@@ -25,9 +24,18 @@ export class FeaturesComponent implements OnInit, OnDestroy {
   private isLoadingSubscription: Subscription;
 
   serviceTypes = {
-    basic: 'a basic service for R659/pm',
-    advanced: 'an advanced service for R829/pm',
-    premium: 'a premium service for R719/pm',
+    basic: {
+      subscription: 'a basic service for R659/pm',
+      onceOff: "You'll be charge only R35 per kg - Wash, Dry & Fold.",
+    },
+    advanced: {
+      subscription: 'an advanced service for R829/pm',
+      onceOff: "You'll be charge only R55 per kg - Wash, Dry, Iron & Fold.",
+    },
+    premium: {
+      subscription: 'a premium service for R719/pm',
+      onceOff: "You'll be charge only R40 per kg - Iron Only.",
+    },
   };
 
   @ViewChild('flipCardBasic') flipCardBasic: ElementRef;
@@ -39,11 +47,13 @@ export class FeaturesComponent implements OnInit, OnDestroy {
   @ViewChild('flipCardPremium') flipCardPremium: ElementRef;
   @ViewChild('flipCardInnerPremium') flipCardInnerPremium: ElementRef;
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(
+    public dialog: MatDialog,
+    private userService: UserService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.buttonText = this.userIsAuthenticated ? 'Subscribe' : 'Get it now';
-
     this.isLoadingSubscription = this.userService
       .getIsLoadingListener()
       .subscribe((isLoading) => {
@@ -65,6 +75,23 @@ export class FeaturesComponent implements OnInit, OnDestroy {
     }
   }
 
+  onGetOnceOffDialog(serviceType: string): void {
+    let serviceTypeTemp = this.serviceTypes[serviceType.toLocaleLowerCase()];
+    // Service to pass to the dialog
+    let service = {
+      name: serviceType,
+      description: serviceTypeTemp['onceOff'],
+    };
+
+    this.dialog.open(GetOnceOffComponent, {
+      panelClass: 'dialog-responsive',
+      autoFocus: false,
+      hasBackdrop: false,
+      data: service,
+    });
+  }
+
+  // Front end
   onViewMore(serviceType: string) {
     switch (serviceType) {
       case 'basic':
@@ -95,7 +122,6 @@ export class FeaturesComponent implements OnInit, OnDestroy {
         this.flipCardInnerBasic.nativeElement.classList.remove(
           'flip-card-inner-transform'
         );
-        console.log('removed');
         break;
       case 'advanced':
         this.flipCardAdvanced.nativeElement.classList.remove('flip-card-hover');

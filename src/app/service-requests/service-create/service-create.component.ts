@@ -19,7 +19,7 @@ export class ServiceCreateComponent implements OnInit, OnDestroy {
   private userId: string;
   user: User;
   private userListenerSubs: Subscription;
-  todayDate: Date = new Date();z
+  todayDate = new Date();
   serviceTypes = [
     {
       name: 'Basic',
@@ -122,7 +122,7 @@ export class ServiceCreateComponent implements OnInit, OnDestroy {
       if (result.isConfirmed) {
         this.isLoading = true;
         
-        const service: ServiceRequest = {
+        const service = {
           id: null,
           serviceType: this.selectedServiceType.name || this.user.subscription,
           reference: form.value.reference,
@@ -136,7 +136,7 @@ export class ServiceCreateComponent implements OnInit, OnDestroy {
         };
         
         //Request a service
-        this.serviceRequestService.addService(service);
+        this.serviceRequestService.addService(service, null);
       }
     })
   }

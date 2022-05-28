@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ServiceRequest } from './service-requests.model';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
@@ -40,6 +40,7 @@ export class ServiceRequestService {
                 requestedOn: service.requestedOn,
                 returnedOn: service.returnedOn,
                 owner: service.owner,
+                onceOff: service.onceOff,
               };
             }),
             totalServices: serviceData.result,
@@ -67,7 +68,7 @@ export class ServiceRequestService {
     return this.servicesUpdated.asObservable();
   }
 
-   processOrder(order: {}, paymentData: any) {
+  processOrder(order: {}, paymentData: any) {
     // console.log(
     //   'TODO: send order to server',
     //   order,
@@ -75,52 +76,99 @@ export class ServiceRequestService {
     //   paymentData.shippingOptionData?.id,
     //   paymentData.paymentMethodData,
     // );
-
     // return Promise.resolve({
     //   orderId: Date.now().valueOf().toString(),
     // });
   }
 
+  // getOnceOffService(userService) {
+  //   this.http
+  //     .post<{ status: string; data: {} }>(
+  //       'http://localhost:3000/api/v1/services',
+  //       userService
+  //     )
+  //     .subscribe(
+  //       (response) => {
+  //         //Get returned service Id
+  //         const serviceId = { service: response.data['newService']._id };
+  //         //Update user services property
+  //         this.http
+  //           .patch<{ status: string; data: {} }>(
+  //             'http://localhost:3000/api/v1/users/update-user-service',
+  //             serviceId
+  //           )
+  //           .subscribe(
+  //             (response) => {
+  //               this.isLoadingListener.next(false);
+  //               this.errorListener.next({ message: null });
+  //             },
+  //             (error) => {
+  //               this.isLoadingListener.next(false);
+  //               this.errorListener.next({ message: error.error.message });
+  //             }
+  //           );
+  //       },
+  //       (error) => {
+  //         this.isLoadingListener.next(false);
+  //         this.errorListener.next({ message: error.error.message });
+  //       }
+  //     );
+  // }
 
-  addService(service: ServiceRequest) {
-    this.http
-      .post<{ status: string; data: {} }>(
-        'http://localhost:3000/api/v1/services',
-        service
-      )
-      .subscribe(
-        (response) => {
-          //Get returned service Id
-          const serviceId = { service: response.data['newService']._id };
-          //Update user services property
-          this.http
-            .patch<{ status: string; data: {} }>(
-              'http://localhost:3000/api/v1/users/update-user-service',
-              serviceId
-            )
-            .subscribe(
-              (response) => {
-                this.isLoadingListener.next(false);
-                this.errorListener.next({ message: null });
-              },
-              (error) => {
-                this.isLoadingListener.next(false);
-                this.errorListener.next({ message: error.error.message });
-              }
-            );
-          this.showSweetAlertToast(
-            'Request Sent',
-            'Your request was sent successfully!',
-            'success'
-          );
+  createOrUpdateUser(route: string, details: {}) {
+    let httpMethod: Observable<{ status: string; data: {} }>;
+
+    if (route === 'create-user') {
+      httpMethod = this.http.post<{ status: string; data: {} }>(`http://localhost:3000/api/v1/users/${route}`, details);
+    }
+    else if (route == 'update-user-service') {
+      httpMethod = this.http.patch<{ status: string; data: {} }>(`http://localhost:3000/api/v1/users/${route}`, details);
+    }
+
+    httpMethod.subscribe((response) => {
+      this.isLoadingListener.next(false);
+      this.errorListener.next({ message: null });
+      this.showSweetAlertToast(
+        'Request Received!',
+        'We\'ll get back to you in a moment',
+        'success'
+        );
+      },
+      (error) => {
+        this.isLoadingListener.next(false);
+        this.errorListener.next({ message: error.error.message });
+        this.showSweetAlertToast(
+          'Request Failed',
+          'Error occurred while sending the request!',
+          'error'
+        );
+      }
+    );
+  }
+
+  addService(service, user) {
+    this.http.post<{ status: string; data: {} }>('http://localhost:3000/api/v1/services', service)
+      .subscribe((response) => {
+        // Get returned service Id 
+        const serviceId = { service: response.data['newService']._id };
+        if (user) {
+          // Create user
+          this.createOrUpdateUser('create-user', Object.assign(user, serviceId));
+        } else {
+          // Update user services property
+          this.createOrUpdateUser('update-user-service', serviceId);
+        }
+        // If the service does not have a  user is null (not a once off)', it means the user is logged in, so navigate to their orders list
+        if (!user) {
           this.router.navigate(['/dashboard/my-orders']);
-        },
-        (error) => {
+        }
+      }, (error) => {
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: error.error.message });
+          // Show error alert
           this.showSweetAlertToast(
             'Request Failed',
-            'Error occurred while sending the request!',
+            'Something wrong happened. Please try again, or contact if the issue persists.',
             'error'
           );
         }

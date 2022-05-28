@@ -52,7 +52,7 @@ export class ProfileEditComponent implements OnInit {
     if (form.invalid) {
       return;
     }
-     const user: {} = {
+     const user = {
        preferredName: form.value.preferredName,
        address: form.value.address,
        socialMediaHandles: this.socialProfiles,
