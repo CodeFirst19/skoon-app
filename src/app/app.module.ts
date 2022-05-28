@@ -46,6 +46,7 @@ import { FeaturesComponent } from './features/features.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { HomeComponent } from './home/home.component';
 import { GetOnceOffComponent } from './features/get-once-off/get-once-off.component';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -88,9 +89,7 @@ import { GetOnceOffComponent } from './features/get-once-off/get-once-off.compon
 
     NgxGaugeModule,
     GooglePayButtonModule,
-    Angular4PaystackModule.forRoot(
-      'pk_test_4a7d011b31248be9d5bd84e9b11ab193de825c02'
-      ),
+    Angular4PaystackModule.forRoot(environment.pk_key),
     AngularMaterialModule,
     AuthenticationModule,
   ],
