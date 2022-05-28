@@ -5,7 +5,10 @@ import { HttpClient } from '@angular/common/http';
 import { SocialAuthService, SocialUser } from 'angularx-social-login';
 import { Signup } from './signup/signup.model';
 import { Injectable } from '@angular/core';
+import { environment } from './../../environments/environment';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
+
+const BACKEND_USERS_URL = `${environment.apiUrl}/users`;
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -43,40 +46,41 @@ export class AuthService {
   signup(user: Signup) {
     this.http
       .post<{ status: string; token: string; expiresIn: number; data: {} }>(
-        'http://localhost:3000/api/v1/users/signup',
+        `${BACKEND_USERS_URL}/signup`,
         user
       )
-      .subscribe((response) => {
-        const token = response.token;
-        this.token = token;
-        if (token) {
-          const user = response.data['user'];
-          const expiresInDuration = response.expiresIn;
-          this.setAuthTimer(expiresInDuration / 1000);
-          this.isAuthenticated = true;
-          const isAdmin = user.role === 'admin' ? true : false;
-          this.isAdminListener.next(isAdmin);
-          this.authStatusListener.next(true);
-          const now = new Date();
-          const expirationDate = new Date(now.getTime() + expiresInDuration);
-          this.SaveAuthData(user._id, user.role, token, expirationDate);
+      .subscribe(
+        (response) => {
+          const token = response.token;
+          this.token = token;
+          if (token) {
+            const user = response.data['user'];
+            const expiresInDuration = response.expiresIn;
+            this.setAuthTimer(expiresInDuration / 1000);
+            this.isAuthenticated = true;
+            const isAdmin = user.role === 'admin' ? true : false;
+            this.isAdminListener.next(isAdmin);
+            this.authStatusListener.next(true);
+            const now = new Date();
+            const expirationDate = new Date(now.getTime() + expiresInDuration);
+            this.SaveAuthData(user._id, user.role, token, expirationDate);
+            this.isLoadingListener.next(false);
+            this.errorListener.next({ message: null });
+            this.showSweetAlertToast(
+              'Account Created Successfully',
+              'You may now sign in with your new credentials.',
+              'success'
+            );
+            this.router.navigate(['/dashboard/subscribe']);
+          }
+          // this.token = response.token;
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: null });
           this.showSweetAlertToast(
             'Account Created Successfully',
             'You may now sign in with your new credentials.',
             'success'
-           );
-          this.router.navigate(['/dashboard/subscribe']);
-        }
-          // this.token = response.token;
-          this.isLoadingListener.next(false);
-          this.errorListener.next({ message: null });
-           this.showSweetAlertToast(
-             'Account Created Successfully',
-             'You may now sign in with your new credentials.',
-             'success'
-           );
+          );
           this.router.navigate(['/dashboard/subscribe']);
         },
         (error) => {
@@ -90,7 +94,7 @@ export class AuthService {
   login(user: Login) {
     this.http
       .post<{ status: string; token: string; expiresIn: number; data: {} }>(
-        'http://localhost:3000/api/v1/users/login',
+        `${BACKEND_USERS_URL}/login`,
         user
       )
       .subscribe(
@@ -128,7 +132,7 @@ export class AuthService {
   socialLogin(user: SocialUser) {
     this.http
       .post<{ status: string; token: string; expiresIn: number; data: {} }>(
-        'http://localhost:3000/api/v1/users/social-login',
+        `${BACKEND_USERS_URL}/social-login`,
         user
       )
       .subscribe(

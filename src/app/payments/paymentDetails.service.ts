@@ -6,6 +6,8 @@ import { map } from 'rxjs/operators';
 import { PaymentDetails } from './paymentDetails.model';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 
+const BACKEND_USERS_URL = 'http://localhost:3000/api/v1/users';
+
 @Injectable({ providedIn: 'root' })
 export class PaymentDetailsService {
   private paymentDetails: PaymentDetails[] = [];
@@ -79,7 +81,7 @@ export class PaymentDetailsService {
           //Update user paymentDetails property
           FIXME: this.http
             .patch<{ status: string; data: {} }>(
-              'http://localhost:3000/api/v1/users/add-payent-details',
+              `${BACKEND_USERS_URL}/add-payent-details`,
               paymentDetailId
             )
             .subscribe(
@@ -120,7 +122,7 @@ export class PaymentDetailsService {
         (response) => {
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: null });
-          this.paymentDetails = this.paymentDetails.filter(p=>p.id !== id);
+          this.paymentDetails = this.paymentDetails.filter((p) => p.id !== id);
           this.paymentDetailsUpdated.next({
             paymentDetails: [...this.paymentDetails],
             paymentDetailsCount: this.paymentDetails.length,

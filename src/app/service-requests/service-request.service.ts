@@ -5,6 +5,10 @@ import { map } from 'rxjs/operators';
 import { ServiceRequest } from './service-requests.model';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+
+const BACKEND_USERS_URL = `${environment.apiUrl}/users`;
+const BACKEND_SERVICES_URL = `${environment.apiUrl}/services`;
 
 @Injectable({ providedIn: 'root' })
 export class ServiceRequestService {
@@ -23,7 +27,7 @@ export class ServiceRequestService {
     const queryParameters = `?page=${page}&limit=${limit}`;
     this.http
       .get<{ status: string; result: number; data: {} }>(
-        `http://localhost:3000/api/v1/services${queryParameters}`
+        `${BACKEND_SERVICES_URL}${queryParameters}`
       )
       .pipe(
         map((serviceData) => {
@@ -68,70 +72,29 @@ export class ServiceRequestService {
     return this.servicesUpdated.asObservable();
   }
 
-  processOrder(order: {}, paymentData: any) {
-    // console.log(
-    //   'TODO: send order to server',
-    //   order,
-    //   paymentData.shippingAddress,
-    //   paymentData.shippingOptionData?.id,
-    //   paymentData.paymentMethodData,
-    // );
-    // return Promise.resolve({
-    //   orderId: Date.now().valueOf().toString(),
-    // });
-  }
-
-  // getOnceOffService(userService) {
-  //   this.http
-  //     .post<{ status: string; data: {} }>(
-  //       'http://localhost:3000/api/v1/services',
-  //       userService
-  //     )
-  //     .subscribe(
-  //       (response) => {
-  //         //Get returned service Id
-  //         const serviceId = { service: response.data['newService']._id };
-  //         //Update user services property
-  //         this.http
-  //           .patch<{ status: string; data: {} }>(
-  //             'http://localhost:3000/api/v1/users/update-user-service',
-  //             serviceId
-  //           )
-  //           .subscribe(
-  //             (response) => {
-  //               this.isLoadingListener.next(false);
-  //               this.errorListener.next({ message: null });
-  //             },
-  //             (error) => {
-  //               this.isLoadingListener.next(false);
-  //               this.errorListener.next({ message: error.error.message });
-  //             }
-  //           );
-  //       },
-  //       (error) => {
-  //         this.isLoadingListener.next(false);
-  //         this.errorListener.next({ message: error.error.message });
-  //       }
-  //     );
-  // }
-
   createOrUpdateUser(route: string, details: {}) {
     let httpMethod: Observable<{ status: string; data: {} }>;
 
     if (route === 'create-user') {
-      httpMethod = this.http.post<{ status: string; data: {} }>(`http://localhost:3000/api/v1/users/${route}`, details);
-    }
-    else if (route == 'update-user-service') {
-      httpMethod = this.http.patch<{ status: string; data: {} }>(`http://localhost:3000/api/v1/users/${route}`, details);
+      httpMethod = this.http.post<{ status: string; data: {} }>(
+        `${BACKEND_USERS_URL}/${route}`,
+        details
+      );
+    } else if (route == 'update-user-service') {
+      httpMethod = this.http.patch<{ status: string; data: {} }>(
+        `${BACKEND_USERS_URL}/${route}`,
+        details
+      );
     }
 
-    httpMethod.subscribe((response) => {
-      this.isLoadingListener.next(false);
-      this.errorListener.next({ message: null });
-      this.showSweetAlertToast(
-        'Request Received!',
-        'We\'ll get back to you in a moment',
-        'success'
+    httpMethod.subscribe(
+      (response) => {
+        this.isLoadingListener.next(false);
+        this.errorListener.next({ message: null });
+        this.showSweetAlertToast(
+          'Request Received!',
+          "We'll get back to you in a moment",
+          'success'
         );
       },
       (error) => {
@@ -147,22 +110,28 @@ export class ServiceRequestService {
   }
 
   addService(service, user) {
-    this.http.post<{ status: string; data: {} }>('http://localhost:3000/api/v1/services', service)
-      .subscribe((response) => {
-        // Get returned service Id 
-        const serviceId = { service: response.data['newService']._id };
-        if (user) {
-          // Create user
-          this.createOrUpdateUser('create-user', Object.assign(user, serviceId));
-        } else {
-          // Update user services property
-          this.createOrUpdateUser('update-user-service', serviceId);
-        }
-        // If the service does not have a  user is null (not a once off)', it means the user is logged in, so navigate to their orders list
-        if (!user) {
-          this.router.navigate(['/dashboard/my-orders']);
-        }
-      }, (error) => {
+    this.http
+      .post<{ status: string; data: {} }>(BACKEND_SERVICES_URL, service)
+      .subscribe(
+        (response) => {
+          // Get returned service Id
+          const serviceId = { service: response.data['newService']._id };
+          if (user) {
+            // Create user
+            this.createOrUpdateUser(
+              'create-user',
+              Object.assign(user, serviceId)
+            );
+          } else {
+            // Update user services property
+            this.createOrUpdateUser('update-user-service', serviceId);
+          }
+          // If the service does not have a  user is null (not a once off)', it means the user is logged in, so navigate to their orders list
+          if (!user) {
+            this.router.navigate(['/dashboard/my-orders']);
+          }
+        },
+        (error) => {
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: error.error.message });
           // Show error alert
@@ -186,7 +155,7 @@ export class ServiceRequestService {
 
     this.http
       .patch<{ status: string; data: ServiceRequest[] }>(
-        `http://localhost:3000/api/v1/services/${id}`,
+        `${BACKEND_SERVICES_URL}/${id}`,
         service
       )
       .subscribe(

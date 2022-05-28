@@ -4,6 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
+import { environment } from 'src/environments/environment';
+
+const BACKEND_USERS_URL = `${environment.apiUrl}/users`;
 
 @Injectable({ providedIn: 'root' })
 export class PasswordResetService {
@@ -20,26 +23,29 @@ export class PasswordResetService {
     const userEmail = { email: email };
     this.http
       .post<{ status: string; token: string; data: {} }>(
-        'http://localhost:3000/api/v1/users/forgot-password',
+        `${BACKEND_USERS_URL}/forgot-password`,
         userEmail
       )
-      .subscribe((response) => {
-        this.isLoadingListener.next(false);
-        this.errorListener.next({ message: null });
-        this.showSweetAlertToast(
-          'Email Sent',
-          'We have sent you an email with a password reset link. Please check your email inbox or spam folder.',
-          'success'
-        );
-      }, (error) => {
+      .subscribe(
+        (response) => {
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: null });
+          this.showSweetAlertToast(
+            'Email Sent',
+            'We have sent you an email with a password reset link. Please check your email inbox or spam folder.',
+            'success'
+          );
+        },
+        (error) => {
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: error.error.message });
           this.showSweetAlertToast(
-             'Email Failed',
-             'An error occurred while sending an email.',
-             'error'
+            'Email Failed',
+            'An error occurred while sending an email.',
+            'error'
           );
-        });
+        }
+      );
   }
 
   resetPassword(
@@ -54,7 +60,7 @@ export class PasswordResetService {
     };
     this.http
       .patch<{ status: string; token: string; data: {} }>(
-        `http://localhost:3000/api/v1/users/reset-password/${token}`,
+        `${BACKEND_USERS_URL}/reset-password/${token}`,
         userPasswords
       )
       .subscribe(
@@ -93,19 +99,21 @@ export class PasswordResetService {
 
     this.http
       .patch<{ status: string; token: string; data: {} }>(
-        'http://localhost:3000/api/v1/users/update-my-password',
+        `${BACKEND_USERS_URL}/update-my-password`,
         userPasswords
       )
-      .subscribe((response) => {
-        this.isLoadingListener.next(false);
-        this.errorListener.next({ message: null });
-        this.showSweetAlertToast(
-          'Password Updated Successful',
-          'Your password was successfully updated. We need to reauthenticate you. Please login again with your new password.',
-          'success'
-        );
-        this.authService.logout();
-      }, (error) => {
+      .subscribe(
+        (response) => {
+          this.isLoadingListener.next(false);
+          this.errorListener.next({ message: null });
+          this.showSweetAlertToast(
+            'Password Updated Successful',
+            'Your password was successfully updated. We need to reauthenticate you. Please login again with your new password.',
+            'success'
+          );
+          this.authService.logout();
+        },
+        (error) => {
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: error.error.message });
           this.showSweetAlertToast(
@@ -113,7 +121,8 @@ export class PasswordResetService {
             'An error occurred while updating your password.',
             'error'
           );
-        });
+        }
+      );
   }
 
   getErrorListener() {

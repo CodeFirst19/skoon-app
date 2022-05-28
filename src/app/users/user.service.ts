@@ -1,12 +1,14 @@
 import { AuthService } from './../authentication/auth.service';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { User } from './user.model';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
+const BACKEND_USERS_URL = `${environment.apiUrl}/users`;
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -28,7 +30,7 @@ export class UserService {
     const queryParameters = `?page=${page}&limit=${limit}`;
     this.http
       .get<{ status: string; result: number; data: {} }>(
-        `http://localhost:3000/api/v1/users${queryParameters}`
+        `${BACKEND_USERS_URL}${queryParameters}`
       )
       .pipe(
         map((usersData) => {
@@ -76,9 +78,7 @@ export class UserService {
 
   getUser(id: string) {
     this.http
-      .get<{ status: string; data: {} }>(
-        `http://localhost:3000/api/v1/users/${id}`
-      )
+      .get<{ status: string; data: {} }>(`${BACKEND_USERS_URL}/${id}`)
       .subscribe(
         (response) => {
           this.user = response.data['user'];
@@ -96,10 +96,7 @@ export class UserService {
   updateMe(user: {}) {
     this.isLoadingListener.next(true);
     this.http
-      .patch<{ status: string; data: {} }>(
-        'http://localhost:3000/api/v1/users/update-me',
-        user
-      )
+      .patch<{ status: string; data: {} }>(`${BACKEND_USERS_URL}/update-me`, user)
       .subscribe(
         (response) => {
           this.user = response.data['user'];
@@ -128,18 +125,12 @@ export class UserService {
 
   deleteMe() {
     this.http
-      .delete<{ status: string; data: null }>(
-        'http://localhost:3000/api/v1/users/delete-me'
-      )
+      .delete<{ status: string; message: string }>(`${BACKEND_USERS_URL}/delete-me`)
       .subscribe(
         (response) => {
           this.isLoadingListener.next(false);
           this.errorListener.next({ message: null });
-          this.showSweetSuccessToast(
-            'Deleted!',
-            'Your account has been deleted permanently.',
-            'success'
-          );
+          this.showSweetSuccessToast('Deleted!', response.message, 'success');
           this.authService.logout();
         },
         (error) => {
