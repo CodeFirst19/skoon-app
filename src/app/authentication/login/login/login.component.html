@@ -8,13 +8,13 @@
     </div>
     <form (submit)="onLogin(loginForm)" #loginForm="ngForm">
       <!-- Email -->
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>Email address</mat-label>
         <input matInput type="email" name="email" #email="ngModel" ngModel required email/>
         <mat-error *ngIf="email.invalid">Email address is <strong>required</strong></mat-error>
       </mat-form-field>  
       <!-- Password -->
-      <mat-form-field class="example-full-width mt-3">
+      <mat-form-field class="example-full-width mt-3" appearance="outline">
         <mat-label>Password</mat-label>
         <input matInput type="password" name="password" #password="ngModel" ngModel required/>
         <mat-error *ngIf="password.invalid">Password is <strong>required</strong></mat-error>

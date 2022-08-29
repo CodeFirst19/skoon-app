@@ -23,17 +23,17 @@ export class UserSubscriptionComponent implements OnInit, OnDestroy {
   subscription = {
     basic: {
       amount: 67900,
-      plan: 'PLN_sapr20mw8gpnk2s',
+      plan: 'PLN_4r60my7tphhax2r',
       description: 'a Basic service for R659/pm',
     },
     premium: {
       amount: 74900,
-      plan: 'PLN_4efrsetavkvke1f',
+      plan: 'PLN_gvxweh61yqbt1hw',
       description: 'a Premium service for R719/pm',
     },
     advanced: {
       amount: 85900,
-      plan: 'PLN_3op64og71uzzwki',
+      plan: 'PLN_a3x94fsue54fttp',
       description: 'an Advanced service for R829/pm',
     },
   };
