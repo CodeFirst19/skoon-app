@@ -1,7 +1,7 @@
 <div>
   <app-header (loader)="onLogoutLoader($event)"></app-header>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <main *ngIf="!isLoading" class="mb-3">
+  <main *ngIf="!isLoading">
     <router-outlet></router-outlet>
   </main>
 </div>
