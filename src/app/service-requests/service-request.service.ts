@@ -129,6 +129,11 @@ export class ServiceRequestService {
           // If the service does not have a  user is null (not a once off)', it means the user is logged in, so navigate to their orders list
           if (!user) {
             this.router.navigate(['/dashboard/my-orders']);
+            this.showSweetAlertToast(
+              'Order Received',
+              'Your order was successfully created. We\'ll get back to you in a moment.',
+              'success'
+            );
           }
         },
         (error) => {

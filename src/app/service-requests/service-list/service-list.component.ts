@@ -87,7 +87,7 @@ export class ServiceListComponent implements OnInit, OnDestroy {
       .subscribe((errorMsg) => {
         this.errorMsg = errorMsg.message;
       });
-      
+
     this.userIsAuthenticated = this.authService.getIsAuthenticated();
     this.authListenerSubs = this.authService
       .getAuthStatusListener()
@@ -119,7 +119,7 @@ export class ServiceListComponent implements OnInit, OnDestroy {
   }
 
   formatDate(date) {
-    return moment(date).format('DD/MM/YYYY, HH:mm');
+    return moment(date).format('DD/MM/YYYY');
   }
 
   onUpdateStatusDialog(serviceId): void {

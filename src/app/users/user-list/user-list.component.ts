@@ -80,7 +80,7 @@ export class UserListComponent implements OnInit, OnDestroy {
       .subscribe((errorMsg) => {
         this.errorMsg = errorMsg.message;
       });
-      
+
     this.userIsAuthenticated = this.authService.getIsAuthenticated();
     this.authListenerSubs = this.authService
       .getAuthStatusListener()
@@ -124,6 +124,10 @@ export class UserListComponent implements OnInit, OnDestroy {
   onSearchClear() {
     this.searchKey = '';
     this.applyFilter();
+  }
+
+  shortenEmail(email: string) {
+    return email.length > 12 ? `${email.substring(0, 12)}...` : email;
   }
 
   ngOnDestroy(): void {

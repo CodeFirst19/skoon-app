@@ -15,44 +15,44 @@
         </mat-form-field>
       </div>
       <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+        <table mat-table [dataSource]="dataSource" cellspacing="" matSort (matSortChange)="announceSortChange($event)">
             <!-- Username Column-->
             <ng-container matColumnDef="username">
                 <th mat-header-cell *matHeaderCellDef>Username</th>
-                <td mat-cell *matCellDef="let element"> 
-                  {{element.preferredName}} 
+                <td mat-cell *matCellDef="let element" class="table-column-size text-start">
+                  {{element.preferredName.split(' ')[0]}}
                 </td>
             </ng-container>
             <!-- Email Time Column -->
             <ng-container matColumnDef="email">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email">Email Address</th>
-                <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                <td mat-cell *matCellDef="let element" class="table-column-size"> {{ shortenEmail(element.email)}}</td>
             </ng-container>
             <!-- Phone Method Column -->
             <ng-container matColumnDef="phone">
-                <th mat-header-cell *matHeaderCellDef>Phone Number</th>
-                <td mat-cell *matCellDef="let element">
-                  {{ element.phone ? ((element.phone | slice:0:3) +" "+ (element.phone | slice:3:6) +" "+ (element.phone | slice:6:10)) : 'Not provided'}} 
+                <th mat-header-cell *matHeaderCellDef class="me-2">Phone Number</th>
+                <td mat-cell *matCellDef="let element" class="table-column-size table-columns">
+                  {{ element.phone ? ((element.phone | slice:0:3) +" "+ (element.phone | slice:3:6) +" "+ (element.phone | slice:6:10)) : 'Not provided'}}
                 </td>
              </ng-container>
             <!-- Role Column -->
             <ng-container matColumnDef="role">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header fxShow fxHide.lt-sm sortActionDescription="Sort by role">User Role</th>
-                <td mat-cell *matCellDef="let element">{{ element.role}}</td>
+                <td mat-cell *matCellDef="let element" class="table-column-size table-columns">{{ element.role}}</td>
             </ng-container>
             <!-- Services requested Column -->
             <ng-container matColumnDef="servicesRequested">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by services requested">Services Requested</th>
-                <td mat-cell *matCellDef="let element">{{ element.services.length}}</td>
+                <td mat-cell *matCellDef="let element" class="table-column-size table-columns">{{ element.services.length}}</td>
             </ng-container>
             <!-- View More Column -->
             <ng-container matColumnDef="viewMore">
-            <th mat-header-cell *matHeaderCellDef>View More</th>
-            <td mat-cell *matCellDef="let element">
-              <button mat-mini-fab color="primary" class="me-2" (click)="onViewUserDialog(element)" matTooltip="View this item">
-                  <span class="material-icons">open_in_new</span>
-                </button>
-            </td>
+              <th mat-header-cell *matHeaderCellDef>View More</th>
+              <td mat-cell *matCellDef="let element" class="table-columns">
+                <button mat-mini-fab color="primary" class="me-2" (click)="onViewUserDialog(element)" matTooltip="View this item">
+                    <span class="material-icons">open_in_new</span>
+                  </button>
+              </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
