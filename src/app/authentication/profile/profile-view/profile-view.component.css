@@ -191,6 +191,6 @@ mat-icon {
     margin-top: 10%;
   }
   .profile-action-buttons {
-    font-size: small;
+    font-size: 10px;
   }
 }
