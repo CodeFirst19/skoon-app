@@ -3,7 +3,7 @@
   <div class="alert alert-warning p-2" role="alert" *ngIf="status === 'Returned' || status === 'Cancelled'">
     If the status is updated to <strong>{{status}}</strong>, you won't be able to change it again!
   </div>
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="example-full-width" appearance="outline">
     <mat-label>Status</mat-label>
       <mat-select name="status" [(ngModel)]="status" required>
         <mat-option *ngFor="let status of statuses" [value]="status">

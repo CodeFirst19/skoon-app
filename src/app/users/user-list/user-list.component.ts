@@ -126,9 +126,9 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.applyFilter();
   }
 
-  shortenEmail(email: string) {
-    return email.length > 12 ? `${email.substring(0, 12)}...` : email;
-  }
+  // shortenEmail(email: string) {
+  //   return email.length > 12 ? `${email.substring(0, 12)}...` : email;
+  // }
 
   ngOnDestroy(): void {
     this.authListenerSubs.unsubscribe();

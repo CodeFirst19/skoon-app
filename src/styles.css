@@ -51,8 +51,17 @@ a {
 }
 
 .cdk-global-scrollblock{
-    position: static !important;
-    width: initial !important;
-    overflow-y: inherit !important;
+  position: static !important;
+  width: initial !important;
+  overflow-y: inherit !important;
+}
+
+@media screen and (max-width: 768px) {
+  mat-spinner {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20%;
   }
+}
+
 

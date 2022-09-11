@@ -126,7 +126,7 @@ export class UserServicesComponent implements OnInit, OnDestroy {
   }
 
   formatDate(date) {
-    return moment(date).format('DD/MM/YYYY, HH:mm');
+    return moment(date).format('DD/MM/YYYY');
   }
 
   onPageChanged(pageData: PageEvent) {

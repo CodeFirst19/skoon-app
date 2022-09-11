@@ -190,4 +190,7 @@ mat-icon {
     margin-right: auto;
     margin-top: 10%;
   }
+  .profile-action-buttons {
+    font-size: small;
+  }
 }

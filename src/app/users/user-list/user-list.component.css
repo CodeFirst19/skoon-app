@@ -49,4 +49,10 @@ mat-icon {
   .table-columns {
     text-align: center;
   }
+  .service-status {
+    width: 50px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
