@@ -166,13 +166,21 @@ img {
     text-decoration: none;
     color: black;
     cursor: pointer;
-} 
+}
 
 .user-services-link:hover {
     color: #0275d8;
-} 
+}
 
 mat-icon {
   vertical-align: middle;
 }
 
+@media screen and (max-width: 768px) {
+  .user-email {
+    width: 50px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
