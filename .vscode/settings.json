@@ -1,3 +1,5 @@
 {
-  "cSpell.enabled": true
+  "cSpell.enabled": true,
+  "appService.defaultWebAppToDeploy": "/subscriptions/2c88d418-6736-444a-b5a6-033f9f7f5e2b/microsoft.web/sites/subscriptions/2c88d418-6736-444a-b5a6-033f9f7f5e2b/resourceGroups/skoon-app-resource-group/providers/Microsoft.Web/sites/keepitskoon",
+  "appService.deploySubpath": "dist"
 }

@@ -33,7 +33,7 @@
           </div>
           <div class="flip-card-back">
             <mat-icon class="flip-card-close" (click)="onCancel('basic')">cancel</mat-icon>
-            <h1>What We Offer You</h1> 
+            <h1>What We Offer You</h1>
             <p>Free collection and delivery</p>
             <p>Free 10kg collection bag</p>
             <p>Collection once a week for 4 weeks</p>
@@ -50,7 +50,7 @@
       <div #flipCardAdvanced class="col-lg-4 col-md-6 mt-4 mt-md-0 flip-card">
         <div #flipCardInnerAdvanced class="box recommended flip-card-inner">
           <div class="flip-card-front">
-            <span class="recommended-badge">Recommended</span>
+            <span class="recommended-badge" *ngIf="showRecommendedBadge">Recommended</span>
             <h3>Advanced</h3>
             <h4><sup>R</sup>859<span> / month</span></h4>
             <ul>
@@ -65,7 +65,7 @@
           </div>
           <div class="flip-card-back">
             <mat-icon class="flip-card-close" (click)="onCancel('advanced')">cancel</mat-icon>
-            <h1>What We Offer You</h1> 
+            <h1>What We Offer You</h1>
             <p>Free collection and delivery</p>
             <p>Free 10kg collection bag</p>
             <p>Collection once a week for 4 weeks</p>
@@ -96,7 +96,7 @@
           </div>
           <div class="flip-card-back">
             <mat-icon class="flip-card-close" (click)="onCancel('premium')">cancel</mat-icon>
-            <h1>What We Offer You</h1> 
+            <h1>What We Offer You</h1>
             <p>Free collection and delivery</p>
             <p>Free 10kg collection bag</p>
             <p>Collection once a week for 4 weeks</p>

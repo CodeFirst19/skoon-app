@@ -19,7 +19,7 @@
           >
             <mat-icon>email</mat-icon>
           </button>
-          <p class="mt-1">{{ user.email }}</p>
+          <p class="mt-1 user-email" [matTooltip]="user.email">{{ user.email }}</p>
         </div>
         <div class="icon">
           <button
@@ -30,7 +30,7 @@
             <mat-icon>phone</mat-icon>
           </button>
           <p class="mt-1">
-             {{ (user.phone | slice:0:3) +" "+ (user.phone | slice:3:6) +" "+ (user.phone | slice:6:10)}} 
+             {{ (user.phone | slice:0:3) +" "+ (user.phone | slice:3:6) +" "+ (user.phone | slice:6:10)}}
           </p>
         </div>
       </div>

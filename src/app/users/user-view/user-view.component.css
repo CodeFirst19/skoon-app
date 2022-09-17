@@ -130,7 +130,15 @@ img {
   font-size: 12px;
 }
 
-
 .social-media-profiles {
   font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+  .user-email {
+    width: 50px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }

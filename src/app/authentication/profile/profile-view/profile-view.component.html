@@ -26,12 +26,12 @@
                             <mat-icon>phone</mat-icon>
                         </button>
                         <p class="mt-1">
-                            {{ user.phone ? ((user.phone | slice:0:3) +" "+ (user.phone | slice:3:6) +" "+ (user.phone | slice:6:10)) : 'Not provided'}} 
+                            {{ user.phone ? ((user.phone | slice:0:3) +" "+ (user.phone | slice:3:6) +" "+ (user.phone | slice:6:10)) : 'Not provided'}}
                         </p>
                     </div>
                 </div>
             </div>
-            
+
             <div class="mt-2 social-media-profiles" *ngIf="user.socialMediaHandles.length > 0">
                 <h4 class="social-media-profile-header text-center">Social Media Profiles</h4>
                 <div class = "row text-center" *ngFor="let profile of user.socialMediaHandles">
@@ -39,9 +39,9 @@
                 </div>
             </div>
             <div class="action-btns-wrapper mt-4">
-                <button mat-flat-button color="primary" (click)="onEditProfileDialog(user)">Edit Profile</button>
-                <a mat-flat-button color="primary" routerLink="/dashboard/update-password">Update Password</a>
-                <button mat-flat-button color="warn" (click)="onDeleteUserAccount()">Delete Account</button>
+                <button class="profile-action-buttons" mat-flat-button color="primary" (click)="onEditProfileDialog(user)">Edit Profile</button>
+                <a class="mx-2 profile-action-buttons" mat-flat-button color="primary" routerLink="/dashboard/update-password">Update Password</a>
+                <button class="profile-action-buttons" mat-flat-button color="warn" (click)="onDeleteUserAccount()">Delete Account</button>
             </div>
         </div>
         <div class="not-profile-data" *ngIf="!user && !isLoading">

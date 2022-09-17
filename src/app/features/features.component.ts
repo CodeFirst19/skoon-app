@@ -47,6 +47,8 @@ export class FeaturesComponent implements OnInit, OnDestroy {
   @ViewChild('flipCardPremium') flipCardPremium: ElementRef;
   @ViewChild('flipCardInnerPremium') flipCardInnerPremium: ElementRef;
 
+  showRecommendedBadge = true;
+
   constructor(
     public dialog: MatDialog,
     private userService: UserService,
@@ -93,6 +95,9 @@ export class FeaturesComponent implements OnInit, OnDestroy {
 
   // Front end
   onViewMore(serviceType: string) {
+    // Hide badge
+    this.showRecommendedBadge = false;
+
     switch (serviceType) {
       case 'basic':
         this.flipCardBasic.nativeElement.classList.add('flip-card-hover');
@@ -116,6 +121,9 @@ export class FeaturesComponent implements OnInit, OnDestroy {
   }
 
   onCancel(serviceType: string) {
+    // Show badge
+    this.showRecommendedBadge = true;
+
     switch (serviceType) {
       case 'basic':
         this.flipCardBasic.nativeElement.classList.remove('flip-card-hover');

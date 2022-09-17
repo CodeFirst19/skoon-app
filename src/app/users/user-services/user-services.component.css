@@ -53,5 +53,22 @@ a:hover {
     display: block;
     overflow-x: auto;
     white-space: nowrap;
-}
+  }
+  mat-icon {
+    height:15px !important;
+    width:15px !important;
+    font-size:15px !important;
+  }
+  .table-column-size {
+    font-size: small;
+  }
+  .table-columns {
+    text-align: center;
+  }
+  .service-status {
+    width: 50px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }

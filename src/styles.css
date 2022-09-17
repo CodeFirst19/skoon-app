@@ -51,8 +51,9 @@ a {
 }
 
 .cdk-global-scrollblock{
-    position: static !important;
-    width: initial !important;
-    overflow-y: inherit !important;
-  }
+  position: static !important;
+  width: initial !important;
+  overflow-y: inherit !important;
+}
+
 
